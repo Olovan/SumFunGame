@@ -131,6 +131,7 @@ public class SumFunMainGui extends JFrame {
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				grid[i][j] = new SumFunGridButton(i, j);
+				grid[i][j].setController(c);
 				gridPanel.add(grid[i][j]);
 			}
 		}
@@ -140,6 +141,8 @@ public class SumFunMainGui extends JFrame {
 			queue[i] = new JLabel("0");
 			queuePanel.add(queue[i]);
 		}
+		
+		testGrid = c.fillGridAtStart();
 		
 		//TEST CODE
 		setGrid(testGrid);
@@ -176,6 +179,10 @@ public class SumFunMainGui extends JFrame {
 	
 	public void setCountdownName(String text) {
 		countdownName.setText(text);
+	}
+	
+	public void setGridValue(Integer value, int row, int col) {
+		this.grid[row][col].setValue(value);
 	}
 
 }

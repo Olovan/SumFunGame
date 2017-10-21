@@ -15,6 +15,8 @@ public class SumFunGridButton extends JPanel {
 	private final Color BACKGROUND_COLOR = new Color(0xF0F0F0);
 	private final int FONT_SIZE = 34;
 	
+	private Controller c;
+	
 	public JLabel text;
 	public int row, col;
 	
@@ -35,6 +37,7 @@ public class SumFunGridButton extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				// Report Mouse Click to Backend
+				c.gridAction(row, col);
 				setBackground(new Color(0x00FF00));
 			}
 			
@@ -53,5 +56,9 @@ public class SumFunGridButton extends JPanel {
 			text.setText(val.toString());
 		else
 			text.setText("");
+	}
+	
+	public void setController(Controller c) {
+		this.c = c;
 	}
 }
