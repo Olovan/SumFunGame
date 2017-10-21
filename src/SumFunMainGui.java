@@ -18,20 +18,6 @@ import java.awt.Color;
 
 public class SumFunMainGui extends JFrame {
 	
-	//PURELY FOR TESTING PURPOSES
-	private Integer[][] testGrid = {
-			new Integer[]{null, null, null, null, null, null, null, null, null},
-			new Integer[]{null, 1, 2, 3, 4, 5, 6, 7, null},
-			new Integer[]{null, 8, 9, 0, 1, 2, 3, 4, null},
-			new Integer[]{null, 8, 9, 0, 1, 2, 3, 4, null},
-			new Integer[]{null, 8, 9, 0, 1, 2, 3, 4, null},
-			new Integer[]{null, 8, 9, 0, 1, 2, 3, 4, null},
-			new Integer[]{null, 8, 9, 0, 1, 2, 3, 4, null},
-			new Integer[]{null, 8, 9, 0, 1, 2, 3, 4, null},
-			new Integer[]{null, null, null, null, null, null, null, null, null}
-	};
-	private Integer[] testQueue = {1, 2, 3, 4, 5};
-
 	private JPanel contentPane;
 	private SumFunGridButton[][] grid;
 	private JLabel[] queue;
@@ -39,23 +25,6 @@ public class SumFunMainGui extends JFrame {
 	private JLabel countdown;
 	private JLabel countdownName;
 	private Controller controller;
-
-
-	/**
-	 * Launch the application.
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					SumFunMainGui frame = new SumFunMainGui();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
 
 	/**
 	 * Create the frame.
@@ -144,14 +113,6 @@ public class SumFunMainGui extends JFrame {
 			queue[i] = new JLabel("0");
 			queuePanel.add(queue[i]);
 		}
-		
-		//TEST CODE
-		/*
-		setQueue(testQueue);
-		setScore(9000);
-		setCountdown("50");
-		setCountdownName("Moves Remaining");
-		*/
 
 		pack();
 	}
