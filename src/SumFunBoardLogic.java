@@ -1,6 +1,9 @@
+import java.util.Random;
+
 public class SumFunBoardLogic 
 {
 	private Controller c;
+	private Random rand = new Random();
 	
 	private Integer[][] testGrid = {
 			new Integer[]{null, null, null, null, null, null, null, null, null},
@@ -14,19 +17,56 @@ public class SumFunBoardLogic
 			new Integer[]{null, null, null, null, null, null, null, null, null}
 	};
 	
+	private Integer[] queue = new Integer[5];
+	
 	public SumFunBoardLogic(Controller c) {
 		this.c = c;
 	}
 	
+	//generates a populated board with fixed values for now
 	public Integer[][] populateBoard() {
 		return testGrid;
 	}
 	
+	//generates a populated queue with random values
+	public Integer[] populateQueue() {
+		for(int i = 0; i < queue.length; i++) {
+			queue[i] = rand.nextInt(10);
+		}
+		return queue;
+	}
+	
+	//this will push the top number from the queue and pass it along,
+	//it will then generate a new random number for the queue
+	//proceeds to return the top value from the queue
+	public Integer newQueueNumber() {
+		Integer answer;
+		
+		answer = queue[0];
+		
+		for(int i = 0; i < queue.length; i++) {
+			if(i == 4) {
+				queue[4] = rand.nextInt(10);
+			}
+			else {
+				queue[i] = queue[i+1];
+			}
+		}
+		
+		return answer;
+	}
+	
+	//returns current state of the queue
+	public Integer[] passQueue() {
+		return queue;
+	}
+	
+	//calls the newQueueNumber() method to pass the top number of the current queue
 	public void passValue(int row, int col) {
 		//Quentin will need to implement a function that grabs the next value in the queue
 		//for now will just return a 7
 		
-		testGrid[row][col] = 7;
+		testGrid[row][col] = newQueueNumber();
 		
 		c.returnCoordinateValue(testGrid[row][col], row, col);
 	}
