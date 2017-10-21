@@ -29,13 +29,14 @@ public class SumFunBoardLogic
 		return testGrid;
 	}
 	
-	//sets countdown for moves and later on, timer as well
+	//sets countdown for moves at the start of the game and later on, timer as well
 	public String startCountdown() {
 		counter = "50";
 		
 		return counter;
 	}
 	
+	//sets the countdown for moves and later on, timer as well
 	public String setCountdown(Integer count) {
 		counter = String.valueOf(count);
 		
