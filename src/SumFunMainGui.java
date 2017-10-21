@@ -37,10 +37,11 @@ public class SumFunMainGui extends JFrame {
 	private JLabel lblScore;
 	private JLabel countdown;
 	private JLabel countdownName;
+	private Controller controller;
+
 
 	/**
 	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -53,11 +54,13 @@ public class SumFunMainGui extends JFrame {
 			}
 		});
 	}
+	*/
 
 	/**
 	 * Create the frame.
 	 */
-	public SumFunMainGui() {
+	public SumFunMainGui(Controller c) {
+		controller = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
