@@ -31,4 +31,16 @@ class Controller
 		gui.setGrid(grid);
 		return grid;
 	}
+
+	public void gameOver() {
+		gui.gameOver();
+	}
+
+	public void enableBoard() {
+		gui.enableBoard();
+	}
+
+	public void disableBoard() {
+		gui.disableBoard();
+	}
 }

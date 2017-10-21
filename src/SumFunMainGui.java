@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -127,6 +128,7 @@ public class SumFunMainGui extends JFrame {
 		Component verticalGlue = Box.createVerticalGlue();
 		rightPanel.add(verticalGlue);
 		
+		//Instantiate Grid
 		grid = new SumFunGridButton[9][9];
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -136,6 +138,7 @@ public class SumFunMainGui extends JFrame {
 			}
 		}
 		
+		//Instantiate Queue
 		queue = new JLabel[5];
 		for(int i = 0; i < 5; i++) {
 			queue[i] = new JLabel("0");
@@ -149,10 +152,11 @@ public class SumFunMainGui extends JFrame {
 		setCountdown("50");
 		setCountdownName("Moves Remaining");
 		*/
-		
+
 		pack();
 	}
 
+	//Tells grid to display the input grid
 	public void setGrid(Integer[][] grid) {
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -161,26 +165,53 @@ public class SumFunMainGui extends JFrame {
 		}
 	}
 	
+	//Tells the Gui to display the input queue
 	public void setQueue(Integer[] queue) {
 		for(int i = 0; i < 5; i++) {
 			this.queue[i].setText(queue[i].toString());
 		}
 	}
 	
+	//Tells GUI to display the input score
 	public void setScore(int score) {
 		lblScore.setText("" + score);
 	}
 	
+	//Tells GUI to display the input countdown string
 	public void setCountdown(String text) {
 		countdown.setText(text);
 	}
 	
+	//Tells GUI to display the input countdown name
+	//Used so that the countdown field can be used to display
+	//both moves remaining and time remaining
 	public void setCountdownName(String text) {
 		countdownName.setText(text);
 	}
 	
+	//Tells a specific grid tile to display the input value
 	public void setGridValue(Integer value, int row, int col) {
 		this.grid[row][col].setValue(value);
+	}
+
+	//Locks the board and displays the game over Message
+	public void gameOver() {
+		disableBoard();
+		JOptionPane.showMessageDialog(this, "Game Over");
+	}
+
+	//Allows the board to accept input again
+	public void enableBoard() {
+		for(SumFunGridButton[] row : grid)
+			for(SumFunGridButton tile : row)
+				tile.enable();
+	}
+
+	//Disables input from the board
+	public void disableBoard() {
+		for(SumFunGridButton[] row : grid)
+			for(SumFunGridButton tile : row)
+				tile.disable();
 	}
 
 }
