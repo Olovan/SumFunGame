@@ -4,6 +4,7 @@ public class SumFunBoardLogic
 {
 	private Controller c;
 	private Random rand = new Random();
+	private String counter;
 	
 	private Integer[][] testGrid = {
 			new Integer[]{null, null, null, null, null, null, null, null, null},
@@ -26,6 +27,19 @@ public class SumFunBoardLogic
 	//generates a populated board with fixed values for now
 	public Integer[][] populateBoard() {
 		return testGrid;
+	}
+	
+	//sets countdown for moves and later on, timer as well
+	public String startCountdown() {
+		counter = "50";
+		
+		return counter;
+	}
+	
+	public String setCountdown(Integer count) {
+		counter = String.valueOf(count);
+		
+		return counter;
 	}
 	
 	//generates a populated queue with random values
@@ -62,12 +76,17 @@ public class SumFunBoardLogic
 	}
 	
 	//calls the newQueueNumber() method to pass the top number of the current queue
+	//decreases counter and if it equals 0, stop the game
 	public void passValue(int row, int col) {
-		//Quentin will need to implement a function that grabs the next value in the queue
-		//for now will just return a 7
+		Integer count;
+		count = Integer.parseInt(counter);
+		count--;
+		c.setCountdown(setCountdown(count));
 		
+		if(count == 0) {
+			return;
+		}
 		testGrid[row][col] = newQueueNumber();
-		
 		c.returnCoordinateValue(testGrid[row][col], row, col);
 	}
 	

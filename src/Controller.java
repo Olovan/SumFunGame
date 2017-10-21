@@ -12,6 +12,7 @@ class Controller
 		gui = new SumFunMainGui(controller);
 		controller.fillGridAtStart();
 		controller.fillQueueAtStart();
+		controller.setCountdown(backEnd.startCountdown());
 		gui.setVisible(true);
 	}
 	
@@ -69,8 +70,12 @@ class Controller
 	//The countdown is passed in as a string so that the number
 	//may be formatted by the backend incase the number should
 	//be formatted like a time or like a number
+	//checks if counter = 0, if so, calls the game over method
 	public void setCountdown(String countdown) {
 		gui.setCountdown(countdown);
+		if(countdown.equals("0")) {
+			gui.gameOver();
+		}
 	}
 
 	//Sets the GUI's countdown name to the input string
