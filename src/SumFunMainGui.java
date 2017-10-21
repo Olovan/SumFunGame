@@ -142,19 +142,17 @@ public class SumFunMainGui extends JFrame {
 			queuePanel.add(queue[i]);
 		}
 		
-		testGrid = c.fillGridAtStart();
-		
 		//TEST CODE
-		setGrid(testGrid);
+		/*
 		setQueue(testQueue);
 		setScore(9000);
 		setCountdown("50");
 		setCountdownName("Moves Remaining");
-		
+		*/
 		
 		pack();
 	}
-	
+
 	public void setGrid(Integer[][] grid) {
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {

@@ -1,11 +1,15 @@
 class Controller 
 {
-	static Controller controller = new Controller();
-	static SumFunMainGui gui = new SumFunMainGui(controller);
-	SumFunBoardLogic backEnd = new SumFunBoardLogic(controller);
+	static Controller controller;
+	static SumFunMainGui gui;
+	static SumFunBoardLogic backEnd;
 	
 	public static void main(String[] args) 
 	{
+		controller = new Controller();
+		backEnd = new SumFunBoardLogic(controller);
+		gui = new SumFunMainGui(controller);
+		controller.fillGridAtStart();
 		gui.setVisible(true);
 	}
 	
@@ -24,6 +28,7 @@ class Controller
 	public Integer[][] fillGridAtStart() { 
 		Integer[][] grid;
 		grid = backEnd.populateBoard();
+		gui.setGrid(grid);
 		return grid;
 	}
 }
