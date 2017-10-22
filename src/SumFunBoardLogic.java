@@ -7,6 +7,7 @@ public class SumFunBoardLogic
 	private Integer counter;
 	private int score = 0;
 	
+	/*
 	private Integer[][] testGrid = {
 			new Integer[]{null, null, null, null, null, null, null, null, null},
 			new Integer[]{null, 1, 2, 3, 4, 5, 6, 7, null},
@@ -18,6 +19,9 @@ public class SumFunBoardLogic
 			new Integer[]{null, 7, 1, 2, 3, 4, 5, 6, null},
 			new Integer[]{null, null, null, null, null, null, null, null, null}
 	};
+	*/
+	
+	private Integer[][] testGrid = CreateNewGrid(9, 9);
 	
 	private Integer[] queue = new Integer[5];
 	
@@ -93,6 +97,18 @@ public class SumFunBoardLogic
 	
 			CalcScore(row, col);
 		}
+	}
+	
+	public Integer[][] CreateNewGrid(int rows, int cols) {
+		Integer[][] newGrid = new Integer[rows][cols];
+		
+		for (int i = 1; i < rows - 1; i++) {
+			for (int j = 1; j < cols - 1; j++) {
+				newGrid[i][j] = rand.nextInt(10);
+			}
+		}
+		
+		return newGrid;
 	}
 	
 	// Score is returned based on how many tiles are removed and the boundary sum
@@ -176,7 +192,32 @@ public class SumFunBoardLogic
 		if (testGrid == endGrid) {
 			c.gameOver();
 			c.disableBoard();
+		} 
+	}
+	
+	public boolean NullBoard() {
+		Integer[][] endGrid = null;
+
+		if (testGrid == endGrid)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean FullBoard() {
+		int fullCounter = 0;
+		
+		for (int i = 0; i <= 8; i++) {
+			for (int j = 0; j <= 8; j++) {
+				if (testGrid[i][j] != null)
+					fullCounter++;
+			}
 		}
+		
+		if (fullCounter == 8 * 8)
+			return true;
+		else
+			return false;
 	}
 	
 	// Returns true if the row/column combination is within bounds
