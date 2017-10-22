@@ -20,9 +20,6 @@ class Controller
 	//Acts on the queue and updates the queue after placing a value onto board
 	public void gridAction(int row, int col) 
 	{
-		//DEBUG -  remove this in final product
-		System.out.println(row + " " + col);
-		
 		backEnd.passValue(row, col);
 		gui.setQueue(backEnd.passQueue());
 	}
