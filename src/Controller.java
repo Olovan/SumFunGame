@@ -5,6 +5,7 @@ class Controller
 	static SumFunBoardLogic backEnd;
 	
 	//Entry point for the program
+	//Test Commit
 	public static void main(String[] args) 
 	{
 		controller = new Controller();
