@@ -5,6 +5,7 @@ public class SumFunBoardLogic
 	private Controller c;
 	private Random rand = new Random();
 	private Integer counter;
+	private int score = 0;
 	
 	private Integer[][] testGrid = {
 			new Integer[]{null, null, null, null, null, null, null, null, null},
@@ -88,18 +89,28 @@ public class SumFunBoardLogic
 	}
 	
 	// Score is returned based on how many tiles are removed and the boundary sum
-	public int CalcScore(int row, int col, int placement, Integer[][] grid) {
+	public void CalcScore(int row, int col, int placement, Integer[][] grid) {
+		int sum = BoundarySum(row, col, placement, grid);
+		int neighbors = CountNeighbors(row, col, grid);
+
+		// Score is stored as a global variable
+		if (sum % 10 == placement) 
+			score += sum + BonusPoints(neighbors, sum);
+		
+		c.setScore(score);
+		
+		CheckGameOver(grid);
+	}
+	
+	public int BoundarySum(int row, int col, int placement, Integer[][] grid) {
 		int boundarySum = 0;
-		int tilesRemoved = 0;
 		
 		// Sums the 3x3 square with "placement" in the middle
 		if (grid[row][col] == null) {
 			for  (int i = -1; i <= 1; i++) {
 				for (int j = -1; j <= 1; j++) {
 					if (BoundaryCheck(row + i, col + j) == true) {
-						boundarySum += grid[row + i][col + j];
-						if (grid[row + i][col + j] != null)
-							tilesRemoved++;
+						score += grid[row + i][col + j];
 					}
 				}
 			}
@@ -109,16 +120,33 @@ public class SumFunBoardLogic
 		// We want to remove this for the next calculation
 		boundarySum -= placement;
 		
+		return boundarySum;
+	}
+	
+	public int BonusPoints(int neighbors, int boundarySum) {
+		int bonusPoints = 0;
 		
-		if (boundarySum % 10 == placement) {
-			if (tilesRemoved >= 3) {
-				boundarySum += 10 * tilesRemoved;   
+		if (neighbors >= 3)
+			bonusPoints = 10 * neighbors;
+		
+		return bonusPoints;
+	}
+	
+	// Counts the number of neighbors of the placement that are not null
+	public int CountNeighbors(int row, int col, Integer[][] grid) {
+		int neighbors = 0;
+		
+		for  (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (BoundaryCheck(row + i, col + j) == true && grid[row + i][col + j] != null) {
+					neighbors++;
+				}
 			}
-			
-			return boundarySum;
 		}
-		else
-			return 0;
+		
+		neighbors--;
+		
+		return neighbors;
 	}
 	
 	// This is ONLY called if the placement will remove the surrounding blocks
@@ -133,6 +161,14 @@ public class SumFunBoardLogic
 		}
 		
 		return grid;
+	}
+	
+	// Possible gameOver trigger when the board is completely emptied
+	public void CheckGameOver(Integer[][] grid) {
+		Integer[][] endGrid = null;
+		
+		if (grid == endGrid)
+			c.gameOver();
 	}
 	
 	// Returns true if the row/column combination is within bounds
