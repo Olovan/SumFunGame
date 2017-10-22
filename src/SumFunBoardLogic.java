@@ -78,14 +78,15 @@ public class SumFunBoardLogic
 	//calls the newQueueNumber() method to pass the top number of the current queue
 	//decreases counter and if it equals 0, stop the game
 	public void passValue(int row, int col) {
-		counter--;
-		c.setCountdown(setCountdown(counter));
-		
-		if(counter == 0) {
-			return;
-		}
-		
 		if (testGrid[row][col] == null) {
+			
+			counter--;
+			c.setCountdown(setCountdown(counter));
+			
+			if(counter == 0) {
+				return;
+			}
+			
 			testGrid[row][col] = newQueueNumber();
 			
 			c.returnCoordinateValue(testGrid[row][col], row, col);
@@ -101,7 +102,7 @@ public class SumFunBoardLogic
 
 		// Score is stored as a global variable
 		if (boundarySum % 10 == testGrid[row][col]) {
-			score += boundarySum + BonusPoints(neighbors, boundarySum);
+			score += boundarySum + testGrid[row][col] + BonusPoints(neighbors, boundarySum);
 		
 			c.setScore(score);
 		
@@ -181,7 +182,7 @@ public class SumFunBoardLogic
 	// Returns true if the row/column combination is within bounds
 	// This can be changed later if the size of the board changes
 	public boolean IsNumber(int r, int c) {
-		if (r >= 0 && r < 8 && c >= 0 && c < 8 && testGrid[r][c] != null)
+		if (r >= 0 && r <= 8 && c >= 0 && c <= 8 && testGrid[r][c] != null)
 			return true;
 		else
 			return false;
