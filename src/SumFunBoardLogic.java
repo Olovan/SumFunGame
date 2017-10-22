@@ -84,45 +84,48 @@ public class SumFunBoardLogic
 		if(counter == 0) {
 			return;
 		}
-		testGrid[row][col] = newQueueNumber();
-		c.returnCoordinateValue(testGrid[row][col], row, col);
+		
+		if (testGrid[row][col] == null) {
+			testGrid[row][col] = newQueueNumber();
+			
+			c.returnCoordinateValue(testGrid[row][col], row, col);
+	
+			CalcScore(row, col);
+		}
 	}
 	
 	// Score is returned based on how many tiles are removed and the boundary sum
-	public void CalcScore(int row, int col, int placement, Integer[][] grid) {
-		int sum = BoundarySum(row, col, placement, grid);
-		int neighbors = CountNeighbors(row, col, grid);
+	public void CalcScore(int row, int col) {
+		Integer boundarySum = BoundarySum(row, col);
+		int neighbors = CountNeighbors(row, col);
 
 		// Score is stored as a global variable
-		if (sum % 10 == placement) 
-			score += sum + BonusPoints(neighbors, sum);
+		if (boundarySum % 10 == testGrid[row][col]) {
+			score += boundarySum + BonusPoints(neighbors, boundarySum);
 		
-		c.setScore(score);
+			c.setScore(score);
 		
-		Integer[][] newGrid = UpdateGrid(row, col, grid);
+			UpdateGrid(row, col);
 		
-		c.setGrid(newGrid);
+			c.setGrid(testGrid);
+		}
 		
-		CheckGameOver(newGrid);
+		CheckGameOver();
 	}
 	
-	public int BoundarySum(int row, int col, int placement, Integer[][] grid) {
-		int boundarySum = 0;
+	public Integer BoundarySum(int row, int col) {
+		Integer boundarySum = 0;
 		
-		// Sums the 3x3 square with "placement" in the middle
-		if (grid[row][col] == null) {
-			for  (int i = -1; i <= 1; i++) {
-				for (int j = -1; j <= 1; j++) {
-					if (BoundaryCheck(row + i, col + j) == true) {
-						score += grid[row + i][col + j];
-					}
+		// Sums the 3x3 square with placement in the middle
+		for  (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (IsNumber(row + i, col + j) == true) {
+					boundarySum += testGrid[row + i][col + j];
 				}
 			}
 		}
 		
-		// The algorithm above will include the middle number
-		// We want to remove this for the next calculation
-		boundarySum -= placement;
+		boundarySum -= testGrid[row][col];
 		
 		return boundarySum;
 	}
@@ -137,12 +140,12 @@ public class SumFunBoardLogic
 	}
 	
 	// Counts the number of neighbors of the placement that are not null
-	public int CountNeighbors(int row, int col, Integer[][] grid) {
+	public int CountNeighbors(int row, int col) {
 		int neighbors = 0;
 		
-		for  (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				if (BoundaryCheck(row + i, col + j) == true && grid[row + i][col + j] != null) {
+		for  (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (IsNumber(row + i, col + j) == true) {
 					neighbors++;
 				}
 			}
@@ -155,23 +158,21 @@ public class SumFunBoardLogic
 	
 	// This is ONLY called if the placement will remove the surrounding blocks
 	// Returns the updated grid with removed spaces 
-	public Integer[][] UpdateGrid(int row, int col, Integer[][] grid) {
-		for  (int i = -1; i <= 1; i++) {
-			for (int j = -1; j <= 1; j++) {
-				if (BoundaryCheck(row + i, col + j) == true) {
-					grid[row + i][col + j] = null;
+	public void UpdateGrid(int row, int col) {
+		for  (int i = -1; i < 2; i++) {
+			for (int j = -1; j < 2; j++) {
+				if (IsNumber(row + i, col + j) == true) {
+					testGrid[row + i][col + j] = null;
 				}
 			}
 		}
-		
-		return grid;
 	}
 	
 	// Possible gameOver trigger when the board is completely emptied
-	public void CheckGameOver(Integer[][] grid) {
+	public void CheckGameOver() {
 		Integer[][] endGrid = null;
 		
-		if (grid == endGrid) {
+		if (testGrid == endGrid) {
 			c.gameOver();
 			c.disableBoard();
 		}
@@ -179,8 +180,8 @@ public class SumFunBoardLogic
 	
 	// Returns true if the row/column combination is within bounds
 	// This can be changed later if the size of the board changes
-	public boolean BoundaryCheck(int r, int c) {
-		if (r >= 0 && r <= 8 && c >= 0 && c <= 8)
+	public boolean IsNumber(int r, int c) {
+		if (r >= 0 && r < 8 && c >= 0 && c < 8 && testGrid[r][c] != null)
 			return true;
 		else
 			return false;
