@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import java.awt.Dimension;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import javax.swing.border.BevelBorder;
 
 public class SumFunMainGui extends JFrame {
 	
@@ -94,6 +95,12 @@ public class SumFunMainGui extends JFrame {
 		queuePanel.add(lblQueue);
 		lblQueue.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		JPanel queueTopPanel = new JPanel();
+		queueTopPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		queueTopPanel.setMaximumSize(new Dimension(50, 100));
+		queueTopPanel.setBackground(Color.WHITE);
+		queuePanel.add(queueTopPanel);
+		
 		Component verticalGlue = Box.createVerticalGlue();
 		rightPanel.add(verticalGlue);
 		
@@ -109,7 +116,10 @@ public class SumFunMainGui extends JFrame {
 		
 		//Instantiate Queue
 		queue = new JLabel[5];
-		for(int i = 0; i < 5; i++) {
+		queue[0] = new JLabel("0");
+		queue[0].setFont(new Font("Arial", Font.BOLD, 25));
+		queueTopPanel.add(queue[0]);
+		for(int i = 1; i < 5; i++) {
 			queue[i] = new JLabel("0");
 			queuePanel.add(queue[i]);
 		}
