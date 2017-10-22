@@ -99,7 +99,11 @@ public class SumFunBoardLogic
 		
 		c.setScore(score);
 		
-		CheckGameOver(grid);
+		Integer[][] newGrid = UpdateGrid(row, col, grid);
+		
+		c.setGrid(newGrid);
+		
+		CheckGameOver(newGrid);
 	}
 	
 	public int BoundarySum(int row, int col, int placement, Integer[][] grid) {
@@ -167,8 +171,10 @@ public class SumFunBoardLogic
 	public void CheckGameOver(Integer[][] grid) {
 		Integer[][] endGrid = null;
 		
-		if (grid == endGrid)
+		if (grid == endGrid) {
 			c.gameOver();
+			c.disableBoard();
+		}
 	}
 	
 	// Returns true if the row/column combination is within bounds
