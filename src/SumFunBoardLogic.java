@@ -21,7 +21,7 @@ public class SumFunBoardLogic
 	};
 	*/
 	
-	private Integer[][] testGrid = CreateNewGrid(9, 9);
+	private Integer[][] testGrid = createNewGrid(9, 9);
 	
 	private Integer[] queue = new Integer[5];
 	
@@ -82,24 +82,26 @@ public class SumFunBoardLogic
 	//calls the newQueueNumber() method to pass the top number of the current queue
 	//decreases counter and if it equals 0, stop the game
 	public void passValue(int row, int col) {
-		if (testGrid[row][col] == null) {
-			
-			counter--;
-			c.setCountdown(setCountdown(counter));
-			
-			if(counter == 0) {
-				return;
-			}
-			
-			testGrid[row][col] = newQueueNumber();
-			
-			c.returnCoordinateValue(testGrid[row][col], row, col);
-	
-			CalcScore(row, col);
+		// Ignores clicks on populated tiles
+		if (testGrid[row][col] != null) {
+			return;
 		}
+		
+		counter--;
+		c.setCountdown(setCountdown(counter));
+		
+		if(counter == 0) {
+			return;
+		}
+		
+		testGrid[row][col] = newQueueNumber();
+		
+		c.returnCoordinateValue(testGrid[row][col], row, col);
+
+		calcScore(row, col);
 	}
 	
-	public Integer[][] CreateNewGrid(int rows, int cols) {
+	public Integer[][] createNewGrid(int rows, int cols) {
 		Integer[][] newGrid = new Integer[rows][cols];
 		
 		for (int i = 1; i < rows - 1; i++) {
@@ -112,31 +114,31 @@ public class SumFunBoardLogic
 	}
 	
 	// Score is returned based on how many tiles are removed and the boundary sum
-	public void CalcScore(int row, int col) {
-		Integer boundarySum = BoundarySum(row, col);
-		int neighbors = CountNeighbors(row, col);
+	public void calcScore(int row, int col) {
+		Integer boundarySum = boundarySum(row, col);
+		int neighbors = countNeighbors(row, col);
 
 		// Score is stored as a global variable
 		if (boundarySum % 10 == testGrid[row][col]) {
-			score += boundarySum + testGrid[row][col] + BonusPoints(neighbors, boundarySum);
+			score += boundarySum + testGrid[row][col] + bonusPoints(neighbors, boundarySum);
 		
 			c.setScore(score);
 		
-			UpdateGrid(row, col);
+			updateGrid(row, col);
 		
 			c.setGrid(testGrid);
 		}
 		
-		CheckGameOver();
+		checkGameOver();
 	}
 	
-	public Integer BoundarySum(int row, int col) {
+	public Integer boundarySum(int row, int col) {
 		Integer boundarySum = 0;
 		
 		// Sums the 3x3 square with placement in the middle
 		for  (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (IsNumber(row + i, col + j) == true) {
+				if (isNumber(row + i, col + j) == true) {
 					boundarySum += testGrid[row + i][col + j];
 				}
 			}
@@ -147,7 +149,7 @@ public class SumFunBoardLogic
 		return boundarySum;
 	}
 	
-	public int BonusPoints(int neighbors, int boundarySum) {
+	public int bonusPoints(int neighbors, int boundarySum) {
 		int bonusPoints = 0;
 		
 		if (neighbors >= 3)
@@ -157,12 +159,12 @@ public class SumFunBoardLogic
 	}
 	
 	// Counts the number of neighbors of the placement that are not null
-	public int CountNeighbors(int row, int col) {
+	public int countNeighbors(int row, int col) {
 		int neighbors = 0;
 		
 		for  (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (IsNumber(row + i, col + j) == true) {
+				if (isNumber(row + i, col + j) == true) {
 					neighbors++;
 				}
 			}
@@ -175,36 +177,40 @@ public class SumFunBoardLogic
 	
 	// This is ONLY called if the placement will remove the surrounding blocks
 	// Returns the updated grid with removed spaces 
-	public void UpdateGrid(int row, int col) {
+	public void updateGrid(int row, int col) {
 		for  (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (IsNumber(row + i, col + j) == true) {
+				if (isNumber(row + i, col + j) == true) {
 					testGrid[row + i][col + j] = null;
 				}
 			}
 		}
 	}
 	
-	// Possible gameOver trigger when the board is completely emptied
-	public void CheckGameOver() {
-		Integer[][] endGrid = null;
-		
-		if (testGrid == endGrid) {
+	public void checkGameOver() {
+		if (isBoardEmpty() == true || isBoardFull() == true) {
 			c.gameOver();
 			c.disableBoard();
 		} 
 	}
 	
-	public boolean NullBoard() {
-		Integer[][] endGrid = null;
-
-		if (testGrid == endGrid)
+	public boolean isBoardEmpty() {
+		int emptyCounter = 0;
+		
+		for (int i = 0; i <= 8; i++) {
+			for (int j = 0; j <= 8; j++) {
+				if (testGrid[i][j] == null)
+					emptyCounter++;
+			}
+		}
+		
+		if (emptyCounter == 8 * 8)
 			return true;
 		else
 			return false;
 	}
 	
-	public boolean FullBoard() {
+	public boolean isBoardFull() {
 		int fullCounter = 0;
 		
 		for (int i = 0; i <= 8; i++) {
@@ -222,7 +228,7 @@ public class SumFunBoardLogic
 	
 	// Returns true if the row/column combination is within bounds
 	// This can be changed later if the size of the board changes
-	public boolean IsNumber(int r, int c) {
+	public boolean isNumber(int r, int c) {
 		if (r >= 0 && r <= 8 && c >= 0 && c <= 8 && testGrid[r][c] != null)
 			return true;
 		else
