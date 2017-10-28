@@ -22,7 +22,7 @@ public class SumFunBoardLogic
 	public SumFunBoardLogic(Controller c) {
 		controller = c;
 		rand = new Random();
-		queue = new ArrayList<Integer>(5);
+		queue = new ArrayList<Integer>(QUEUE_SIZE);
 	}
 
 	/** Contains all the code required to start/restart the game */
@@ -51,14 +51,14 @@ public class SumFunBoardLogic
 	/** sends the Controller the current values of all the Model's relevant variables */
 	private void notifyControllerOfStateChange() {
 		controller.boardChanged(board);
-		controller.queueChanged(queue.toArray(new Integer[5]));
+		controller.queueChanged(queue.toArray(new Integer[QUEUE_SIZE]));
 		controller.scoreChanged(score);
 		controller.countdownChanged("" + movesRemaining);
 	}
 	
 	/** generates random numbers and inserts them into the queue until the queue has 5 elements */
 	public void fillQueue() {
-		while(queue.size() < 5)
+		while(queue.size() < QUEUE_SIZE)
 			queue.add(rand.nextInt(10));
 	}
 	
