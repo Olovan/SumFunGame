@@ -185,4 +185,9 @@ public class SumFunMainGui extends JFrame {
 				tile.disable();
 	}
 
+	/**Highlights a tile for cheating purposes*/
+	public void highlight(int row, int col) {
+		grid[row][col].highlight();
+	}
+
 }

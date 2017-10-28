@@ -73,4 +73,9 @@ class Controller
 	public void boardDisabled() {
 		gui.disableBoard();
 	}
+
+	//Used to highlight a tile for cheating purposes
+	public void highlight(int r, int c) {
+		gui.highlight(r, c);
+	}
 }
