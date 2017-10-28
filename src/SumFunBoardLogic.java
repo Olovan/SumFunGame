@@ -14,7 +14,7 @@ public class SumFunBoardLogic
 	private Random rand;
 	private Controller controller;
 	private ArrayList<Integer> queue;
-	private Integer movesRemaining;
+	private int movesRemaining;
 	private int score;
 	private Integer[][] board;
 	
@@ -23,6 +23,7 @@ public class SumFunBoardLogic
 		controller = c;
 		rand = new Random();
 		queue = new ArrayList<Integer>(QUEUE_SIZE);
+		board = new Integer[BOARD_SIZE][BOARD_SIZE];
 	}
 
 	/** Contains all the code required to start/restart the game */
@@ -38,7 +39,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** generates a Game Board filled with random values in the middle and empty borders */
-	public Integer[][] generateRandomBoard() {
+	private Integer[][] generateRandomBoard() {
 		Integer[][] newBoard = new Integer[BOARD_SIZE][BOARD_SIZE];
 		for(int i = 1; i < BOARD_SIZE - 1; i++) {
 			for(int j = 1; j < BOARD_SIZE - 1; j++) {
@@ -57,7 +58,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** generates random numbers and inserts them into the queue until the queue has 5 elements */
-	public void fillQueue() {
+	private void fillQueue() {
 		while(queue.size() < QUEUE_SIZE)
 			queue.add(rand.nextInt(10));
 	}
@@ -77,7 +78,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** Places a tile from the top of the queue onto the board at the selected location */
-	public void placeTileOntoBoard(int row, int col) {
+	private void placeTileOntoBoard(int row, int col) {
 		int boundarySum = sumNeighbors(row, col);
 		int neighbors = countNeighbors(row, col);
 
@@ -91,7 +92,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** Returns the sum of all the tiles adjacent to the selected tile on the board */
-	public int sumNeighbors(int row, int col) {
+	private int sumNeighbors(int row, int col) {
 		int boundarySum = 0;
 		
 		// Sums the 3x3 square with placement in the middle 
@@ -108,7 +109,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** Calculates bonus points for removing the supplied number of tiles */
-	public int bonusPoints(int tilesRemoved) {
+	private int bonusPoints(int tilesRemoved) {
 		int bonusPoints = 0;
 		
 		if (tilesRemoved >= 3)
@@ -118,7 +119,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** Counts the number of adjacent tiles to the coordinate that are occupied */
-	public int countNeighbors(int row, int col) {
+	private int countNeighbors(int row, int col) {
 		int neighbors = 0;
 		
 		for  (int i = -1; i < 2; i++) {
@@ -133,7 +134,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** clears out every tile adjacent to the input coordinate */
-	public void clearNeighbors(int row, int col) {
+	private void clearNeighbors(int row, int col) {
 		for  (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
 				if (isOccupiedTile(row + i, col + j) == true) {
@@ -144,20 +145,20 @@ public class SumFunBoardLogic
 	}
 	
 	/** Checks if the game has ended and fires the gameOver function if the game has ended */
-	public void checkGameOver() {
+	private void checkGameOver() {
 		if (isBoardEmpty() || isBoardFull() || movesRemaining <= 0) {
 			gameOver();
 		} 
 	}
 
 	/** Ends the game */
-	public void gameOver() {
+	private void gameOver() {
 		currentState = GameState.ENDED;
 		controller.gameOver();
 	}
 	
 	/** returns true if the board is empty */
-	public boolean isBoardEmpty() {
+	private boolean isBoardEmpty() {
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
 				if (board[i][j] != null)
@@ -168,7 +169,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** returns true if the board is full */
-	public boolean isBoardFull() {
+	private boolean isBoardFull() {
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
 				if (board[i][j] == null)
@@ -179,7 +180,7 @@ public class SumFunBoardLogic
 	}
 	
 	/** Returns true if the row/column combination is within bounds */
-	public boolean isValidCoordinate(int r, int c) {
+	private boolean isValidCoordinate(int r, int c) {
 		if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE)
 			return true;
 		else
@@ -187,7 +188,7 @@ public class SumFunBoardLogic
 	}
 
 	/** Returns true if the coordinate on the grid is occupied */
-	public boolean isOccupiedTile(int r, int c) {
+	private boolean isOccupiedTile(int r, int c) {
 		if(isValidCoordinate(r, c) && board[r][c] != null)
 			return true;
 		else
