@@ -42,7 +42,6 @@ public class SumFunGridButton extends JPanel {
 					return;
 				// Report Mouse Click to Backend
 				c.gridAction(row, col);
-				setBackground(new Color(0x00FF00));
 			}
 			
 			public void mouseEntered(MouseEvent e) {

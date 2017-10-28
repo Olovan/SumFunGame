@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Controller 
 {
 	static Controller controller;
@@ -11,9 +13,7 @@ class Controller
 		controller = new Controller();
 		backEnd = new SumFunBoardLogic(controller);
 		gui = new SumFunMainGui(controller);
-		controller.fillGridAtStart();
-		controller.fillQueueAtStart();
-		controller.setCountdown(backEnd.startCountdown());
+		backEnd.startGame();
 		gui.setVisible(true);
 	}
 	
@@ -21,46 +21,23 @@ class Controller
 	//Acts on the queue and updates the queue after placing a value onto board
 	public void gridAction(int row, int col) 
 	{
-		backEnd.passValue(row, col);
-		gui.setQueue(backEnd.passQueue());
+		backEnd.gridAction(row, col);
 	}
 	
-	//sets a specific tile in the GUI's grid to the input value
-	public void returnCoordinateValue(Integer value, int row, int col)
-	{
-		gui.setGridValue(value, row, col);
-	}
-	
-	//Requests a new board from the backend and assigns it to the GUI
-	public Integer[][] fillGridAtStart() { 
-		Integer[][] grid;
-		grid = backEnd.populateBoard();
-		gui.setGrid(grid);
-		return grid;
-	}
-
 	//Sets the GUI's grid to match the input array
 	//A null element in the grid will result in an empty tile
-	public void setGrid(Integer[][] grid) {
-		gui.setGrid(grid);
+	public void boardChanged(Integer[][] board) {
+		gui.setGrid(board);
 	}
 
 	//Sets the GUI's score display to match the input score
-	public void setScore(int score) {
+	public void scoreChanged(int score) {
 		gui.setScore(score);
 	}
 	
 	//Sets the GUI's queue display to match the input queue
-	public Integer[] fillQueueAtStart() {
-		Integer[] queue;
-		queue = backEnd.populateQueue();
-		gui.setQueue(queue);
-		return queue;
-	}
-	
-	//Sets the GUI's queue display to match the input queue
 	//queue[0] is considered the head of the queue
-	public void setQueue(Integer[] queue) {
+	public void queueChanged(Integer[] queue) {
 		gui.setQueue(queue);
 	}
 
@@ -69,18 +46,15 @@ class Controller
 	//may be formatted by the backend incase the number should
 	//be formatted like a time or like a number
 	//checks if counter = 0, if so, calls the game over method
-	public void setCountdown(String countdown) {
+	public void countdownChanged(String countdown) {
 		gui.setCountdown(countdown);
-		if(countdown.equals("0")) {
-			gui.gameOver();
-		}
 	}
 
 	//Sets the GUI's countdown name to the input string
 	//This is done so that the countdown value can represent
 	//both Time remaining and Moves remaining or any other 
 	//metric that is required by simply changing its label
-	public void setCountdownName(String name) {
+	public void countdownNameChanged(String name) {
 		gui.setCountdownName(name);
 	}
 
@@ -91,12 +65,12 @@ class Controller
 	}
 
 	//Enables the GUI's board
-	public void enableBoard() {
+	public void boardEnabled() {
 		gui.enableBoard();
 	}
 
 	//Disables the GUI's board
-	public void disableBoard() {
+	public void boardDisabled() {
 		gui.disableBoard();
 	}
 }

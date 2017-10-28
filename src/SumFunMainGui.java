@@ -127,7 +127,7 @@ public class SumFunMainGui extends JFrame {
 		pack();
 	}
 
-	//Tells grid to display the input grid
+	/** Tells grid to display the input grid */
 	public void setGrid(Integer[][] grid) {
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -136,49 +136,49 @@ public class SumFunMainGui extends JFrame {
 		}
 	}
 	
-	//Tells the Gui to display the input queue
+	/** Tells the Gui to display the input queue */
 	public void setQueue(Integer[] queue) {
 		for(int i = 0; i < 5; i++) {
 			this.queue[i].setText(queue[i].toString());
 		}
 	}
 	
-	//Tells GUI to display the input score
+	/** Tells GUI to display the input score */
 	public void setScore(int score) {
 		lblScore.setText("" + score);
 	}
 	
-	//Tells GUI to display the input countdown string
+	/** Tells GUI to display the input countdown string */
 	public void setCountdown(String text) {
 		countdown.setText(text);
 	}
 	
-	//Tells GUI to display the input countdown name
+	/** Tells GUI to display the input countdown name */
 	//Used so that the countdown field can be used to display
 	//both moves remaining and time remaining
 	public void setCountdownName(String text) {
 		countdownName.setText(text);
 	}
 	
-	//Tells a specific grid tile to display the input value
+	/**Tells a specific grid tile to display the input value */
 	public void setGridValue(Integer value, int row, int col) {
 		this.grid[row][col].setValue(value);
 	}
 
-	//Locks the board and displays the game over Message
+	/**Locks the board and displays the game over Message */
 	public void gameOver() {
 		disableBoard();
 		JOptionPane.showMessageDialog(this, "Game Over");
 	}
 
-	//Allows the board to accept input again
+	/**Allows the board to accept input again */
 	public void enableBoard() {
 		for(SumFunGridButton[] row : grid)
 			for(SumFunGridButton tile : row)
 				tile.enable();
 	}
 
-	//Disables input from the board
+	/**Disables input from the board */
 	public void disableBoard() {
 		for(SumFunGridButton[] row : grid)
 			for(SumFunGridButton tile : row)
