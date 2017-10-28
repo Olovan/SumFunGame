@@ -9,7 +9,7 @@ public class SumFunBoardLogic
 	private final int BOARD_SIZE = 9;
 	private final int QUEUE_SIZE = 5;
 	private final int INITIAL_MOVE_COUNT = 50;
-	private final boolean CHEATS_ENABLED = false;
+	private final boolean CHEATS_ENABLED = true;
 
 	private GameState currentState;
 	private Random rand;
@@ -77,7 +77,6 @@ public class SumFunBoardLogic
 		movesRemaining--;
 		placeTileOntoBoard(row, col);
 		notifyControllerOfStateChange();
-		checkGameOver();
 
 		//cheats for debugging purposes
 		if(CHEATS_ENABLED) {
@@ -89,6 +88,9 @@ public class SumFunBoardLogic
 				}
 			}
 		}
+
+		checkGameOver();
+
 	}
 
 	/** Places a tile from the top of the queue onto the board at the selected location */
