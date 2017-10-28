@@ -86,9 +86,17 @@ public class SumFunBoardLogic
 		fillQueue();
 		// Score is stored as a global variable
 		if (boundarySum % 10 == board[row][col]) {
-			score += boundarySum + board[row][col] + bonusPoints(neighbors);
+			score += calculateScoreForTilePlacement(board[row][col], row, col);
 			clearNeighbors(row, col);
 		}
+	}
+	
+	/** Calculates how many points you would gain if you placed the given value at the given coordinate */
+	private int calculateScoreForTilePlacement(int value, int row, int col) {
+		if(sumNeighbors(row, col) % 10 != value)
+			return 0;
+
+		return sumNeighbors(row, col) + value + bonusPoints(countNeighbors(row, col));
 	}
 	
 	/** Returns the sum of all the tiles adjacent to the selected tile on the board */
@@ -107,7 +115,7 @@ public class SumFunBoardLogic
 		
 		return boundarySum;
 	}
-	
+
 	/** Calculates bonus points for removing the supplied number of tiles */
 	private int bonusPoints(int tilesRemoved) {
 		int bonusPoints = 0;
