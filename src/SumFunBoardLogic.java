@@ -101,7 +101,7 @@ public class SumFunBoardLogic
 		board[row][col] = queue.remove(0);
 		fillQueue();
 		// Score is stored as a global variable
-		if (boundarySum % 10 == board[row][col]) {
+		if (boundarySum % 10 == board[row][col] && neighbors > 0) {
 			score += calculateScoreForTilePlacement(board[row][col], row, col);
 			clearNeighbors(row, col);
 		}
