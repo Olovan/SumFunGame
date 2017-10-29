@@ -44,13 +44,12 @@ public class SumFunMainGui extends JFrame {
 		
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		gridPanel.setMinimumSize(new Dimension(800, 800));
-		gridPanel.setPreferredSize(new Dimension(800, 800));
+		gridPanel.setPreferredSize(new Dimension(600, 600));
 		centerPanel.add(gridPanel);
 		gridPanel.setLayout(new GridLayout(9, 9, 0, 0));
 		
 		JPanel rightPanel = new JPanel();
-		rightPanel.setPreferredSize(new Dimension(100, 800));
+		rightPanel.setPreferredSize(new Dimension(100, 600));
 		centerPanel.add(rightPanel);
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		
@@ -58,9 +57,9 @@ public class SumFunMainGui extends JFrame {
 		rightPanel.add(scorePanel);
 		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
 		
-		JLabel lblNewLabel = new JLabel("Score");
-		scorePanel.add(lblNewLabel);
-		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		JLabel scoreTitleLabel = new JLabel("Score");
+		scorePanel.add(scoreTitleLabel);
+		scoreTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		lblScore = new JLabel("0");
 		scorePanel.add(lblScore);
@@ -152,9 +151,9 @@ public class SumFunMainGui extends JFrame {
 		countdown.setText(text);
 	}
 	
-	/** Tells GUI to display the input countdown name */
-	//Used so that the countdown field can be used to display
-	//both moves remaining and time remaining
+	/** Tells GUI to display the input countdown name 
+	 *  Used so that the countdown field can be used to display
+	 *  both moves remaining and time remaining */
 	public void setCountdownName(String text) {
 		countdownName.setText(text);
 	}
