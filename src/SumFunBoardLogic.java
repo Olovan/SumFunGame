@@ -80,7 +80,7 @@ public class SumFunBoardLogic
 
 		//cheats for debugging purposes
 		if(CHEATS_ENABLED) {
-			controller.boardEnabled();
+			controller.boardEnabled(); //Clears out previous highlighting
 			for(int i = 0; i < BOARD_SIZE; i++) {
 				for(int j = 0; j < BOARD_SIZE; j++) {
 					if(calculateScoreForTilePlacement(queue.get(0), i, j) != 0 && board[i][j] == null)

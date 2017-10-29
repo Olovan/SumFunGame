@@ -1,1 +1,1 @@
-javac -cp "src/" -d bin/ src/Controller.java
+javac -cp "src/" -d bin/ src/Main.java

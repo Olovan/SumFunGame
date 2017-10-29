@@ -1,20 +1,19 @@
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
-
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
-import java.awt.GridLayout;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
-import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JLabel;
-import java.awt.Dimension;
 import javax.swing.border.LineBorder;
-import java.awt.Color;
 import javax.swing.border.BevelBorder;
 
 public class SumFunMainGui extends JFrame {

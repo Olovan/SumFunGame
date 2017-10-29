@@ -1,1 +1,1 @@
-java -cp "bin/" Controller
+java -cp "bin/" Main
