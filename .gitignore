@@ -2,3 +2,4 @@ bin/*
 .metadata/*
 *.class
 /bin/
+*.jar
