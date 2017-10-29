@@ -96,6 +96,6 @@ public class SumFunGridButton extends JPanel {
 	/** Highlights a tile for cheating purposes */
 	public void highlight() {
 		currentBackgroundColor = HIGHLIGHT_COLOR;
-		setBackground(new Color(0xFFFF00));
+		setBackground(HIGHLIGHT_COLOR);
 	}
 }
