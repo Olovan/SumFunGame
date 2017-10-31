@@ -61,9 +61,4 @@ class Controller
 	public void boardDisabled() {
 		view.disableBoard();
 	}
-
-	/** Used to highlight a tile for cheating purposes */
-	public void highlight(int r, int c) {
-		view.highlight(r, c);
-	}
 }

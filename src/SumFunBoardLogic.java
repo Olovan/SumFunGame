@@ -9,7 +9,6 @@ public class SumFunBoardLogic
 	private final int BOARD_SIZE = 9;
 	private final int QUEUE_SIZE = 5;
 	private final int INITIAL_MOVE_COUNT = 50;
-	private final boolean CHEATS_ENABLED = true;
 
 	private GameState currentState;
 	private Random rand;
@@ -66,8 +65,6 @@ public class SumFunBoardLogic
 
 	/** Method which is called by the FrontEnd whenever a grid tile is clicked */
 	public void gridAction(int row, int col) {
-
-
 		// Ignore clicks if the game is not running
 		if(currentState != GameState.ACTIVE) { return; }
 
@@ -77,20 +74,7 @@ public class SumFunBoardLogic
 		movesRemaining--;
 		placeTileOntoBoard(row, col);
 		notifyControllerOfStateChange();
-
-		//cheats for debugging purposes
-		if(CHEATS_ENABLED) {
-			controller.boardEnabled(); //Clears out previous highlighting
-			for(int i = 0; i < BOARD_SIZE; i++) {
-				for(int j = 0; j < BOARD_SIZE; j++) {
-					if(calculateScoreForTilePlacement(queue.get(0), i, j) != 0 && board[i][j] == null)
-						controller.highlight(i, j);
-				}
-			}
-		}
-
 		checkGameOver();
-
 	}
 
 	/** Places a tile from the top of the queue onto the board at the selected location */

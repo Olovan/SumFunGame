@@ -12,7 +12,6 @@ import javax.swing.border.LineBorder;
 public class SumFunGridButton extends JPanel {
 	//Settings
 	private final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
-	private final Color HIGHLIGHT_COLOR = new Color(0xFFFF00);
 	private final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 	private final Color DISABLED_COLOR = new Color(0xD0D0D0);
 	private final int FONT_SIZE = 34;
@@ -89,13 +88,8 @@ public class SumFunGridButton extends JPanel {
 	 *  Changes the tile's background to indicate that it is disabled */
 	@SuppressWarnings("deprecation")
 	public void disable() {
+		currentBackgroundColor = DISABLED_COLOR;
 		setBackground(DISABLED_COLOR);
 		enabled = false;
-	}
-
-	/** Highlights a tile for cheating purposes */
-	public void highlight() {
-		currentBackgroundColor = HIGHLIGHT_COLOR;
-		setBackground(HIGHLIGHT_COLOR);
 	}
 }
