@@ -2,7 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
@@ -16,7 +16,6 @@ public class SumFunGridButton extends JPanel {
 	private final Color DISABLED_COLOR = new Color(0xD0D0D0);
 	private final int FONT_SIZE = 34;
 	
-	private Controller c;
 	private Color currentBackgroundColor;
 	
 	public JLabel text;
@@ -40,26 +39,7 @@ public class SumFunGridButton extends JPanel {
 		text.setHorizontalAlignment(JLabel.CENTER);
 		add(text, BorderLayout.CENTER);
 		
-		addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				if(!enabled)
-					return;
-				// Report Mouse Click to Backend
-				c.gridAction(row, col);
-			}
-			
-			public void mouseEntered(MouseEvent e) {
-				if(!enabled)
-					return;
-				setBackground(MOUSEOVER_COLOR);
-			}
-			
-			public void mouseExited(MouseEvent e) {
-				if(!enabled)
-					return;
-				setBackground(currentBackgroundColor);
-			}
-		});	
+		addMouseListener(new TileController());	
 	}
 	
 	/**Sets the Grid Tile's string to match the input value
@@ -69,11 +49,6 @@ public class SumFunGridButton extends JPanel {
 			text.setText(val.toString());
 		else
 			text.setText("");
-	}
-	
-	/** Assigns the controller that the tile reports mouse clicks to */
-	public void setController(Controller c) {
-		this.c = c;
 	}
 
 	/** Enables the tile allowing it to respond to mouse input */
@@ -91,5 +66,29 @@ public class SumFunGridButton extends JPanel {
 		currentBackgroundColor = DISABLED_COLOR;
 		setBackground(DISABLED_COLOR);
 		enabled = false;
+	}
+
+	/** Controller for Board Tiles */
+	private class TileController implements MouseListener{
+		public void mouseClicked(MouseEvent e) {
+				if(!enabled)
+					return;
+				// Report Mouse Click to Backend
+				SumFunBoardLogic.getInstance().gridAction(row, col);
+		}
+		public void mouseEntered(MouseEvent e) {
+				if(!enabled)
+					return;
+				setBackground(MOUSEOVER_COLOR);
+		}
+		public void mouseExited(MouseEvent e) {
+				if(!enabled)
+					return;
+				setBackground(currentBackgroundColor);
+		}
+		public void mousePressed(MouseEvent e) {
+		}
+		public void mouseReleased(MouseEvent e) {
+		}
 	}
 }

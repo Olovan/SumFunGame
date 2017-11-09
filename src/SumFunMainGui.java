@@ -1,3 +1,5 @@
+import java.util.Observer;
+import java.util.Observable;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.EventQueue;
@@ -16,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 
-public class SumFunMainGui extends JFrame {
+public class SumFunMainGui extends JFrame implements Observer{
 	
 	private JPanel contentPane;
 	private SumFunGridButton[][] grid;
@@ -24,13 +26,11 @@ public class SumFunMainGui extends JFrame {
 	private JLabel lblScore;
 	private JLabel countdown;
 	private JLabel countdownName;
-	private Controller controller;
 
 	/**
 	 * Create the frame.
 	 */
-	public SumFunMainGui(Controller c) {
-		controller = c;
+	public SumFunMainGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -107,7 +107,6 @@ public class SumFunMainGui extends JFrame {
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				grid[i][j] = new SumFunGridButton(i, j);
-				grid[i][j].setController(c);
 				gridPanel.add(grid[i][j]);
 			}
 		}
@@ -123,6 +122,8 @@ public class SumFunMainGui extends JFrame {
 		}
 
 		pack();
+
+		SumFunBoardLogic.getInstance().addObserver(this);
 	}
 
 	/** Tells grid to display the input grid */
@@ -181,5 +182,31 @@ public class SumFunMainGui extends JFrame {
 		for(SumFunGridButton[] row : grid)
 			for(SumFunGridButton tile : row)
 				tile.disable();
+	}
+
+	/** Implementation of update message from Observer interface
+	 *  Can be sent messages in the form of Strings instructing it what 
+	 *  specifically to update or if no message is supplied then it will update
+	 *  everything
+	 */
+	public void update(Observable src, Object arg) {
+		SumFunBoardLogic backend = (SumFunBoardLogic)src;
+		String message = (arg != null ? (String)arg : "ALL");
+		
+		switch(message) {
+			case "GAMEOVER":
+				gameOver();
+				break;
+			case "MOVES_REMAINING":
+				setCountdown("" + backend.movesRemaining);
+				break;
+			case "TIME_REMAINING":
+				break;
+			default:
+				setGrid(backend.getBoard());
+				setQueue(backend.getQueue());
+				setScore(backend.getScore());
+				break;
+		}
 	}
 }

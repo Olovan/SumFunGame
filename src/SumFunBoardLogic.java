@@ -1,8 +1,11 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class SumFunBoardLogic 
+public class SumFunBoardLogic extends Observable
 {
+	private static SumFunBoardLogic singleton;
+
 	private enum GameState { ACTIVE, ENDED }
 
 	//SETTINGS for easy tweaking
@@ -12,15 +15,21 @@ public class SumFunBoardLogic
 
 	private GameState currentState;
 	private Random rand;
-	private Controller controller;
 	private ArrayList<Integer> queue;
-	private int movesRemaining;
+	public int movesRemaining;
 	private int score;
 	private Integer[][] board;
 
+	/** retrieve instance of singleton */
+	public static SumFunBoardLogic getInstance() {
+		if(singleton == null) {
+			singleton = new SumFunBoardLogic();
+		}
+		return singleton;
+	}
+
 	/** Instatiates variables and passes controller variable into BoardLogic */
-	public SumFunBoardLogic(Controller c) {
-		controller = c;
+	private SumFunBoardLogic() {
 		rand = new Random();
 		queue = new ArrayList<Integer>(QUEUE_SIZE);
 		board = new Integer[BOARD_SIZE][BOARD_SIZE];
@@ -34,8 +43,10 @@ public class SumFunBoardLogic
 		movesRemaining = INITIAL_MOVE_COUNT;
 		board = generateRandomBoard();
 		currentState = GameState.ACTIVE;
-		controller.countdownNameChanged("Moves Remaining");
-		notifyControllerOfStateChange();
+		setChanged();
+		notifyObservers();
+		setChanged();
+		notifyObservers("MOVES_REMAINING");
 	}
 
 	/** generates a Game Board filled with random values in the middle and empty borders */
@@ -47,14 +58,6 @@ public class SumFunBoardLogic
 			}
 		}
 		return newBoard;
-	}
-
-	/** sends the Controller the current values of all the Model's relevant variables */
-	private void notifyControllerOfStateChange() {
-		controller.boardChanged(board);
-		controller.queueChanged(queue.toArray(new Integer[QUEUE_SIZE]));
-		controller.scoreChanged(score);
-		controller.countdownChanged("" + movesRemaining);
 	}
 
 	/** generates random numbers and inserts them into the queue until the queue has 5 elements */
@@ -71,9 +74,9 @@ public class SumFunBoardLogic
 		// Ignores clicks on populated tiles for now
 		if (board[row][col] != null) { return; }
 
-		movesRemaining--;
 		placeTileOntoBoard(row, col);
-		notifyControllerOfStateChange();
+		setChanged();
+		notifyObservers();
 		checkGameOver();
 	}
 
@@ -84,7 +87,10 @@ public class SumFunBoardLogic
 
 		board[row][col] = queue.remove(0);
 		fillQueue();
-		// Score is stored as a global variable
+		movesRemaining--;
+		setChanged();
+		notifyObservers("MOVES_REMAINING");
+
 		if (boundarySum % 10 == board[row][col] && neighbors > 0) {
 			score += calculateScoreForTilePlacement(board[row][col], row, col);
 			clearNeighbors(row, col);
@@ -162,7 +168,8 @@ public class SumFunBoardLogic
 	/** Ends the game */
 	private void gameOver() {
 		currentState = GameState.ENDED;
-		controller.gameOver();
+		setChanged();
+		notifyObservers("GAMEOVER");
 	}
 
 	/** returns true if the board is empty */
@@ -201,6 +208,18 @@ public class SumFunBoardLogic
 			return true;
 		else
 			return false;
+	}
+
+	public Integer[][] getBoard() {
+		return board;
+	}
+
+	public Integer[] getQueue() {
+		return queue.toArray(new Integer[5]);
+	}
+
+	public int getScore() {
+		return score;
 	}
 }
 
