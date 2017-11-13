@@ -37,8 +37,14 @@ public class SumFunLeaderboardGui extends JFrame{
   }
   
   /** Enables visibility of the leaderboard */
-  public void showJFrame()
+  public void showLeaderboard()
   {
     contentPane.setVisible(true);
+  }
+  
+  /** Disables visibility of the leaderboard */
+  public void hideLeaderboard()
+  {
+    contentPane.setVisible(false);
   }
 }

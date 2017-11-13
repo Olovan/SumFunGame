@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import javax.swing.Box;
@@ -26,6 +27,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private JLabel lblScore;
 	private JLabel countdown;
 	private JLabel countdownName;
+	private JButton btnRefresh;
 
 	/**
 	 * Create the frame.
@@ -98,6 +100,16 @@ public class SumFunMainGui extends JFrame implements Observer{
 		queueTopPanel.setMaximumSize(new Dimension(50, 100));
 		queueTopPanel.setBackground(Color.WHITE);
 		queuePanel.add(queueTopPanel);
+		
+		JPanel powerUpPanel = new JPanel();
+		rightPanel.add(powerUpPanel);
+		powerUpPanel.setLayout(new BoxLayout(powerUpPanel, BoxLayout.Y_AXIS));
+		
+    btnRefresh = new JButton("Refresh");
+    btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
+    powerUpPanel.add(btnRefresh);
+    btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
+    enableRefresh();
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		rightPanel.add(verticalGlue);
@@ -182,6 +194,16 @@ public class SumFunMainGui extends JFrame implements Observer{
 		for(SumFunGridButton[] row : grid)
 			for(SumFunGridButton tile : row)
 				tile.disable();
+	}
+	
+	/**Allows the refresh queue button to be clicked */
+	public void enableRefresh() {
+	  btnRefresh.setEnabled(true);
+	}
+	
+	/**Disables the refresh queue button */
+	public void disableRefresh() {
+	  btnRefresh.setEnabled(false);
 	}
 
 	/** Implementation of update message from Observer interface
