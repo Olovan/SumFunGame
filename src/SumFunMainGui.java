@@ -177,9 +177,22 @@ public class SumFunMainGui extends JFrame implements Observer{
 	}
 
 	/**Locks the board and displays the game over Message */
-	public void gameOver() {
+	public void gameLost() {
 		disableBoard();
-		JOptionPane.showMessageDialog(this, "Game Over");
+		JOptionPane.showMessageDialog(this, "Game Over. You Lose.");
+	}
+	
+	/**Handles the event of winning by locking the board,
+	 * asking the player for their name and returning it */
+	public String gameWon() {
+	  disableBoard();
+	  return getName();
+	}
+	
+	/**Gets the name of the user. If nothing is entered, returns empty string. */
+	public String getName() {
+	  String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
+	  return name;
 	}
 
 	/**Allows the board to accept input again */
@@ -216,9 +229,12 @@ public class SumFunMainGui extends JFrame implements Observer{
 		String message = (arg != null ? (String)arg : "ALL");
 		
 		switch(message) {
-			case "GAMEOVER":
-				gameOver();
+			case "GAMELOST":
+				gameLost();
 				break;
+			case "GAMEWON":
+			  gameWon();
+			  break;
 			case "MOVES_REMAINING":
 				setCountdown("" + backend.movesRemaining);
 				break;

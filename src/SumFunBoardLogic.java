@@ -158,18 +158,27 @@ public class SumFunBoardLogic extends Observable
 		}
 	}
 
-	/** Checks if the game has ended and fires the gameOver function if the game has ended */
+	/** Checks if the game has ended and fires the gameLoss or gameWon function
+	 * depending on the state of the board */
 	private void checkGameOver() {
-		if (isBoardEmpty() || isBoardFull() || movesRemaining <= 0) {
-			gameOver();
-		} 
+		if (isBoardFull() || movesRemaining <= 0) {
+			gameLost();
+		} else if (isBoardEmpty()) {
+		  gameWon();
+		}
 	}
 
-	/** Ends the game */
-	private void gameOver() {
+	/** Player loses the game */
+	private void gameLost() {
 		currentState = GameState.ENDED;
 		setChanged();
-		notifyObservers("GAMEOVER");
+		notifyObservers("GAMELOST");
+	}
+	
+	private void gameWon() {
+	  currentState = GameState.ENDED;
+	  setChanged();
+	  notifyObservers("GAMEWON");
 	}
 
 	/** returns true if the board is empty */
