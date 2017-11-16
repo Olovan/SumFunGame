@@ -36,7 +36,7 @@ public class SumFunBoardLogic extends Observable
 	}
 
 	/** Contains all the code required to start/restart the game */
-	public void startGame() {
+	public void startUntimedGame() {
 		queue.clear(); //In case the queue has crap in it
 		fillQueue();
 		score = 0;

@@ -28,6 +28,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private JLabel countdown;
 	private JLabel countdownName;
 	private JButton btnRefresh;
+	private JButton btnNewUntimedGame;
+	private JButton btnNewTimedGame;
 
 	/**
 	 * Create the frame.
@@ -51,7 +53,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		gridPanel.setLayout(new GridLayout(9, 9, 0, 0));
 		
 		JPanel rightPanel = new JPanel();
-		rightPanel.setPreferredSize(new Dimension(100, 600));
+		rightPanel.setPreferredSize(new Dimension(200, 600));
 		centerPanel.add(rightPanel);
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 		
@@ -110,6 +112,23 @@ public class SumFunMainGui extends JFrame implements Observer{
     powerUpPanel.add(btnRefresh);
     btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
     enableRefresh();
+    
+    JPanel newGamesPanel = new JPanel();
+    rightPanel.add(newGamesPanel);
+    newGamesPanel.setLayout(new BoxLayout(newGamesPanel, BoxLayout.Y_AXIS));
+    
+    Component verticalStrut_2 = Box.createVerticalStrut(50);
+    newGamesPanel.add(verticalStrut_2);
+    
+    btnNewTimedGame = new JButton("New Timed");
+    btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
+    newGamesPanel.add(btnNewTimedGame);
+    btnNewTimedGame.setFont(new Font("Arial", Font.BOLD, 12));
+    
+    btnNewUntimedGame = new JButton("New Untimed");
+    btnNewUntimedGame.setAlignmentX(CENTER_ALIGNMENT);
+    newGamesPanel.add(btnNewUntimedGame);
+    btnNewUntimedGame.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		rightPanel.add(verticalGlue);

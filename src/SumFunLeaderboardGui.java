@@ -1,5 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -8,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JList;
 import java.awt.Component;
 
-public class SumFunLeaderboardGui extends JFrame{
+public class SumFunLeaderboardGui extends JFrame implements Observer {
 
   private JPanel contentPane;
   private JLabel scoreType;
@@ -48,5 +51,14 @@ public class SumFunLeaderboardGui extends JFrame{
   public void hideLeaderboard()
   {
     contentPane.setVisible(false);
+  }
+
+  @Override
+  public void update(Observable src, Object arg) {
+    SumFunBoardLogic backend = (SumFunBoardLogic)src;
+    String message = (arg != null ? (String)arg : "ALL");
+    
+    /** @TODO: fill this in */
+    
   }
 }
