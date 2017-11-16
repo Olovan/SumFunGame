@@ -74,7 +74,7 @@ public class SumFunGridButton extends JPanel {
 				if(!enabled)
 					return;
 				// Report Mouse Click to Backend
-				SumFunBoardLogic.getInstance().gridAction(row, col);
+				SumFunModelConfigurer.getInstance().rules.gridAction(row, col);
 		}
 		public void mouseEntered(MouseEvent e) {
 				if(!enabled)

@@ -24,7 +24,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 
 public class SumFunMainGui extends JFrame implements Observer{
-	
+
 	private JPanel contentPane;
 	private SumFunGridButton[][] grid;
 	private JLabel[] queue;
@@ -45,116 +45,115 @@ public class SumFunMainGui extends JFrame implements Observer{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JPanel centerPanel = new JPanel();
 		contentPane.add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.X_AXIS));
-		
+
 		JPanel gridPanel = new JPanel();
 		gridPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		gridPanel.setPreferredSize(new Dimension(600, 600));
 		centerPanel.add(gridPanel);
 		gridPanel.setLayout(new GridLayout(9, 9, 0, 0));
-		
+
 		JPanel rightPanel = new JPanel();
 		rightPanel.setPreferredSize(new Dimension(200, 600));
 		centerPanel.add(rightPanel);
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		
+
 		JPanel scorePanel = new JPanel();
 		rightPanel.add(scorePanel);
 		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
-		
+
 		JLabel scoreTitleLabel = new JLabel("Score");
 		scorePanel.add(scoreTitleLabel);
 		scoreTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		lblScore = new JLabel("0");
 		scorePanel.add(lblScore);
 		lblScore.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblScore.setFont(new Font("Arial", Font.BOLD, 20));
-		
+
 		Component verticalStrut = Box.createVerticalStrut(20);
 		rightPanel.add(verticalStrut);
-		
+
 		JPanel countdownPanel = new JPanel();
 		rightPanel.add(countdownPanel);
 		countdownPanel.setLayout(new BoxLayout(countdownPanel, BoxLayout.Y_AXIS));
-		
+
 		countdownName = new JLabel("Moves Remaining: ");
 		countdownName.setAlignmentX(Component.CENTER_ALIGNMENT);
 		countdownPanel.add(countdownName);
-		
+
 		countdown = new JLabel("0");
 		countdown.setAlignmentX(Component.CENTER_ALIGNMENT);
 		countdownPanel.add(countdown);
 		countdown.setFont(new Font("Arial", Font.BOLD, 18));
-		
+
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		rightPanel.add(verticalStrut_1);
-		
+
 		JPanel queuePanel = new JPanel();
 		rightPanel.add(queuePanel);
 		queuePanel.setLayout(new BoxLayout(queuePanel, BoxLayout.Y_AXIS));
-		
+
 		JLabel lblQueue = new JLabel("Queue");
 		queuePanel.add(lblQueue);
 		lblQueue.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
+
 		JPanel queueTopPanel = new JPanel();
 		queueTopPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		queueTopPanel.setMaximumSize(new Dimension(50, 100));
 		queueTopPanel.setBackground(Color.WHITE);
 		queuePanel.add(queueTopPanel);
-		
+
 		JPanel powerUpPanel = new JPanel();
 		rightPanel.add(powerUpPanel);
 		powerUpPanel.setLayout(new BoxLayout(powerUpPanel, BoxLayout.Y_AXIS));
-		
-    btnRefresh = new JButton("Refresh");
-    btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
-    powerUpPanel.add(btnRefresh);
-    btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
-    btnRefresh.addActionListener(new ActionListener () {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        // @TODO this needs to be corrected. The queue isn't refreshing.
-        SumFunBoardLogic.getInstance().getQueue();
-      }
-    });
-    
-    JPanel newGamesPanel = new JPanel();
-    rightPanel.add(newGamesPanel);
-    newGamesPanel.setLayout(new BoxLayout(newGamesPanel, BoxLayout.Y_AXIS));
-    
-    Component verticalStrut_2 = Box.createVerticalStrut(50);
-    newGamesPanel.add(verticalStrut_2);
-    
-    btnNewTimedGame = new JButton("New Timed");
-    btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
-    newGamesPanel.add(btnNewTimedGame);
-    btnNewTimedGame.setFont(new Font("Arial", Font.BOLD, 12));
-    btnNewTimedGame.addActionListener(new ActionListener () {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        SumFunBoardLogic.getInstance().chooseGameMode(false);
-      }
-    });
-    
-    btnNewUntimedGame = new JButton("New Untimed");
-    btnNewUntimedGame.setAlignmentX(CENTER_ALIGNMENT);
-    newGamesPanel.add(btnNewUntimedGame);
-    btnNewUntimedGame.setFont(new Font("Arial", Font.BOLD, 12));
-    btnNewUntimedGame.addActionListener(new ActionListener () {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        SumFunBoardLogic.getInstance().chooseGameMode(true);
-      }
-    });
-		
+
+		btnRefresh = new JButton("Refresh");
+		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
+		powerUpPanel.add(btnRefresh);
+		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
+		btnRefresh.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// @TODO this needs to be corrected. The queue isn't refreshing.
+			}
+		});
+
+		JPanel newGamesPanel = new JPanel();
+		rightPanel.add(newGamesPanel);
+		newGamesPanel.setLayout(new BoxLayout(newGamesPanel, BoxLayout.Y_AXIS));
+
+		Component verticalStrut_2 = Box.createVerticalStrut(50);
+		newGamesPanel.add(verticalStrut_2);
+
+		btnNewTimedGame = new JButton("New Timed");
+		btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
+		newGamesPanel.add(btnNewTimedGame);
+		btnNewTimedGame.setFont(new Font("Arial", Font.BOLD, 12));
+		btnNewTimedGame.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.TIMED);
+			}
+		});
+
+		btnNewUntimedGame = new JButton("New Untimed");
+		btnNewUntimedGame.setAlignmentX(CENTER_ALIGNMENT);
+		newGamesPanel.add(btnNewUntimedGame);
+		btnNewUntimedGame.setFont(new Font("Arial", Font.BOLD, 12));
+		btnNewUntimedGame.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.UNTIMED);
+			}
+		});
+
 		Component verticalGlue = Box.createVerticalGlue();
 		rightPanel.add(verticalGlue);
-		
+
 		//Instantiate Grid
 		grid = new SumFunGridButton[9][9];
 		for(int i = 0; i < 9; i++) {
@@ -163,7 +162,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 				gridPanel.add(grid[i][j]);
 			}
 		}
-		
+
 		//Instantiate Queue
 		queue = new JLabel[5];
 		queue[0] = new JLabel("0");
@@ -176,7 +175,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 		pack();
 
-		SumFunBoardLogic.getInstance().addObserver(this);
+		SumFunModelConfigurer.getInstance().addObserver(this);
 	}
 
 	/** Tells grid to display the input grid */
@@ -187,31 +186,31 @@ public class SumFunMainGui extends JFrame implements Observer{
 			}
 		}
 	}
-	
+
 	/** Tells the Gui to display the input queue */
 	public void setQueue(Integer[] queue) {
 		for(int i = 0; i < 5; i++) {
 			this.queue[i].setText(queue[i].toString());
 		}
 	}
-	
+
 	/** Tells GUI to display the input score */
 	public void setScore(int score) {
 		lblScore.setText("" + score);
 	}
-	
+
 	/** Tells GUI to display the input countdown string */
 	public void setCountdown(String text) {
 		countdown.setText(text);
 	}
-	
+
 	/** Tells GUI to display the input countdown name 
 	 *  Used so that the countdown field can be used to display
 	 *  both moves remaining and time remaining */
 	public void setCountdownName(String text) {
 		countdownName.setText(text);
 	}
-	
+
 	/**Tells a specific grid tile to display the input value */
 	public void setGridValue(Integer value, int row, int col) {
 		this.grid[row][col].setValue(value);
@@ -222,18 +221,18 @@ public class SumFunMainGui extends JFrame implements Observer{
 		disableBoard();
 		JOptionPane.showMessageDialog(this, "Game Over. You Lose.");
 	}
-	
+
 	/**Handles the event of winning by locking the board,
 	 * asking the player for their name and returning it */
 	public String gameWon() {
-	  disableBoard();
-	  return getName();
+		disableBoard();
+		return getName();
 	}
-	
+
 	/**Gets the name of the user. If nothing is entered, returns empty string. */
 	public String getName() {
-	  String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
-	  return name;
+		String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
+		return name;
 	}
 
 	/**Allows the board to accept input again */
@@ -249,42 +248,51 @@ public class SumFunMainGui extends JFrame implements Observer{
 			for(SumFunGridButton tile : row)
 				tile.disable();
 	}
-	
+
 	/**Allows the refresh queue button to be clicked */
 	public void enableRefresh() {
-	  btnRefresh.setEnabled(true);
+		btnRefresh.setEnabled(true);
 	}
-	
+
 	/**Disables the refresh queue button */
 	public void disableRefresh() {
-	  btnRefresh.setEnabled(false);
+		btnRefresh.setEnabled(false);
 	}
-	
+
 	/** Implementation of update message from Observer interface
 	 *  Can be sent messages in the form of Strings instructing it what 
 	 *  specifically to update or if no message is supplied then it will update
 	 *  everything
 	 */
 	public void update(Observable src, Object arg) {
-		SumFunBoardLogic backend = (SumFunBoardLogic)src;
-		String message = (arg != null ? (String)arg : "ALL");
-		
+		Object[] args = (Object[])arg;
+		String message = (String)args[0];
+
 		switch(message) {
 			case "GAMELOST":
 				gameLost();
 				break;
 			case "GAMEWON":
-			  gameWon();
-			  break;
+				gameWon();
+				break;
 			case "MOVES_REMAINING":
-				setCountdown("" + backend.movesRemaining);
+				setCountdownName("Moves Remaining: ");
+				setCountdown("" + (int)args[1]);
 				break;
 			case "TIME_REMAINING":
+				setCountdownName("Time Remaining: ");
+				setCountdown("" + (int)args[1]);
+				break;
+			case "ALL":
+				setGrid((Integer[][])args[1]);
+				setQueue((Integer[])args[2]);
+				setScore((int)args[3]);
+				break;
+			case "RULESET_CHANGED":
+				((Observable)args[1]).addObserver(this);
+				enableBoard();
 				break;
 			default:
-				setGrid(backend.getBoard());
-				setQueue(backend.getQueue());
-				setScore(backend.getScore());
 				break;
 		}
 	}
