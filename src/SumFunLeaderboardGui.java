@@ -3,12 +3,10 @@ import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JList;
 import java.awt.Component;
 
 public class SumFunLeaderboardGui extends JFrame implements Observer {

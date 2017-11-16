@@ -35,18 +35,28 @@ public class SumFunBoardLogic extends Observable
 		board = new Integer[BOARD_SIZE][BOARD_SIZE];
 	}
 
-	/** Contains all the code required to start/restart the game */
-	public void startUntimedGame() {
-		queue.clear(); //In case the queue has crap in it
-		fillQueue();
-		score = 0;
-		movesRemaining = INITIAL_MOVE_COUNT;
-		board = generateRandomBoard();
-		currentState = GameState.ACTIVE;
-		setChanged();
-		notifyObservers();
-		setChanged();
-		notifyObservers("MOVES_REMAINING");
+	public void startGame() {
+		
+	}
+
+	/** Contains all the code required to start/restart the game 
+  *  Takes an argument that determines the type of game */
+	public void chooseGameMode(boolean chooseUntimedGame) {
+	  queue.clear(); //In case the queue has crap in it
+    fillQueue();
+    score = 0;
+    movesRemaining = INITIAL_MOVE_COUNT;
+    board = generateRandomBoard();
+    currentState = GameState.ACTIVE;
+    setChanged();
+    notifyObservers();
+    setChanged();
+	  
+	  if (chooseUntimedGame == true) {
+      notifyObservers("MOVES_REMAINING");
+    } else {
+      notifyObservers("TIME_REMAINING");
+    }
 	}
 
 	/** generates a Game Board filled with random values in the middle and empty borders */

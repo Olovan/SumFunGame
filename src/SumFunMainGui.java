@@ -2,6 +2,10 @@ import java.util.Observer;
 import java.util.Observable;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Component;
@@ -111,7 +115,13 @@ public class SumFunMainGui extends JFrame implements Observer{
     btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
     powerUpPanel.add(btnRefresh);
     btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
-    enableRefresh();
+    btnRefresh.addActionListener(new ActionListener () {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        // @TODO this needs to be corrected. The queue isn't refreshing.
+        SumFunBoardLogic.getInstance().getQueue();
+      }
+    });
     
     JPanel newGamesPanel = new JPanel();
     rightPanel.add(newGamesPanel);
@@ -124,11 +134,23 @@ public class SumFunMainGui extends JFrame implements Observer{
     btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
     newGamesPanel.add(btnNewTimedGame);
     btnNewTimedGame.setFont(new Font("Arial", Font.BOLD, 12));
+    btnNewTimedGame.addActionListener(new ActionListener () {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        SumFunBoardLogic.getInstance().chooseGameMode(false);
+      }
+    });
     
     btnNewUntimedGame = new JButton("New Untimed");
     btnNewUntimedGame.setAlignmentX(CENTER_ALIGNMENT);
     newGamesPanel.add(btnNewUntimedGame);
     btnNewUntimedGame.setFont(new Font("Arial", Font.BOLD, 12));
+    btnNewUntimedGame.addActionListener(new ActionListener () {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        SumFunBoardLogic.getInstance().chooseGameMode(true);
+      }
+    });
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		rightPanel.add(verticalGlue);
@@ -237,7 +259,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	public void disableRefresh() {
 	  btnRefresh.setEnabled(false);
 	}
-
+	
 	/** Implementation of update message from Observer interface
 	 *  Can be sent messages in the form of Strings instructing it what 
 	 *  specifically to update or if no message is supplied then it will update
@@ -267,3 +289,5 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 	}
 }
+
+
