@@ -53,9 +53,6 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 
   @Override
   public void update(Observable src, Object arg) {
-    SumFunBoardLogic backend = (SumFunBoardLogic)src;
-    String message = (arg != null ? (String)arg : "ALL");
-    
     /** @TODO: fill this in */
     
   }
