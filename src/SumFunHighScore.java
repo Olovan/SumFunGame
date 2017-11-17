@@ -5,7 +5,6 @@ public class SumFunHighScore extends Observable implements Comparable {
      private String name;
      private String date;
      private int score;
-     private SumFunHighScoreLogic logic = new SumFunHighScoreLogic();
      
      public SumFunHighScore() {
        
@@ -16,6 +15,13 @@ public class SumFunHighScore extends Observable implements Comparable {
        this.score = score;
        this.date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
      }
+
+	 public SumFunHighScore(String inputString) {
+		 String[] fields = inputString.split(" ");
+		 name = fields[0];
+		 score = Integer.parseInt(fields[1]);
+		 date = fields[2];
+	 }
      
      public int getScore() {
        return score;
@@ -29,22 +35,11 @@ public class SumFunHighScore extends Observable implements Comparable {
        return name;
      }
      
-     public void addScore(String name, int score) {
-       if(name != null && !(name.equals("")))
-         logic.add(new SumFunHighScore(name, score));
-       else
-         return;
-     }
-     
      @Override
      public int compareTo(Object highScore) {
          int compareScore=((SumFunHighScore)highScore).getScore();
 
-         /* For Descending order do like this */
-         return compareScore-this.score;
-         
-         /* For Ascending order do like this*/
-         //return this.score - compareScore;
+         return this.score - compareScore;
      }
 
      @Override
