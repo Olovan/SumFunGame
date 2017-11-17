@@ -1,4 +1,16 @@
 class SumFunUntimedGame extends SumFunRuleSet{
+	private static final Integer[][] CHEATBOARD = new Integer[][]{
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, 1, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null } 
+	};
+
 	private static final int INITIAL_MOVE_COUNT = 50;
 	private int movesRemaining;
 
@@ -12,6 +24,9 @@ class SumFunUntimedGame extends SumFunRuleSet{
 		movesRemaining = INITIAL_MOVE_COUNT;
 		setChanged();
 		notifyObservers(new Object[]{"MOVES_REMAINING", movesRemaining});
+		board = CHEATBOARD;
+		setChanged();
+		notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score});
 	}
 
 	@Override
