@@ -44,6 +44,7 @@ public class SumFunGridButton extends JPanel implements Observer{
 		add(text, BorderLayout.CENTER);
 		
 		addMouseListener(new TileController());	
+		SumFunModelConfigurer.getInstance().addObserver(this);
 	}
 	
 	/**Sets the Grid Tile's string to match the input value
