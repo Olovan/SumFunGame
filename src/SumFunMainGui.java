@@ -267,7 +267,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	public void update(Observable src, Object arg) {
 		Object[] args = (Object[])arg;
 		String message = (String)args[0];
-
+		
 		switch(message) {
 			case "GAMELOST":
 				gameLost();
