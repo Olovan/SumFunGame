@@ -9,7 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-public class SumFunGridButton extends JPanel {
+import java.util.Observer;
+import java.util.Observable;
+
+public class SumFunGridButton extends JPanel implements Observer{
 	//Settings
 	private final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
 	private final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
@@ -17,6 +20,7 @@ public class SumFunGridButton extends JPanel {
 	private final int FONT_SIZE = 34;
 	
 	private Color currentBackgroundColor;
+	private SumFunRuleSet ruleSet;
 	
 	public JLabel text;
 	public int row, col;
@@ -68,13 +72,26 @@ public class SumFunGridButton extends JPanel {
 		enabled = false;
 	}
 
+	public void update(Observable src, Object arg) {
+		Object[] args = (Object[])arg;
+		String msg = (String)args[0];
+		switch(msg) {
+			case "RULESET_CHANGED":
+				ruleSet = (SumFunRuleSet)args[1];
+				break;
+			default:
+				break;
+		}
+	}
+
 	/** Controller for Board Tiles */
 	private class TileController implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
 				if(!enabled)
 					return;
 				// Report Mouse Click to Backend
-				SumFunModelConfigurer.getInstance().rules.gridAction(row, col);
+				if(ruleSet != null)
+					ruleSet.gridAction(row, col);
 		}
 		public void mouseEntered(MouseEvent e) {
 				if(!enabled)
