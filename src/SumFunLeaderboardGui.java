@@ -51,9 +51,18 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
     contentPane.setVisible(false);
   }
 
-  @Override
-  public void update(Observable src, Object arg) {
-    /** @TODO: fill this in */
-    
-  }
+  /** This won't show the leaderboard 
+   	  Can LeaderboardGUI listen for the same message as MainGUI? */
+	public void update(Observable src, Object arg) {
+		Object[] args = (Object[])arg;
+		String message = (String)args[0];
+		SumFunHighScoreLogic highScore = null;
+		
+		switch(message) {
+			case "GAMEWON":
+				showLeaderboard();
+			default:
+				break;
+		}
+	}
 }
