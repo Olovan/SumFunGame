@@ -2,7 +2,7 @@ public class Main {
 	public static void main(String[] args) {
 		SumFunMainGui view = new SumFunMainGui();
 		view.setVisible(true);
-		TestHighScoreLogic test = new TestHighScoreLogic();
+		//TestHighScoreLogic test = new TestHighScoreLogic();
 
 		SumFunHighScoreLogic.getInstance().add(new SumFunHighScore("Bill", 2323));
 		SumFunHighScoreLogic.getInstance().add(new SumFunHighScore("George", 98323));
