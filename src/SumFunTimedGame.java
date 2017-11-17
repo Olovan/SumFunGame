@@ -9,7 +9,7 @@ class SumFunTimedGame extends SumFunRuleSet {
 	public SumFunTimedGame() {
 		super();
 		t = new Timer();
-		timeRemaining = 120;
+		timeRemaining = 180;
 	}
 
 	@Override
