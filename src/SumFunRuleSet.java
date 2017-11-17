@@ -6,6 +6,18 @@ import java.util.Observable;
 // basic gameover logic
 public abstract class SumFunRuleSet extends Observable
 {
+	protected static final Integer[][] CHEATBOARD = new Integer[][]{
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, 1, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null }, 
+		{ null, null, null, null, null, null, null, null, null } 
+	};
+
 	protected enum GameState { ACTIVE, ENDED }
 
 	//SETTINGS for easy tweaking

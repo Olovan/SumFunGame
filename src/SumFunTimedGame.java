@@ -22,10 +22,12 @@ class SumFunTimedGame extends SumFunRuleSet {
 
 	@Override
 	protected void checkGameOver() {
-		super.checkGameOver();
-		if(currentState == GameState.ENDED) {
+		if(isBoardFull())  {
 			t.cancel();
-		} 	
+			gameLost();
+		} else if(isBoardEmpty()) {
+			gameWon();
+		}
 	}
 
 	private class TickTask extends TimerTask {

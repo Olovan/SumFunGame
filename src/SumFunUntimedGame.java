@@ -24,7 +24,15 @@ class SumFunUntimedGame extends SumFunRuleSet{
 		movesRemaining = INITIAL_MOVE_COUNT;
 		setChanged();
 		notifyObservers(new Object[]{"MOVES_REMAINING", movesRemaining});
-		board = CHEATBOARD;
+
+		//ENABLE CHEATS
+		board = new Integer[9][9];
+		for(int i = 0; i < 9; i++) {
+			for(int j = 0; j < 9; j++) {
+				board[i][j] = CHEATBOARD[i][j];
+			}
+		}
+		queue.set(0, 1);
 		setChanged();
 		notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score});
 	}
