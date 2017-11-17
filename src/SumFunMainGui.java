@@ -116,12 +116,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
 		powerUpPanel.add(btnRefresh);
 		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
-		btnRefresh.addActionListener(new ActionListener () {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// @TODO this needs to be corrected. The queue isn't refreshing.
-			}
-		});
+		btnRefresh.addActionListener(new RefreshQueueButtonController());
 
 		JPanel newGamesPanel = new JPanel();
 		rightPanel.add(newGamesPanel);
@@ -134,23 +129,13 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
 		newGamesPanel.add(btnNewTimedGame);
 		btnNewTimedGame.setFont(new Font("Arial", Font.BOLD, 12));
-		btnNewTimedGame.addActionListener(new ActionListener () {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.TIMED);
-			}
-		});
+		btnNewTimedGame.addActionListener(new TimedGameButtonController());
 
 		btnNewUntimedGame = new JButton("New Untimed");
 		btnNewUntimedGame.setAlignmentX(CENTER_ALIGNMENT);
 		newGamesPanel.add(btnNewUntimedGame);
 		btnNewUntimedGame.setFont(new Font("Arial", Font.BOLD, 12));
-		btnNewUntimedGame.addActionListener(new ActionListener () {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.UNTIMED);
-			}
-		});
+		btnNewUntimedGame.addActionListener(new UntimedGameButtonController());
 
 		Component verticalGlue = Box.createVerticalGlue();
 		rightPanel.add(verticalGlue);
@@ -284,6 +269,9 @@ public class SumFunMainGui extends JFrame implements Observer{
 				setCountdownName("Time Remaining: ");
 				setCountdown("" + (int)args[1]);
 				break;
+			case "QUEUE_CHANGED":
+				setQueue((Integer[])args[1]);
+				break;
 			case "ALL":
 				setGrid((Integer[][])args[1]);
 				setQueue((Integer[])args[2]);
@@ -291,10 +279,49 @@ public class SumFunMainGui extends JFrame implements Observer{
 				break;
 			case "RULESET_CHANGED":
 				((Observable)args[1]).addObserver(this);
+				btnRefresh.setEnabled(true);
 				enableBoard();
 				break;
 			default:
 				break;
+		}
+	}
+
+	private class TimedGameButtonController implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.TIMED);
+		}
+	}
+	private class UntimedGameButtonController implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.UNTIMED);
+		}
+	}
+	private class RefreshQueueButtonController implements ActionListener, Observer {
+		private SumFunRuleSet rules;
+
+		public RefreshQueueButtonController() {
+			SumFunModelConfigurer.getInstance().addObserver(this);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			if(rules != null) {
+				btnRefresh.setEnabled(false);
+				rules.refreshQueue();
+			}
+		}
+
+		public void update(Observable src, Object arg) {
+			Object[] args = (Object[])arg;
+			String msg = (String)args[0];
+
+			switch(msg) {
+				case "RULESET_CHANGED":
+					rules = (SumFunRuleSet)args[1];
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

@@ -35,25 +35,6 @@ public abstract class SumFunRuleSet extends Observable
 		notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score});
 	}
 
-	/** Contains all the code required to start/restart the game 
-	 *  Takes an argument that determines the type of game 
-	 *  WILL BE REMOVED LATER*/
-	public void chooseGameMode(boolean chooseUntimedGame) {
-		queue.clear(); //In case the queue has crap in it
-		fillQueue();
-		score = 0;
-		board = generateRandomBoard();
-		currentState = GameState.ACTIVE;
-		setChanged();
-		notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score});
-		setChanged();
-
-		if (chooseUntimedGame == true) {
-		} else {
-			notifyObservers(new Object[]{"TIME_REMAINING"});
-		}
-	}
-
 	/** generates a Game Board filled with random values in the middle and empty borders */
 	protected Integer[][] generateRandomBoard() {
 		Integer[][] newBoard = new Integer[BOARD_SIZE][BOARD_SIZE];
@@ -69,6 +50,13 @@ public abstract class SumFunRuleSet extends Observable
 	protected void fillQueue() {
 		while(queue.size() < QUEUE_SIZE)
 			queue.add(rand.nextInt(10));
+	}
+
+	public void refreshQueue() {
+		queue.clear();
+		fillQueue();
+		setChanged();
+		notifyObservers(new Object[]{"QUEUE_CHANGED", queue.toArray(new Integer[5])});
 	}
 
 	/** Method which is called by the FrontEnd whenever a grid tile is clicked */
