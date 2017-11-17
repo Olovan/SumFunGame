@@ -1,7 +1,7 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Observable;
-public class SumFunHighScore extends Observable implements Comparable {
+public class SumFunHighScore extends Observable implements Comparable<SumFunHighScore> {
      private String name;
      private String date;
      private int score;
@@ -36,8 +36,8 @@ public class SumFunHighScore extends Observable implements Comparable {
      }
      
      @Override
-     public int compareTo(Object highScore) {
-         int compareScore=((SumFunHighScore)highScore).getScore();
+     public int compareTo(SumFunHighScore highScore) {
+         int compareScore = highScore.getScore();
 
          return this.score - compareScore;
      }

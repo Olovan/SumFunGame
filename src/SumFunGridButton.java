@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 import java.util.Observer;
 import java.util.Observable;
 
+@SuppressWarnings("serial")
 public class SumFunGridButton extends JPanel implements Observer{
 	//Settings
 	private final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);

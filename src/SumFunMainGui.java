@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 
+@SuppressWarnings("serial")
 public class SumFunMainGui extends JFrame implements Observer{
 
 	private JPanel contentPane;
