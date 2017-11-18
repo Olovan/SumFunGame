@@ -34,6 +34,10 @@ public class SumFunHighScore extends Observable implements Comparable<SumFunHigh
      public String getName() {
        return name;
      }
+
+	 public String encodeToString() {
+		 return name + " " + score + " " + date;
+	 }
      
      @Override
      public int compareTo(SumFunHighScore highScore) {
