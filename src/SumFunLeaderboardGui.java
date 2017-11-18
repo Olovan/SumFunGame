@@ -58,9 +58,13 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	public void setLeaderboardScores(List<SumFunHighScore> scores) {
 		leaderboardList.setText("<html>");
 		for(SumFunHighScore score : scores) {
-			leaderboardList.setText(leaderboardList.getText() + score.encodeToString() + "<br>");
+			leaderboardList.setText(leaderboardList.getText() + printHighScore(score) + "<br>");
 		}
 		leaderboardList.setText(leaderboardList.getText() + "</html>");
+	}
+
+	private String printHighScore(SumFunHighScore score) {
+		return score.getName() + "&emsp;&emsp;" + score.getScore() + "&emsp;&emsp;" + score.getDate();
 	}
 
 	/** This won't show the leaderboard 
