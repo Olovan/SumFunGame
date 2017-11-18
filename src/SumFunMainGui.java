@@ -1,27 +1,27 @@
-import java.util.Observer;
-import java.util.Observable;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Color;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.JOptionPane;
-import javax.swing.Box;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
 public class SumFunMainGui extends JFrame implements Observer{
@@ -208,16 +208,20 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 	/**Allows the board to accept input again */
 	public void enableBoard() {
-		for(SumFunGridButton[] row : grid)
-			for(SumFunGridButton tile : row)
+		for(SumFunGridButton[] row : grid) {
+			for(SumFunGridButton tile : row) {
 				tile.enable();
+			}
+		}
 	}
 
 	/**Disables input from the board */
 	public void disableBoard() {
-		for(SumFunGridButton[] row : grid)
-			for(SumFunGridButton tile : row)
+		for(SumFunGridButton[] row : grid) {
+			for(SumFunGridButton tile : row) {
 				tile.disable();
+			}
+		}
 	}
 
 	/**Allows the refresh queue button to be clicked */
@@ -274,16 +278,21 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 	}
 
+	/** Controller class for Time Game Button */
 	private class TimedGameButtonController implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.TIMED);
 		}
 	}
+	
+	/** Controller class for Untimed Game Button */
 	private class UntimedGameButtonController implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.UNTIMED);
 		}
 	}
+	
+	/** Controller class for Refresh Queue Button */
 	private class RefreshQueueButtonController implements ActionListener, Observer {
 		private SumFunRuleSet rules;
 
@@ -298,6 +307,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 			}
 		}
 
+		// Keeps and up-to-date reference to the current ruleset so it sends the refresh command 
+		// to the current ruleset
 		public void update(Observable src, Object arg) {
 			Object[] args = (Object[])arg;
 			String msg = (String)args[0];

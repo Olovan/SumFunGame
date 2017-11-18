@@ -1,11 +1,10 @@
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 
 // This class contains the base ruleset for the game which includes things like tile placement logic and 
 // basic gameover logic
-public abstract class SumFunRuleSet extends Observable
-{
+public abstract class SumFunRuleSet extends Observable {
 	protected static final Integer[][] CHEATBOARD = new Integer[][]{
 		{ null, null, null, null, null, null, null, null, null }, 
 		{ null, null, null, null, null, null, null, null, null }, 
@@ -66,6 +65,10 @@ public abstract class SumFunRuleSet extends Observable
 	}
 
 	public void refreshQueue() {
+	  if(currentState != GameState.ACTIVE) {
+	    return;
+	  }
+	  
 		queue.clear();
 		fillQueue();
 		setChanged();

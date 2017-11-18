@@ -1,14 +1,15 @@
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Font;
+
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import java.awt.Component;
 
 @SuppressWarnings("serial")
 public class SumFunLeaderboardGui extends JFrame implements Observer {

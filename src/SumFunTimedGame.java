@@ -1,6 +1,6 @@
+import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.awt.event.ActionListener;
 
 class SumFunTimedGame extends SumFunRuleSet {
 	private int timeRemaining;

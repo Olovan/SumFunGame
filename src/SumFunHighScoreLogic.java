@@ -1,11 +1,11 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collections;
-import java.util.Observable;
 import java.nio.file.Files;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Observable;
 
 public class SumFunHighScoreLogic extends Observable{
 	private static final String fileName = "scores.txt";
