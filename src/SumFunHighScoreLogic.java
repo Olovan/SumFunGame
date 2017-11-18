@@ -14,40 +14,43 @@ public class SumFunHighScoreLogic extends Observable{
 
 	private SumFunHighScoreLogic() {
 		scores = new ArrayList<SumFunHighScore>();
+	}
+
+	public void loadFromFile() {
 		try {
 			List<String> lines = Files.readAllLines(new File(fileName).toPath());
 			for(String line : lines) {
-				scores.add(new SumFunHighScore(line));
+				instance.add(new SumFunHighScore(line));
 			}
-		} catch (Exception ignoredForNow) {
+		} catch (Exception e) {
 			System.out.print("Missing HighScore File");
 		}
-
 	}
 
 	public static SumFunHighScoreLogic getInstance() {
-		if(instance == null)
+		if(instance == null) {
 			instance = new SumFunHighScoreLogic();
+		}
 		return instance;
 	}
 
-	//TODO:method has to read from the file to stop it from deleting previous scores
-	//when reading from file, make sure that the amount of objects in the array is <= 10
 	public void add(SumFunHighScore newScore) {
-		if(newScore.getName() == null || newScore.getName().equals(""))
+		//Don't submit anything if the user didn't enter a name
+		if(newScore.getName() == null || newScore.getName().equals("")) {
 			return;
-		
+		}
+
+		//Add the new highscore to the list then sort it so the lowest highscores are at the bottom
+		//If we have over 10 highscores then cut off the lowest one at the bottom
 		scores.add(newScore);
 		Collections.sort(scores, Collections.reverseOrder());
-
 		if(scores.size() > 10) {
 			scores.remove(10);
 		}
-
 		setChanged();
 		notifyObservers(new Object[]{"HIGHSCORE_CHANGED", scores});
 
-
+		//Write new highscore list to file
 		PrintWriter writer;
 		try {
 			writer = new PrintWriter(fileName);

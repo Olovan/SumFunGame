@@ -1,8 +1,8 @@
 import java.util.Observable;
 
 class SumFunModelConfigurer extends Observable {
-	public final static int UNTIMED = 0;
-	public final static int TIMED = 1;
+	public static final int UNTIMED = 0;
+	public static final int TIMED = 1;
 	public SumFunRuleSet rules;
 	private static SumFunModelConfigurer instance;
 
@@ -10,14 +10,16 @@ class SumFunModelConfigurer extends Observable {
 	}
 
 	public static SumFunModelConfigurer getInstance() {
-		if(instance == null)
+		if(instance == null) {
 			instance = new SumFunModelConfigurer();
+		}
 		return instance;
 	}
 
 	public void startGame(int type) {
-		if(rules != null)
+		if(rules != null) {
 			rules.deleteObservers();
+		}
 
 		switch(type) {
 			case TIMED:

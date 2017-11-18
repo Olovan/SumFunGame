@@ -91,8 +91,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		countdownPanel.add(countdown);
 		countdown.setFont(new Font("Arial", Font.BOLD, 18));
 
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
-		rightPanel.add(verticalStrut_1);
+		rightPanel.add(Box.createVerticalStrut(20));
 
 		JPanel queuePanel = new JPanel();
 		rightPanel.add(queuePanel);
@@ -122,8 +121,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		rightPanel.add(newGamesPanel);
 		newGamesPanel.setLayout(new BoxLayout(newGamesPanel, BoxLayout.Y_AXIS));
 
-		Component verticalStrut_2 = Box.createVerticalStrut(50);
-		newGamesPanel.add(verticalStrut_2);
+		newGamesPanel.add(Box.createVerticalStrut(50));
 
 		btnNewTimedGame = new JButton("New Timed");
 		btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
@@ -202,19 +200,6 @@ public class SumFunMainGui extends JFrame implements Observer{
 		this.grid[row][col].setValue(value);
 	}
 
-	/**Locks the board and displays the game over Message */
-	public void gameLost() {
-		disableBoard();
-		JOptionPane.showMessageDialog(this, "Game Over. You Lose.");
-	}
-
-	/**Handles the event of winning by locking the board,
-	 * asking the player for their name and returning it */
-	public String gameWon() {
-		disableBoard();
-		return getName();
-	}
-
 	/**Gets the name of the user. If nothing is entered, returns empty string. */
 	public String getName() {
 		String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
@@ -253,14 +238,15 @@ public class SumFunMainGui extends JFrame implements Observer{
 	public void update(Observable src, Object arg) {
 		Object[] args = (Object[])arg;
 		String message = (String)args[0];
-		SumFunHighScoreLogic highScore = null;
-		
+
 		switch(message) {
 			case "GAMELOST":
-				gameLost();
+				disableBoard();
+				JOptionPane.showMessageDialog(this, "Game Over. You Lose.");
 				break;
 			case "GAMEWON":
-				highScore.getInstance().add(new SumFunHighScore(gameWon(), Integer.parseInt(lblScore.getText())));
+				disableBoard();
+				SumFunHighScoreLogic.getInstance().add(new SumFunHighScore(getName(), Integer.parseInt(lblScore.getText())));
 				break;
 			case "MOVES_REMAINING":
 				setCountdownName("Moves Remaining: ");
@@ -290,12 +276,12 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 	private class TimedGameButtonController implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.TIMED);
+			SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.TIMED);
 		}
 	}
 	private class UntimedGameButtonController implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-				SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.UNTIMED);
+			SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.UNTIMED);
 		}
 	}
 	private class RefreshQueueButtonController implements ActionListener, Observer {

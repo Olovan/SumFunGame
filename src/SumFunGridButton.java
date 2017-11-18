@@ -15,16 +15,17 @@ import java.util.Observable;
 @SuppressWarnings("serial")
 public class SumFunGridButton extends JPanel implements Observer{
 	//Settings
-	private final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
-	private final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
-	private final Color DISABLED_COLOR = new Color(0xD0D0D0);
-	private final int FONT_SIZE = 34;
+	private static final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
+	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
+	private static final Color DISABLED_COLOR = new Color(0xD0D0D0);
+	private static final int FONT_SIZE = 34;
 	
 	private Color currentBackgroundColor;
 	private SumFunRuleSet ruleSet;
 	
 	public JLabel text;
-	public int row, col;
+	public int row; 
+	public int col;
 	private boolean enabled = true;
 	
 	/** Instantiates Grid button and all of its members/listeners */
@@ -51,10 +52,11 @@ public class SumFunGridButton extends JPanel implements Observer{
 	/**Sets the Grid Tile's string to match the input value
 	 * A null value results in an empty tile */
 	public void setValue(Integer val) {
-		if(val != null)
+		if(val != null) {
 			text.setText(val.toString());
-		else
+		}  else {
 			text.setText("");
+		}
 	}
 
 	/** Enables the tile allowing it to respond to mouse input */
@@ -89,20 +91,24 @@ public class SumFunGridButton extends JPanel implements Observer{
 	/** Controller for Board Tiles */
 	private class TileController implements MouseListener{
 		public void mouseClicked(MouseEvent e) {
-				if(!enabled)
-					return;
+				if(!enabled) {
+				  return;
+				  }
 				// Report Mouse Click to Backend
-				if(ruleSet != null)
+				if(ruleSet != null) {
 					ruleSet.gridAction(row, col);
+				}
 		}
 		public void mouseEntered(MouseEvent e) {
-				if(!enabled)
+				if(!enabled) {
 					return;
+				}
 				setBackground(MOUSEOVER_COLOR);
 		}
 		public void mouseExited(MouseEvent e) {
-				if(!enabled)
+				if(!enabled) {
 					return;
+				}
 				setBackground(currentBackgroundColor);
 		}
 		public void mousePressed(MouseEvent e) {

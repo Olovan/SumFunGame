@@ -21,8 +21,8 @@ public abstract class SumFunRuleSet extends Observable
 	protected enum GameState { ACTIVE, ENDED }
 
 	//SETTINGS for easy tweaking
-	protected final int BOARD_SIZE = 9;
-	protected final int QUEUE_SIZE = 5;
+	protected static final int BOARD_SIZE = 9;
+	protected static final int QUEUE_SIZE = 5;
 
 	protected GameState currentState;
 	protected Random rand;
@@ -60,8 +60,9 @@ public abstract class SumFunRuleSet extends Observable
 
 	/** generates random numbers and inserts them into the queue until the queue has 5 elements */
 	protected void fillQueue() {
-		while(queue.size() < QUEUE_SIZE)
+		while(queue.size() < QUEUE_SIZE) {
 			queue.add(rand.nextInt(10));
+		}
 	}
 
 	public void refreshQueue() {
@@ -74,10 +75,14 @@ public abstract class SumFunRuleSet extends Observable
 	/** Method which is called by the FrontEnd whenever a grid tile is clicked */
 	public void gridAction(int row, int col) {
 		// Ignore clicks if the game is not running
-		if(currentState != GameState.ACTIVE) { return; }
+		if(currentState != GameState.ACTIVE) { 
+		  return; 
+		  }
 
 		// Ignores clicks on populated tiles for now
-		if (board[row][col] != null) { return; }
+		if (board[row][col] != null) { 
+		  return; 
+		  }
 
 		placeTileOntoBoard(row, col);
 		setChanged();
@@ -101,8 +106,9 @@ public abstract class SumFunRuleSet extends Observable
 
 	/** Calculates how many points you would gain if you placed the given value at the given coordinate */
 	protected int calculateScoreForTilePlacement(int value, int row, int col) {
-		if(sumNeighbors(row, col) % 10 != value)
+		if(sumNeighbors(row, col) % 10 != value) {
 			return 0;
+		}
 
 		return sumNeighbors(row, col) + value + bonusPoints(countNeighbors(row, col));
 	}
@@ -128,8 +134,9 @@ public abstract class SumFunRuleSet extends Observable
 	protected int bonusPoints(int tilesRemoved) {
 		int bonusPoints = 0;
 
-		if (tilesRemoved >= 3)
+		if (tilesRemoved >= 3) {
 			bonusPoints = 10 * tilesRemoved;
+		}
 
 		return bonusPoints;
 	}
@@ -187,8 +194,9 @@ public abstract class SumFunRuleSet extends Observable
 	protected boolean isBoardEmpty() {
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
-				if (board[i][j] != null)
+				if (board[i][j] != null) {
 					return false;
+				}
 			}
 		}
 		return true;
@@ -198,8 +206,9 @@ public abstract class SumFunRuleSet extends Observable
 	protected boolean isBoardFull() {
 		for (int i = 0; i < BOARD_SIZE; i++) {
 			for (int j = 0; j < BOARD_SIZE; j++) {
-				if (board[i][j] == null)
+				if (board[i][j] == null) {
 					return false;
+				}
 			}
 		}
 		return true;
@@ -207,18 +216,20 @@ public abstract class SumFunRuleSet extends Observable
 
 	/** Returns true if the row/column combination is within bounds */
 	protected boolean isValidCoordinate(int r, int c) {
-		if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE)
+		if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/** Returns true if the coordinate on the grid is occupied */
 	protected boolean isOccupiedTile(int r, int c) {
-		if(isValidCoordinate(r, c) && board[r][c] != null)
+		if(isValidCoordinate(r, c) && board[r][c] != null) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	public Integer[][] getBoard() {

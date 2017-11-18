@@ -4,18 +4,18 @@ import java.awt.event.ActionListener;
 
 class SumFunTimedGame extends SumFunRuleSet {
 	private int timeRemaining;
-	private Timer t;
+	private Timer timer;
 
 	public SumFunTimedGame() {
 		super();
-		t = new Timer();
+		timer = new Timer();
 		timeRemaining = 180;
 	}
 
 	@Override
 	public void startGame() {
 		super.startGame();
-		t.schedule(new TickTask(), 1000, 1000);
+		timer.schedule(new TickTask(), 1000, 1000);
 		setChanged();
 		notifyObservers(new Object[]{"TIME_REMAINING", timeRemaining});
 	}
@@ -23,7 +23,7 @@ class SumFunTimedGame extends SumFunRuleSet {
 	@Override
 	protected void checkGameOver() {
 		if(isBoardFull())  {
-			t.cancel();
+			timer.cancel();
 			gameLost();
 		} else if(isBoardEmpty()) {
 			gameWon();
@@ -37,7 +37,7 @@ class SumFunTimedGame extends SumFunRuleSet {
 			notifyObservers(new Object[]{"TIME_REMAINING", timeRemaining});
 			if(timeRemaining <= 0) {
 				gameLost();
-				t.cancel();
+				timer.cancel();
 			}
 		}
 	}

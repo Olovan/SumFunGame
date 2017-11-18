@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Component;
 
+@SuppressWarnings("serial")
 public class SumFunLeaderboardGui extends JFrame implements Observer {
 
 	private JPanel contentPane;
@@ -44,14 +45,12 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	}
 
 	/** Enables visibility of the leaderboard */
-	public void showLeaderboard()
-	{
+	public void showLeaderboard() {
 		setVisible(true);
 	}
 
 	/** Disables visibility of the leaderboard */
-	public void hideLeaderboard()
-	{
+	public void hideLeaderboard() {
 		setVisible(false);
 	}
 
@@ -69,10 +68,10 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 
 	/** This won't show the leaderboard 
 	  Can LeaderboardGUI listen for the same message as MainGUI? */
+	@SuppressWarnings("unchecked")
 	public void update(Observable src, Object arg) {
 		Object[] args = (Object[])arg;
 		String message = (String)args[0];
-		SumFunHighScoreLogic highScore = null;
 
 		switch(message) {
 			case "GAMEWON":
