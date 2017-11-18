@@ -34,8 +34,9 @@ public class SumFunHighScoreLogic extends Observable{
 	//TODO:method has to read from the file to stop it from deleting previous scores
 	//when reading from file, make sure that the amount of objects in the array is <= 10
 	public void add(SumFunHighScore newScore) {
-		//wouldn't the issue be that a new arraylist is being created every time we call the program?
-		//since we are instantiating a new SumFunHighScoreLogic everytime we boot up the system? 
+		if(newScore.getName() == null || newScore.getName().equals(""))
+			return;
+		
 		scores.add(newScore);
 		Collections.sort(scores, Collections.reverseOrder());
 
