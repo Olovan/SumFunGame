@@ -64,7 +64,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	}
 
 	private String printHighScore(SumFunHighScore score) {
-		return score.getName() + "&emsp;&emsp;" + score.getScore() + "&emsp;&emsp;" + score.getDate();
+		return String.format("<tr><td align='right'>%s</td><td></td><td>%d</td></td><td>%s</td></tr>", score.getName(), score.getScore(), score.getDate());
 	}
 
 	/** This won't show the leaderboard 
