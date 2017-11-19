@@ -1,16 +1,4 @@
 class SumFunUntimedGame extends SumFunRuleSet{
-	private static final Integer[][] CHEATBOARD = new Integer[][]{
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, 1, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null } 
-	};
-
 	private static final int INITIAL_MOVE_COUNT = 50;
 	private int movesRemaining;
 
@@ -22,18 +10,9 @@ class SumFunUntimedGame extends SumFunRuleSet{
 	public void startGame() {
 		super.startGame();
 		movesRemaining = INITIAL_MOVE_COUNT;
-		setChanged();
-		notifyObservers(new Object[]{"MOVES_REMAINING", movesRemaining});
+		sendDataToObservers("MOVES_REMAINING");
 
-		//ENABLE CHEATS
-		board = new Integer[9][9];
-		for(int i = 0; i < 9; i++) {
-			for(int j = 0; j < 9; j++) {
-				board[i][j] = CHEATBOARD[i][j];
-			}
-		}
-		queue.set(0, 1);
-		sendDataToObservers("ALL");
+		enableCheats();
 	}
 
 	@Override
@@ -41,8 +20,7 @@ class SumFunUntimedGame extends SumFunRuleSet{
 		super.placeTileOntoBoard(row, col);
 
 		movesRemaining--;
-		setChanged();
-		notifyObservers(new Object[]{"MOVES_REMAINING", movesRemaining});
+		sendDataToObservers("MOVES_REMAINING");
 	}
 
 	@Override
@@ -50,6 +28,20 @@ class SumFunUntimedGame extends SumFunRuleSet{
 		super.checkGameOver();
 		if(currentState == GameState.ACTIVE && movesRemaining <= 0) {
 			gameLost();
+		}
+	}
+
+	@Override
+	protected void sendDataToObservers(String msg) {
+		setChanged();
+		switch(msg) {
+			case "MOVES_REMAINING":
+				notifyObservers(new Object[]{"MOVES_REMAINING", movesRemaining});
+				break;
+			//If the message is not specific to UntimedGame then let the parent class handle it
+			default:
+				super.sendDataToObservers(msg);
+				break;
 		}
 	}
 }

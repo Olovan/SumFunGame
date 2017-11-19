@@ -18,6 +18,8 @@ class SumFunTimedGame extends SumFunRuleSet {
 		timer.schedule(new TickTask(), 1000, 1000);
 		setChanged();
 		notifyObservers(new Object[]{"TIME_REMAINING", timeRemaining});
+
+		enableCheats();
 	}
 
 	@Override
@@ -26,6 +28,7 @@ class SumFunTimedGame extends SumFunRuleSet {
 			timer.cancel();
 			gameLost();
 		} else if(isBoardEmpty()) {
+			timer.cancel();
 			gameWon();
 		}
 	}
@@ -33,12 +36,25 @@ class SumFunTimedGame extends SumFunRuleSet {
 	private class TickTask extends TimerTask {
 		public void run() {
 			timeRemaining--;
-			setChanged();
-			notifyObservers(new Object[]{"TIME_REMAINING", timeRemaining});
+			sendDataToObservers("TIME_REMAINING");
 			if(timeRemaining <= 0) {
 				gameLost();
 				timer.cancel();
 			}
+		}
+	}
+
+	@Override
+	protected void sendDataToObservers(String msg) {
+		setChanged();
+		switch(msg) {
+			case "TIME_REMAINING":
+				notifyObservers(new Object[]{"TIME_REMAINING", timeRemaining});
+				break;
+			//If the message is not specific to TimedGame then let the parent class handle it
+			default:
+				super.sendDataToObservers(msg);
+				break;
 		}
 	}
 }

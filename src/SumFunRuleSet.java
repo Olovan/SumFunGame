@@ -5,18 +5,6 @@ import java.util.Random;
 // This class contains the base ruleset for the game which includes things like tile placement logic and 
 // basic gameover logic
 public abstract class SumFunRuleSet extends Observable {
-	protected static final Integer[][] CHEATBOARD = new Integer[][]{
-		{ null, null, null, null, null, null, null, null, null }, 
-			{ null, null, null, null, null, null, null, null, null }, 
-			{ null, null, null, null, null, null, null, null, null }, 
-			{ null, null, null, null, null, null, null, null, null }, 
-			{ null, null, null, null, 1, null, null, null, null }, 
-			{ null, null, null, null, null, null, null, null, null }, 
-			{ null, null, null, null, null, null, null, null, null }, 
-			{ null, null, null, null, null, null, null, null, null }, 
-			{ null, null, null, null, null, null, null, null, null } 
-	};
-
 	protected enum GameState { ACTIVE, ENDED }
 
 	//SETTINGS for easy tweaking
@@ -43,6 +31,23 @@ public abstract class SumFunRuleSet extends Observable {
 		score = 0;
 		board = generateRandomBoard();
 		currentState = GameState.ACTIVE;
+		sendDataToObservers("ALL");
+	}
+
+	//Set board and queue so that the game can be won in 1 move
+	public void enableCheats() {
+		board = new Integer[][]{
+			{ null, null, null, null, null, null, null, null, null }, 
+				{ null, null, null, null, null, null, null, null, null }, 
+				{ null, null, null, null, null, null, null, null, null }, 
+				{ null, null, null, null, null, null, null, null, null }, 
+				{ null, null, null, null, 1, null, null, null, null }, 
+				{ null, null, null, null, null, null, null, null, null }, 
+				{ null, null, null, null, null, null, null, null, null }, 
+				{ null, null, null, null, null, null, null, null, null }, 
+				{ null, null, null, null, null, null, null, null, null } 
+		};
+		queue.set(0, 1);
 		sendDataToObservers("ALL");
 	}
 
@@ -247,7 +252,7 @@ public abstract class SumFunRuleSet extends Observable {
 		return score;
 	}
 
-	public void sendDataToObservers(String msg) {
+	protected void sendDataToObservers(String msg) {
 		setChanged();
 		switch(msg) {
 			case "ALL":
@@ -257,6 +262,7 @@ public abstract class SumFunRuleSet extends Observable {
 				notifyObservers(new Object[]{"QUEUE_CHANGED", queue.toArray(new Integer[5])});
 				break;
 			default:
+				notifyObservers(new Object[]{msg});
 				break;
 		}
 	}
