@@ -254,16 +254,16 @@ public abstract class SumFunRuleSet extends Observable {
 		setChanged();
 		switch(msg) {
 			case "ALL":
-				notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score, scoreFromLastAction});
+				notifyObservers(new Object[]{msg, board, queue.toArray(new Integer[5]), score, scoreFromLastAction});
 				break;
 			case "QUEUE_CHANGED":
-				notifyObservers(new Object[]{"QUEUE_CHANGED", queue.toArray(new Integer[5])});
+				notifyObservers(new Object[]{msg, queue.toArray(new Integer[5])});
 				break;
 			case "GAMEWON":
-				notifyObservers(new Object[]{"GAMELOST"});
+				notifyObservers(new Object[]{msg});
 				break;
 			case "GAMELOST":
-				notifyObservers(new Object[]{"GAMELOST"});
+				notifyObservers(new Object[]{msg});
 				break;
 			default:
 				notifyObservers(new Object[]{msg});
