@@ -1,6 +1,5 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -53,7 +52,6 @@ public class SumFunGridButton extends JPanel {
 	}
 
 	/** Enables the tile allowing it to respond to mouse input */
-	@SuppressWarnings("deprecation")
 	public void enable() {
 		currentBackgroundColor = BACKGROUND_COLOR;
 		setBackground(BACKGROUND_COLOR);
@@ -62,7 +60,6 @@ public class SumFunGridButton extends JPanel {
 
 	/** Disables the tile preventing it from responding to mouse input
 	 *  Changes the tile's background to indicate that it is disabled */
-	@SuppressWarnings("deprecation")
 	public void disable() {
 		currentBackgroundColor = DISABLED_COLOR;
 		setBackground(DISABLED_COLOR);

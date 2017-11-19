@@ -99,7 +99,6 @@ public abstract class SumFunRuleSet extends Observable {
 	/** Places a tile from the top of the queue onto the board at the selected location */
 	protected void placeTileOntoBoard(int row, int col) {
 		int boundarySum = sumNeighbors(row, col);
-		int neighbors = countNeighbors(row, col);
 		scoreFromLastAction = 0;
 
 		board[row][col] = queue.remove(0);

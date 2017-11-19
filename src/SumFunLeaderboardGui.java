@@ -3,11 +3,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -76,7 +74,6 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	}
 
 	/** */
-	@SuppressWarnings("unchecked")
 	public void update(Observable src, Object arg) {
 		Object[] args = (Object[])arg;
 		String message = (String)args[0];
