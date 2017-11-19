@@ -13,42 +13,35 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
-public class SumFunGridButton extends JPanel implements Observer{
+public class SumFunGridButton extends JPanel {
 	//Settings
 	private static final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
 	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 	private static final Color DISABLED_COLOR = new Color(0xD0D0D0);
 	private static final int FONT_SIZE = 34;
-	
+
 	private Color currentBackgroundColor;
-	private SumFunRuleSet ruleSet;
-	
+
 	public JLabel text;
-	public int row; 
-	public int col;
 	private boolean enabled = true;
-	
+
 	/** Instantiates Grid button and all of its members/listeners */
 	public SumFunGridButton(int row, int col) {
-		this.row = row;
-		this.col = col;
-
 		currentBackgroundColor = BACKGROUND_COLOR;
-		
+
 		setLayout(new BorderLayout());
 		setBackground(BACKGROUND_COLOR);
 		setBorder(new LineBorder(new Color(0, 0, 0)));
-		
+
 		text = new JLabel();
 		text.setFont(new Font("Arial", Font.BOLD, FONT_SIZE));
 		text.setVerticalAlignment(JLabel.CENTER);
 		text.setHorizontalAlignment(JLabel.CENTER);
 		add(text, BorderLayout.CENTER);
-		
-		addMouseListener(new TileController());	
-		SumFunModelConfigurer.getInstance().addObserver(this);
+
+		addMouseListener(new TileController(row, col));	
 	}
-	
+
 	/**Sets the Grid Tile's string to match the input value
 	 * A null value results in an empty tile */
 	public void setValue(Integer val) {
@@ -76,44 +69,54 @@ public class SumFunGridButton extends JPanel implements Observer{
 		enabled = false;
 	}
 
-	public void update(Observable src, Object arg) {
-		Object[] args = (Object[])arg;
-		String msg = (String)args[0];
-		switch(msg) {
-			case "RULESET_CHANGED":
-				ruleSet = (SumFunRuleSet)args[1];
-				break;
-			default:
-				break;
-		}
-	}
 
 	/** Controller for Board Tiles */
-	private class TileController implements MouseListener{
+	private class TileController implements MouseListener, Observer{
+		private SumFunRuleSet ruleSet;
+		private int row;
+		private int col;
+
+		public TileController(int row, int col) {
+			this.row = row;
+			this.col = col;
+			SumFunModelConfigurer.getInstance().addObserver(this);
+		}
+
 		public void mouseClicked(MouseEvent e) {
-				if(!enabled) {
-				  return;
-				  }
-				// Report Mouse Click to Backend
-				if(ruleSet != null) {
-					ruleSet.gridAction(row, col);
-				}
+			if(!enabled) {
+				return;
+			}
+			// Report Mouse Click to Backend
+			if(ruleSet != null) {
+				ruleSet.gridAction(row, col);
+			}
 		}
 		public void mouseEntered(MouseEvent e) {
-				if(!enabled) {
-					return;
-				}
-				setBackground(MOUSEOVER_COLOR);
+			if(!enabled) {
+				return;
+			}
+			setBackground(MOUSEOVER_COLOR);
 		}
 		public void mouseExited(MouseEvent e) {
-				if(!enabled) {
-					return;
-				}
-				setBackground(currentBackgroundColor);
+			if(!enabled) {
+				return;
+			}
+			setBackground(currentBackgroundColor);
 		}
 		public void mousePressed(MouseEvent e) {
 		}
 		public void mouseReleased(MouseEvent e) {
+		}
+		public void update(Observable src, Object arg) {
+			Object[] args = (Object[])arg;
+			String msg = (String)args[0];
+			switch(msg) {
+				case "RULESET_CHANGED":
+					ruleSet = (SumFunRuleSet)args[1];
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }
