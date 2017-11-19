@@ -111,8 +111,13 @@ public abstract class SumFunRuleSet extends Observable {
 		}
 	}
 
+	/** Calculates how many points you would gain if you placed the top of the queue at the given coordinate */
+	public int calculateScoreForTilePlacement(int row, int col) {
+		return calculateScoreForTilePlacement(queue.get(0), row, col);
+	}
+	
 	/** Calculates how many points you would gain if you placed the given value at the given coordinate */
-	protected int calculateScoreForTilePlacement(int value, int row, int col) {
+	public int calculateScoreForTilePlacement(int value, int row, int col) {
 		if(sumNeighbors(row, col) % 10 != value) {
 			return 0;
 		}
