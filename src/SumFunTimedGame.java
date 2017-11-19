@@ -16,10 +16,7 @@ class SumFunTimedGame extends SumFunRuleSet {
 	public void startGame() {
 		super.startGame();
 		timer.schedule(new TickTask(), 1000, 1000);
-		setChanged();
-		notifyObservers(new Object[]{"TIME_REMAINING", timeRemaining});
-
-		enableCheats();
+		sendDataToObservers("TIME_REMAINING");
 	}
 
 	@Override

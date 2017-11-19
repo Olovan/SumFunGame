@@ -188,14 +188,12 @@ public abstract class SumFunRuleSet extends Observable {
 	/** Player loses the game */
 	protected void gameLost() {
 		currentState = GameState.ENDED;
-		setChanged();
-		notifyObservers(new Object[]{"GAMELOST"});
+		sendDataToObservers("GAMELOST");
 	}
 
 	protected void gameWon() {
 		currentState = GameState.ENDED;
-		setChanged();
-		notifyObservers(new Object[]{"GAMEWON"});
+		sendDataToObservers("GAMEWON");
 	}
 
 	/** returns true if the board is empty */
@@ -260,6 +258,12 @@ public abstract class SumFunRuleSet extends Observable {
 				break;
 			case "QUEUE_CHANGED":
 				notifyObservers(new Object[]{"QUEUE_CHANGED", queue.toArray(new Integer[5])});
+				break;
+			case "GAMEWON":
+				notifyObservers(new Object[]{"GAMELOST"});
+				break;
+			case "GAMELOST":
+				notifyObservers(new Object[]{"GAMELOST"});
 				break;
 			default:
 				notifyObservers(new Object[]{msg});
