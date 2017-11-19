@@ -174,6 +174,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 		pack();
 
+		disableBoard();
 		SumFunModelConfigurer.getInstance().addObserver(this);
 	}
 
@@ -237,6 +238,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 	/**Disables input from the board */
 	public void disableBoard() {
+		btnRefresh.setEnabled(false);
 		for(SumFunGridButton[] row : grid) {
 			for(SumFunGridButton tile : row) {
 				tile.disable();
