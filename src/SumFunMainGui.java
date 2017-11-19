@@ -157,7 +157,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		grid = new SumFunGridButton[9][9];
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
-				grid[i][j] = new SumFunGridButton(i, j);
+				grid[i][j] = new SumFunGridButton(i, j, SumFunModelConfigurer.getInstance());
 				gridPanel.add(grid[i][j]);
 			}
 		}
@@ -221,12 +221,6 @@ public class SumFunMainGui extends JFrame implements Observer{
 		this.grid[row][col].setValue(value);
 	}
 
-	/**Gets the name of the user. If nothing is entered, returns empty string. */
-	public String getName() {
-		String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
-		return name;
-	}
-
 	/**Allows the board to accept input again */
 	public void enableBoard() {
 		for(SumFunGridButton[] row : grid) {
@@ -272,7 +266,6 @@ public class SumFunMainGui extends JFrame implements Observer{
 				break;
 			case "GAMEWON":
 				disableBoard();
-				SumFunHighScoreLogic.getInstance().add(getName(), Integer.parseInt(lblScore.getText()));
 				break;
 			case "MOVES_REMAINING":
 				setCountdownName("Moves Remaining: ");

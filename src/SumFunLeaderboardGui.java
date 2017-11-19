@@ -10,6 +10,7 @@ import java.util.Observer;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -82,6 +83,8 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 
 		switch(message) {
 			case "GAMEWON":
+				String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
+				SumFunHighScoreLogic.getInstance().add(name, (int)args[1]);
 				showLeaderboard();
 				break;
 			case "RULESET_CHANGED":

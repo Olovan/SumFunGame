@@ -26,7 +26,7 @@ public class SumFunGridButton extends JPanel {
 	private boolean enabled = true;
 
 	/** Instantiates Grid button and all of its members/listeners */
-	public SumFunGridButton(int row, int col) {
+	public SumFunGridButton(int row, int col, Observable configurer) {
 		currentBackgroundColor = BACKGROUND_COLOR;
 
 		setLayout(new BorderLayout());
@@ -39,7 +39,7 @@ public class SumFunGridButton extends JPanel {
 		text.setHorizontalAlignment(JLabel.CENTER);
 		add(text, BorderLayout.CENTER);
 
-		addMouseListener(new TileController(row, col));	
+		addMouseListener(new TileController(row, col, configurer));	
 	}
 
 	/**Sets the Grid Tile's string to match the input value
@@ -76,10 +76,10 @@ public class SumFunGridButton extends JPanel {
 		private int row;
 		private int col;
 
-		public TileController(int row, int col) {
+		public TileController(int row, int col, Observable configurer) {
 			this.row = row;
 			this.col = col;
-			SumFunModelConfigurer.getInstance().addObserver(this);
+			configurer.addObserver(this);
 		}
 
 		public void mouseClicked(MouseEvent e) {

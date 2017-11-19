@@ -248,7 +248,7 @@ public abstract class SumFunRuleSet extends Observable {
 				notifyObservers(new Object[]{msg, queue.toArray(new Integer[5])});
 				break;
 			case "GAMEWON":
-				notifyObservers(new Object[]{msg});
+				notifyObservers(new Object[]{msg, score});
 				break;
 			case "GAMELOST":
 				notifyObservers(new Object[]{msg});
