@@ -5,3 +5,5 @@ bin/*
 /bin/
 *.jar
 scores.txt
+*.ucls
+*.png

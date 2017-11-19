@@ -11,6 +11,7 @@ class SumFunUntimedGame extends SumFunRuleSet{
 		super.startGame();
 		movesRemaining = INITIAL_MOVE_COUNT;
 		sendDataToObservers("MOVES_REMAINING");
+		enableCheats();
 	}
 
 	@Override

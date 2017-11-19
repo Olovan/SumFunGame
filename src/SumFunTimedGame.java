@@ -30,17 +30,6 @@ class SumFunTimedGame extends SumFunRuleSet {
 		}
 	}
 
-	private class TickTask extends TimerTask {
-		public void run() {
-			timeRemaining--;
-			sendDataToObservers("TIME_REMAINING");
-			if(timeRemaining <= 0) {
-				gameLost();
-				timer.cancel();
-			}
-		}
-	}
-
 	@Override
 	protected void sendDataToObservers(String msg) {
 		setChanged();
@@ -52,6 +41,18 @@ class SumFunTimedGame extends SumFunRuleSet {
 			default:
 				super.sendDataToObservers(msg);
 				break;
+		}
+	}
+
+	/* Internal class which contains the task to decrement the timer by 1 second */
+	private class TickTask extends TimerTask {
+		public void run() {
+			timeRemaining--;
+			sendDataToObservers("TIME_REMAINING");
+			if(timeRemaining <= 0) {
+				gameLost();
+				timer.cancel();
+			}
 		}
 	}
 }

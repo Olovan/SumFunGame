@@ -26,12 +26,30 @@ public class SumFunHighScoreLogic extends Observable{
 			System.out.print("Missing HighScore File");
 		}
 	}
+	
+	private void writeToFile() {
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter(fileName);
+			for(SumFunHighScore high: scores) {
+				writer.println(high.getName() + " " + high.getScore() + " " + high.getDate());
+			}
+			writer.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("The file was not found and could not be created.");
+		}
+	}
 
 	public static SumFunHighScoreLogic getInstance() {
 		if(instance == null) {
 			instance = new SumFunHighScoreLogic();
 		}
 		return instance;
+	}
+
+	public void add(String name, int score) {
+		SumFunHighScore newScore = new SumFunHighScore(name, score);
+		add(newScore);
 	}
 
 	public void add(SumFunHighScore newScore) {
@@ -47,19 +65,21 @@ public class SumFunHighScoreLogic extends Observable{
 		if(scores.size() > 10) {
 			scores.remove(10);
 		}
+		
 		setChanged();
-		notifyObservers(new Object[]{"HIGHSCORE_CHANGED", scores});
+		notifyObservers(new Object[]{"HIGHSCORE_CHANGED", encodeScoresToStringArrays()});
 
-		//Write new highscore list to file
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(fileName);
-			for(SumFunHighScore high: scores) {
-				writer.println(high.getName() + " " + high.getScore() + " " + high.getDate());
-			}
-			writer.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("The file was not found and could not be created.");
+		writeToFile();
+	}
+	
+	//Encodes scores to string arrays to reduce Coupling with HighScore class
+	private String[][] encodeScoresToStringArrays() {
+		String[][] scoreStrings = new String[scores.size()][3];
+		for(int i = 0; i < scores.size(); i++) {
+			scoreStrings[i][0] = scores.get(i).getName();
+			scoreStrings[i][1] = "" + scores.get(i).getScore();
+			scoreStrings[i][2] = scores.get(i).getDate();
 		}
+		return scoreStrings;
 	}
 }

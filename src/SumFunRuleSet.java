@@ -38,14 +38,14 @@ public abstract class SumFunRuleSet extends Observable {
 	public void enableCheats() {
 		board = new Integer[][]{
 			{ null, null, null, null, null, null, null, null, null }, 
-				{ null, null, null, null, null, null, null, null, null }, 
-				{ null, null, null, null, null, null, null, null, null }, 
-				{ null, null, null, null, null, null, null, null, null }, 
-				{ null, null, null, null, 1, null, null, null, null }, 
-				{ null, null, null, null, null, null, null, null, null }, 
-				{ null, null, null, null, null, null, null, null, null }, 
-				{ null, null, null, null, null, null, null, null, null }, 
-				{ null, null, null, null, null, null, null, null, null } 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, 1, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null } 
 		};
 		queue.set(0, 1);
 		sendDataToObservers("ALL");
@@ -238,18 +238,6 @@ public abstract class SumFunRuleSet extends Observable {
 		}
 	}
 
-	public Integer[][] getBoard() {
-		return board;
-	}
-
-	public Integer[] getQueue() {
-		return queue.toArray(new Integer[5]);
-	}
-
-	public int getScore() {
-		return score;
-	}
-
 	protected void sendDataToObservers(String msg) {
 		setChanged();
 		switch(msg) {
@@ -269,6 +257,22 @@ public abstract class SumFunRuleSet extends Observable {
 				notifyObservers(new Object[]{msg});
 				break;
 		}
+	}
+
+	public static SumFunRuleSet createGame(int type) {
+		SumFunRuleSet newGame = null;
+		switch(type) {
+			case SumFunModelConfigurer.TIMED:
+				newGame = new SumFunTimedGame();
+				break;
+			case SumFunModelConfigurer.UNTIMED:
+				newGame = new SumFunUntimedGame();
+				break;
+			default:
+				break;
+		}
+
+		return newGame;
 	}
 }
 

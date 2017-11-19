@@ -272,7 +272,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 				break;
 			case "GAMEWON":
 				disableBoard();
-				SumFunHighScoreLogic.getInstance().add(new SumFunHighScore(getName(), Integer.parseInt(lblScore.getText())));
+				SumFunHighScoreLogic.getInstance().add(getName(), Integer.parseInt(lblScore.getText()));
 				break;
 			case "MOVES_REMAINING":
 				setCountdownName("Moves Remaining: ");

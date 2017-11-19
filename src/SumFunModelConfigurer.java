@@ -16,6 +16,12 @@ class SumFunModelConfigurer extends Observable {
 		return instance;
 	}
 
+	/** Used to perform any backend tasks that need to be done at startup 
+	 *  after listeners have been hooked up */
+	public void initializeBackend() {
+		SumFunHighScoreLogic.getInstance().loadFromFile();
+	}
+
 	public void startGame(int type) {
 		if(rules != null) {
 			rules.deleteObservers();
@@ -23,13 +29,13 @@ class SumFunModelConfigurer extends Observable {
 
 		switch(type) {
 			case TIMED:
-				rules = new SumFunTimedGame();
+				rules = SumFunRuleSet.createGame(type);
 				break;
 			case UNTIMED:
-				rules = new SumFunUntimedGame();
+				rules = SumFunRuleSet.createGame(type);
 				break;
 			default:
-				rules = new SumFunUntimedGame();
+				rules = SumFunRuleSet.createGame(UNTIMED);
 				break;
 		}
 		setChanged();

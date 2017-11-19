@@ -47,6 +47,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 
 		SumFunModelConfigurer.getInstance().addObserver(this);
 		SumFunHighScoreLogic.getInstance().addObserver(this);
+		SumFunHighScoreLogic.getInstance().loadFromFile();
 
 		pack();
 	}
@@ -61,20 +62,19 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		setVisible(false);
 	}
 
-	public void setLeaderboardScores(List<SumFunHighScore> scores) {
+	public void setLeaderboardScores(String[][] scores) {
 		leaderboardList.setText("<html>");
-		for(SumFunHighScore score : scores) {
+		for(String[] score : scores) {
 			leaderboardList.setText(leaderboardList.getText() + printHighScore(score) + "<br>");
 		}
 		leaderboardList.setText(leaderboardList.getText() + "</html>");
 	}
 
-	private String printHighScore(SumFunHighScore score) {
-		return String.format("<tr><td align='left'>%s</td><td color=blue>&emsp;&emsp;<font size=\"5\">%d</font>&emsp;&emsp;<td>%s</td></tr>", score.getName(), score.getScore(), score.getDate());
+	private String printHighScore(String[] score) {
+		return String.format("<tr><td align='left'>%s</td><td color=blue>&emsp;&emsp;<font size=\"5\">%s</font>&emsp;&emsp;<td>%s</td></tr>", score[0], score[1], score[2]);
 	}
 
-	/** This won't show the leaderboard 
-	  Can LeaderboardGUI listen for the same message as MainGUI? */
+	/** */
 	@SuppressWarnings("unchecked")
 	public void update(Observable src, Object arg) {
 		Object[] args = (Object[])arg;
@@ -88,7 +88,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 				((Observable)args[1]).addObserver(this);
 				break;
 			case "HIGHSCORE_CHANGED":
-				List<SumFunHighScore> scores = (List<SumFunHighScore>)args[1];
+				String[][] scores = (String[][])args[1];
 				setLeaderboardScores(scores);
 				break;
 			default:
