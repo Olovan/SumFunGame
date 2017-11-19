@@ -25,7 +25,7 @@ class SumFunUntimedGame extends SumFunRuleSet{
 	@Override
 	protected void checkGameOver() {
 		super.checkGameOver();
-		if(currentState == GameState.ACTIVE && movesRemaining <= 0) {
+		if(movesRemaining <= 0) {
 			gameLost();
 		}
 	}
