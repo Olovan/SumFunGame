@@ -137,7 +137,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		rightPanel.add(newGamesPanel);
 		newGamesPanel.setLayout(new BoxLayout(newGamesPanel, BoxLayout.Y_AXIS));
 
-		btnNewTimedGame = new JButton("New Timed");
+		btnNewTimedGame = new JButton("Start Timed Game");
 		btnNewTimedGame.setPreferredSize(new Dimension(200, 40));
 		btnNewTimedGame.setMaximumSize(new Dimension(400, 50));
 		btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
@@ -145,7 +145,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnNewTimedGame.setFont(new Font("Arial", Font.BOLD, 12));
 		btnNewTimedGame.addActionListener(new TimedGameButtonController());
 
-		btnNewUntimedGame = new JButton("New Untimed");
+		btnNewUntimedGame = new JButton("Start Untimed Game");
 		btnNewUntimedGame.setPreferredSize(new Dimension(200, 40));
 		btnNewUntimedGame.setMaximumSize(new Dimension(400, 50));
 		btnNewUntimedGame.setAlignmentX(CENTER_ALIGNMENT);
