@@ -44,7 +44,6 @@ public class SumFunMainGui extends JFrame implements Observer{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 
@@ -60,6 +59,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setPreferredSize(new Dimension(200, 600));
+		rightPanel.setAlignmentX(CENTER_ALIGNMENT);
 		centerPanel.add(rightPanel);
 		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
@@ -131,26 +131,27 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
 		btnRefresh.addActionListener(new RefreshQueueButtonController());
 
+		rightPanel.add(Box.createVerticalGlue());
+
 		JPanel newGamesPanel = new JPanel();
 		rightPanel.add(newGamesPanel);
 		newGamesPanel.setLayout(new BoxLayout(newGamesPanel, BoxLayout.Y_AXIS));
 
-		newGamesPanel.add(Box.createVerticalStrut(50));
-
 		btnNewTimedGame = new JButton("New Timed");
+		btnNewTimedGame.setPreferredSize(new Dimension(200, 40));
+		btnNewTimedGame.setMaximumSize(new Dimension(400, 50));
 		btnNewTimedGame.setAlignmentX(CENTER_ALIGNMENT);
 		newGamesPanel.add(btnNewTimedGame);
 		btnNewTimedGame.setFont(new Font("Arial", Font.BOLD, 12));
 		btnNewTimedGame.addActionListener(new TimedGameButtonController());
 
 		btnNewUntimedGame = new JButton("New Untimed");
+		btnNewUntimedGame.setPreferredSize(new Dimension(200, 40));
+		btnNewUntimedGame.setMaximumSize(new Dimension(400, 50));
 		btnNewUntimedGame.setAlignmentX(CENTER_ALIGNMENT);
 		newGamesPanel.add(btnNewUntimedGame);
 		btnNewUntimedGame.setFont(new Font("Arial", Font.BOLD, 12));
 		btnNewUntimedGame.addActionListener(new UntimedGameButtonController());
-
-		Component verticalGlue = Box.createVerticalGlue();
-		rightPanel.add(verticalGlue);
 
 		//Instantiate Grid
 		grid = new SumFunGridButton[9][9];
