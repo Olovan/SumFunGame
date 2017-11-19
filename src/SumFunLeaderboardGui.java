@@ -1,11 +1,13 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,7 +25,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	 * in the form of a preordered array. This would be in the 
 	 * form of {"Name - Score", "Name - Score", "Name - Score"} */
 	public SumFunLeaderboardGui() {
-		setBounds(100, 100, 450, 300);
+		setPreferredSize(new Dimension(450, 350));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -32,17 +34,21 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		/* Leaderboard is filled with entries concatenated
 		 * into a string and separated by "\n" */
 		leaderboardList = new JLabel();
+		leaderboardList.setHorizontalAlignment(JLabel.CENTER);
 		contentPane.add(leaderboardList, BorderLayout.CENTER);
 
 		/* This will be changed based on which version of the 
 		 * game the user is currently playing. */
-		scoreType = new JLabel("Moves Scores");
+		scoreType = new JLabel("Top 10 High Scores");
 		contentPane.add(scoreType, BorderLayout.NORTH);
 		scoreType.setAlignmentY(Component.TOP_ALIGNMENT);
+		scoreType.setHorizontalAlignment(JLabel.CENTER);
 		scoreType.setFont(new Font("Arial", Font.BOLD, 20));
 
 		SumFunModelConfigurer.getInstance().addObserver(this);
 		SumFunHighScoreLogic.getInstance().addObserver(this);
+
+		pack();
 	}
 
 	/** Enables visibility of the leaderboard */
@@ -64,7 +70,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	}
 
 	private String printHighScore(SumFunHighScore score) {
-		return String.format("<tr><td align='right'>%s</td><td></td><td>%d</td></td><td>%s</td></tr>", score.getName(), score.getScore(), score.getDate());
+		return String.format("<tr><td align='left'>%s</td><td></td><td>%d</td></td><td>&emsp;%s</td></tr>", score.getName(), score.getScore(), score.getDate());
 	}
 
 	/** This won't show the leaderboard 
