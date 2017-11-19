@@ -52,16 +52,3 @@ public class SumFunHighScore extends Observable implements Comparable<SumFunHigh
      }
 
 }
-
-
-//private ArrayList<HighScore> scores = new ArrayList<HighScore>();
-//private String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-//
-//public void add(HighScore newScore) {
-//    scores.add(newScore);
-//    Collections.sort(scores);
-//    
-//    if(scores.size() > 10) {
-//      scores.remove(10);
-//    }
-//}
