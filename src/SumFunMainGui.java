@@ -30,6 +30,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private SumFunGridButton[][] grid;
 	private JLabel[] queue;
 	private JLabel lblScore;
+	private JLabel lblLastMoveScore;
 	private JLabel countdown;
 	private JLabel countdownName;
 	private JButton btnRefresh;
@@ -75,8 +76,21 @@ public class SumFunMainGui extends JFrame implements Observer{
 		lblScore.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblScore.setFont(new Font("Arial", Font.BOLD, 20));
 
-		Component verticalStrut = Box.createVerticalStrut(20);
+		Component verticalStrut = Box.createVerticalStrut(10);
 		rightPanel.add(verticalStrut);
+
+		JPanel scoreFromLastMovePanel = new JPanel();
+		rightPanel.add(scoreFromLastMovePanel);
+		scoreFromLastMovePanel.setLayout(new BoxLayout(scoreFromLastMovePanel, BoxLayout.Y_AXIS));
+
+		JLabel lastMoveTitle = new JLabel("Score From Previous Move:");
+		lastMoveTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+		scoreFromLastMovePanel.add(lastMoveTitle);
+		lblLastMoveScore = new JLabel("0");
+		lblLastMoveScore.setAlignmentX(Component.CENTER_ALIGNMENT);
+		scoreFromLastMovePanel.add(lblLastMoveScore);
+
+		rightPanel.add(Box.createVerticalStrut(10));
 
 		JPanel countdownPanel = new JPanel();
 		rightPanel.add(countdownPanel);
@@ -183,6 +197,11 @@ public class SumFunMainGui extends JFrame implements Observer{
 		lblScore.setText("" + score);
 	}
 
+	/** Tells the GUI to display the score from last move */
+	public void setLastMoveScore(int lastMoveScore) {
+		lblLastMoveScore.setText("" + lastMoveScore);
+	}
+
 	/** Tells GUI to display the input countdown string */
 	public void setCountdown(String text) {
 		countdown.setText(text);
@@ -267,6 +286,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 				setGrid((Integer[][])args[1]);
 				setQueue((Integer[])args[2]);
 				setScore((int)args[3]);
+				setLastMoveScore((int)args[4]);
 				break;
 			case "RULESET_CHANGED":
 				((Observable)args[1]).addObserver(this);

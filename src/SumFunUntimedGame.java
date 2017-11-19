@@ -33,8 +33,7 @@ class SumFunUntimedGame extends SumFunRuleSet{
 			}
 		}
 		queue.set(0, 1);
-		setChanged();
-		notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score});
+		sendDataToObservers("ALL");
 	}
 
 	@Override

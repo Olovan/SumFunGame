@@ -7,14 +7,14 @@ import java.util.Random;
 public abstract class SumFunRuleSet extends Observable {
 	protected static final Integer[][] CHEATBOARD = new Integer[][]{
 		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, 1, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null }, 
-		{ null, null, null, null, null, null, null, null, null } 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, 1, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null }, 
+			{ null, null, null, null, null, null, null, null, null } 
 	};
 
 	protected enum GameState { ACTIVE, ENDED }
@@ -27,6 +27,7 @@ public abstract class SumFunRuleSet extends Observable {
 	protected Random rand;
 	protected ArrayList<Integer> queue;
 	protected int score;
+	protected int scoreFromLastAction;
 	protected Integer[][] board;
 
 	/** Instatiates variables */
@@ -42,8 +43,7 @@ public abstract class SumFunRuleSet extends Observable {
 		score = 0;
 		board = generateRandomBoard();
 		currentState = GameState.ACTIVE;
-		setChanged();
-		notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score});
+		sendDataToObservers("ALL");
 	}
 
 	/** generates a Game Board filled with random values in the middle and empty borders */
@@ -65,31 +65,29 @@ public abstract class SumFunRuleSet extends Observable {
 	}
 
 	public void refreshQueue() {
-	  if(currentState != GameState.ACTIVE) {
-	    return;
-	  }
-	  
+		if(currentState != GameState.ACTIVE) {
+			return;
+		}
+
 		queue.clear();
 		fillQueue();
-		setChanged();
-		notifyObservers(new Object[]{"QUEUE_CHANGED", queue.toArray(new Integer[5])});
+		sendDataToObservers("QUEUE_CHANGED");
 	}
 
 	/** Method which is called by the FrontEnd whenever a grid tile is clicked */
 	public void gridAction(int row, int col) {
 		// Ignore clicks if the game is not running
 		if(currentState != GameState.ACTIVE) { 
-		  return; 
-		  }
+			return; 
+		}
 
 		// Ignores clicks on populated tiles for now
 		if (board[row][col] != null) { 
-		  return; 
-		  }
+			return; 
+		}
 
 		placeTileOntoBoard(row, col);
-		setChanged();
-		notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score});
+		sendDataToObservers("ALL");
 		checkGameOver();
 	}
 
@@ -97,12 +95,14 @@ public abstract class SumFunRuleSet extends Observable {
 	protected void placeTileOntoBoard(int row, int col) {
 		int boundarySum = sumNeighbors(row, col);
 		int neighbors = countNeighbors(row, col);
+		scoreFromLastAction = 0;
 
 		board[row][col] = queue.remove(0);
 		fillQueue();
 
 		if (boundarySum % 10 == board[row][col] && neighbors > 0) {
-			score += calculateScoreForTilePlacement(board[row][col], row, col);
+			scoreFromLastAction = calculateScoreForTilePlacement(board[row][col], row, col);
+			score += scoreFromLastAction;
 			clearNeighbors(row, col);
 		}
 	}
@@ -245,6 +245,20 @@ public abstract class SumFunRuleSet extends Observable {
 
 	public int getScore() {
 		return score;
+	}
+
+	public void sendDataToObservers(String msg) {
+		setChanged();
+		switch(msg) {
+			case "ALL":
+				notifyObservers(new Object[]{"ALL", board, queue.toArray(new Integer[5]), score, scoreFromLastAction});
+				break;
+			case "QUEUE_CHANGED":
+				notifyObservers(new Object[]{"QUEUE_CHANGED", queue.toArray(new Integer[5])});
+				break;
+			default:
+				break;
+		}
 	}
 }
 
