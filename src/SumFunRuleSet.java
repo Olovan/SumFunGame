@@ -105,7 +105,7 @@ public abstract class SumFunRuleSet extends Observable {
 		board[row][col] = queue.remove(0);
 		fillQueue();
 
-		if (boundarySum % 10 == board[row][col] && neighbors > 0) {
+		if (boundarySum % 10 == board[row][col]) {
 			scoreFromLastAction = calculateScoreForTilePlacement(board[row][col], row, col);
 			score += scoreFromLastAction;
 			clearNeighbors(row, col);

@@ -11,7 +11,7 @@ public class SumFunHighScore extends Observable implements Comparable<SumFunHigh
      }
      
      public SumFunHighScore(String name, int score) {
-       this.name = name;
+       this.name = name.replaceAll(" ", "");
        this.score = score;
        this.date  = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
      }
