@@ -25,7 +25,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	 * in the form of a preordered array. This would be in the 
 	 * form of {"Name - Score", "Name - Score", "Name - Score"} */
 	public SumFunLeaderboardGui() {
-		setPreferredSize(new Dimension(450, 350));
+		setPreferredSize(new Dimension(450, 450));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -70,7 +70,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	}
 
 	private String printHighScore(SumFunHighScore score) {
-		return String.format("<tr><td align='left'>%s</td><td></td><td>%d</td></td><td>&emsp;%s</td></tr>", score.getName(), score.getScore(), score.getDate());
+		return String.format("<tr><td align='left'>%s</td><td color=blue>&emsp;&emsp;<font size=\"5\">%d</font>&emsp;&emsp;<td>%s</td></tr>", score.getName(), score.getScore(), score.getDate());
 	}
 
 	/** This won't show the leaderboard 
