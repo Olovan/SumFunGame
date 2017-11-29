@@ -24,7 +24,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	 * in the form of a preordered array. This would be in the 
 	 * form of {"Name - Score", "Name - Score", "Name - Score"} */
 	public SumFunLeaderboardGui() {
-		setPreferredSize(new Dimension(450, 450));
+		setPreferredSize(new Dimension(900, 450));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -33,8 +33,8 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		/* Leaderboard is filled with entries concatenated
 		 * into a string and separated by "\n" */
 		leaderboardList = new JLabel();
-		leaderboardList.setHorizontalAlignment(JLabel.CENTER);
-		contentPane.add(leaderboardList, BorderLayout.CENTER);
+		leaderboardList.setHorizontalAlignment(JLabel.RIGHT);
+		contentPane.add(leaderboardList, BorderLayout.EAST);
 
 		/* This will be changed based on which version of the 
 		 * game the user is currently playing. */
@@ -47,7 +47,6 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		SumFunModelConfigurer.getInstance().addObserver(this);
 		SumFunHighScoreLogic.getInstance().addObserver(this);
 		SumFunHighScoreLogic.getInstance().loadFromFile();
-
 		pack();
 	}
 
@@ -81,7 +80,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		switch(message) {
 			case "GAMEWON":
 				String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
-				SumFunHighScoreLogic.getInstance().add(name, (int)args[1]);
+				SumFunHighScoreLogic.getInstance().add(name, (int)args[1], true);
 				showLeaderboard();
 				break;
 			case "RULESET_CHANGED":

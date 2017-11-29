@@ -8,29 +8,43 @@ import java.util.List;
 import java.util.Observable;
 
 public class SumFunHighScoreLogic extends Observable{
-	private static final String fileName = "scores.txt";
+	private static final String scoreFileName = "scores.txt";
+	private static final String timeFileName = "times.txt";
 	private static SumFunHighScoreLogic instance;
 	private List<SumFunHighScore> scores = new ArrayList<SumFunHighScore>();
+	private List<SumFunHighScore> times = new ArrayList<SumFunHighScore>();
 
 	private SumFunHighScoreLogic() {
 		scores = new ArrayList<SumFunHighScore>();
+		times = new ArrayList<SumFunHighScore>();
 	}
-
+	
 	public void loadFromFile() {
 		try {
-			List<String> lines = Files.readAllLines(new File(fileName).toPath());
-			for(String line : lines) {
-				instance.add(new SumFunHighScore(line));
+			List<String> scoreLines = Files.readAllLines(new File(scoreFileName).toPath());
+			for(String line : scoreLines) {
+				instance.add(new SumFunHighScore(line), false);
 			}
 		} catch (Exception e) {
-			System.out.print("Missing HighScore File");
+			System.out.print("Missing Score File");
+		}
+		
+		try {
+			// Split lists for score and time values 
+			// Will be stored in separate files
+			List<String> timeLines = Files.readAllLines(new File(timeFileName).toPath());
+			for(String line : timeLines) {
+				instance.add(new SumFunHighScore(line), false);
+			}
+		} catch (Exception e) {
+			System.out.print("Missing Time File");
 		}
 	}
 	
 	private void writeToFile() {
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter(fileName);
+			writer = new PrintWriter(scoreFileName);
 			for(SumFunHighScore high: scores) {
 				writer.println(high.getName() + " " + high.getScore() + " " + high.getDate());
 			}
@@ -47,17 +61,18 @@ public class SumFunHighScoreLogic extends Observable{
 		return instance;
 	}
 
-	public void add(String name, int score) {
+	public void add(String name, int score, boolean isTimedGame) {
 		SumFunHighScore newScore = new SumFunHighScore(name, score);
-		add(newScore);
+		add(newScore, isTimedGame);
 	}
 
-	public void add(SumFunHighScore newScore) {
+	public void add(SumFunHighScore newScore, boolean isTimedGame) {
 		//Don't submit anything if the user didn't enter a name
 		if(newScore.getName() == null || newScore.getName().equals("")) {
 			return;
 		}
 
+		//Scores are always checked, but timed are only checked if that is the game mode
 		//Add the new highscore to the list then sort it so the lowest highscores are at the bottom
 		//If we have over 10 highscores then cut off the lowest one at the bottom
 		scores.add(newScore);
@@ -65,7 +80,13 @@ public class SumFunHighScoreLogic extends Observable{
 		if(scores.size() > 10) {
 			scores.remove(10);
 		}
-		
+		if(isTimedGame == true) {
+			times.add(newScore);
+			Collections.sort(times, Collections.reverseOrder());
+			if(times.size() > 10) {
+				times.remove(10);
+			}
+		}
 		setChanged();
 		notifyObservers(new Object[]{"HIGHSCORE_CHANGED", encodeScoresToStringArrays()});
 
