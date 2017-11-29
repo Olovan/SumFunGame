@@ -64,10 +64,10 @@ public class SumFunMainGui extends JFrame implements Observer{
 		rightPanel.add(scorePanel);
 		scorePanel.setLayout(new BoxLayout(scorePanel, BoxLayout.Y_AXIS));
 
+		//Current Score
 		JLabel scoreTitleLabel = new JLabel("Score");
 		scorePanel.add(scoreTitleLabel);
 		scoreTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 		lblScore = new JLabel("0");
 		scorePanel.add(lblScore);
 		lblScore.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -76,10 +76,10 @@ public class SumFunMainGui extends JFrame implements Observer{
 		Component verticalStrut = Box.createVerticalStrut(10);
 		rightPanel.add(verticalStrut);
 
+		//PreviousScore
 		JPanel scoreFromLastMovePanel = new JPanel();
 		rightPanel.add(scoreFromLastMovePanel);
 		scoreFromLastMovePanel.setLayout(new BoxLayout(scoreFromLastMovePanel, BoxLayout.Y_AXIS));
-
 		JLabel lastMoveTitle = new JLabel("Score From Previous Move:");
 		lastMoveTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		scoreFromLastMovePanel.add(lastMoveTitle);
@@ -89,14 +89,13 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 		rightPanel.add(Box.createVerticalStrut(10));
 
+		//Countdown
 		JPanel countdownPanel = new JPanel();
 		rightPanel.add(countdownPanel);
 		countdownPanel.setLayout(new BoxLayout(countdownPanel, BoxLayout.Y_AXIS));
-
 		countdownName = new JLabel("Moves Remaining: ");
 		countdownName.setAlignmentX(Component.CENTER_ALIGNMENT);
 		countdownPanel.add(countdownName);
-
 		countdown = new JLabel("0");
 		countdown.setAlignmentX(Component.CENTER_ALIGNMENT);
 		countdownPanel.add(countdown);
@@ -104,40 +103,39 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 		rightPanel.add(Box.createVerticalStrut(20));
 
+		//Queue
 		JPanel queuePanel = new JPanel();
 		rightPanel.add(queuePanel);
 		queuePanel.setLayout(new BoxLayout(queuePanel, BoxLayout.Y_AXIS));
-
 		JLabel lblQueue = new JLabel("Queue");
 		queuePanel.add(lblQueue);
 		lblQueue.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 		JPanel queueTopPanel = new JPanel();
 		queueTopPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		queueTopPanel.setMaximumSize(new Dimension(50, 100));
 		queueTopPanel.setBackground(Color.WHITE);
 		queuePanel.add(queueTopPanel);
 
+		//Cheats
 		JPanel powerUpPanel = new JPanel();
 		rightPanel.add(powerUpPanel);
 		powerUpPanel.setLayout(new BoxLayout(powerUpPanel, BoxLayout.Y_AXIS));
 
 		btnRefresh = new JButton("Refresh");
 		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
-		powerUpPanel.add(btnRefresh);
 		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
 		btnRefresh.addActionListener(new RefreshQueueButtonController(SumFunModelConfigurer.getInstance()));
+		powerUpPanel.add(btnRefresh);
 
-		//Cheats
 		btnRemoveSquares = new JButton("Remove Squares");
 		btnRemoveSquares.addActionListener(new RemoveSquaresController(SumFunModelConfigurer.getInstance()));
 		btnRemoveSquares.setAlignmentX(CENTER_ALIGNMENT);
-		rightPanel.add(btnRemoveSquares);
+		powerUpPanel.add(btnRemoveSquares);
 
 		btnHints = new JButton("Activate Hints");
 		btnHints.addActionListener(new HintsController(SumFunModelConfigurer.getInstance()));
 		btnHints.setAlignmentX(CENTER_ALIGNMENT);
-		rightPanel.add(btnHints);
+		powerUpPanel.add(btnHints);
 
 		rightPanel.add(Box.createVerticalGlue());
 
@@ -348,6 +346,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	}
 
 	private class RemoveSquaresController implements ActionListener, Observer {
+		private SumFunRuleSet rules;
 		
 		public RemoveSquaresController(Observable configurer) {
 			configurer.addObserver(this);
@@ -356,15 +355,20 @@ public class SumFunMainGui extends JFrame implements Observer{
 		public void actionPerformed(ActionEvent e) {
 		}
 
+		//Use updates from the configurer to keep track of current ruleset
 		public void update(Observable src, Object arg) {
 			Object[] args = (Object[])arg;
 			String msg = (String)args[0];
 			switch(msg) {
+				case "RULESET_CHANGED":
+					rules = (SumFunRuleSet)args[1];
+					break;
 			}
 		}
 	}
 
 	private class HintsController implements ActionListener, Observer {
+		private SumFunRuleSet rules;
 		
 		public HintsController(Observable configurer) {
 			configurer.addObserver(this);
@@ -373,10 +377,14 @@ public class SumFunMainGui extends JFrame implements Observer{
 		public void actionPerformed(ActionEvent e) {
 		}
 
+		//Use updates from the configurer to keep track of current ruleset
 		public void update(Observable src, Object arg) {
 			Object[] args = (Object[])arg;
 			String msg = (String)args[0];
 			switch(msg) {
+				case "RULESET_CHANGED":
+					rules = (SumFunRuleSet)args[1];
+					break;
 			}
 		}
 	}
