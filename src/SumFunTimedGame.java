@@ -3,6 +3,8 @@ import java.util.TimerTask;
 
 class SumFunTimedGame extends SumFunRuleSet {
 	private int timeRemaining;
+	private int seconds;
+	private int minutes;
 	private Timer timer;
 
 	public SumFunTimedGame() {
@@ -34,7 +36,9 @@ class SumFunTimedGame extends SumFunRuleSet {
 		setChanged();
 		switch(msg) {
 			case "TIME_REMAINING":
-				notifyObservers(new Object[]{"TIME_REMAINING", timeRemaining});
+				minutes = timeRemaining / 60;
+				seconds = timeRemaining % 60;
+				notifyObservers(new Object[]{"TIME_REMAINING", String.format("%d:%02d", minutes, seconds)});
 				break;
 			//If the message is not specific to TimedGame then let the parent class handle it
 			default:

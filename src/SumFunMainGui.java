@@ -268,7 +268,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 				break;
 			case "TIME_REMAINING":
 				setCountdownName("Time Remaining: ");
-				setCountdown("" + (int)args[1]);
+				setCountdown("" + (String)args[1]);
 				break;
 			case "QUEUE_CHANGED":
 				setQueue((Integer[])args[1]);
