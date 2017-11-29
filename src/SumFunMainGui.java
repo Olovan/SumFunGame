@@ -31,6 +31,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private JButton btnRefresh;
 	private JButton btnNewUntimedGame;
 	private JButton btnNewTimedGame;
+	private JButton btnRemoveSquares;
+	private JButton btnHints;
 
 	/**
 	 * Create the frame.
@@ -124,7 +126,18 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
 		powerUpPanel.add(btnRefresh);
 		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
-		btnRefresh.addActionListener(new RefreshQueueButtonController());
+		btnRefresh.addActionListener(new RefreshQueueButtonController(SumFunModelConfigurer.getInstance()));
+
+		//Cheats
+		btnRemoveSquares = new JButton("Remove Squares");
+		btnRemoveSquares.addActionListener(new RemoveSquaresController(SumFunModelConfigurer.getInstance()));
+		btnRemoveSquares.setAlignmentX(CENTER_ALIGNMENT);
+		rightPanel.add(btnRemoveSquares);
+
+		btnHints = new JButton("Activate Hints");
+		btnHints.addActionListener(new HintsController(SumFunModelConfigurer.getInstance()));
+		btnHints.setAlignmentX(CENTER_ALIGNMENT);
+		rightPanel.add(btnHints);
 
 		rightPanel.add(Box.createVerticalGlue());
 
@@ -307,8 +320,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private class RefreshQueueButtonController implements ActionListener, Observer {
 		private SumFunRuleSet rules;
 
-		public RefreshQueueButtonController() {
-			SumFunModelConfigurer.getInstance().addObserver(this);
+		public RefreshQueueButtonController(Observable configurer) {
+			configurer.addObserver(this);
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -330,6 +343,40 @@ public class SumFunMainGui extends JFrame implements Observer{
 					break;
 				default:
 					break;
+			}
+		}
+	}
+
+	private class RemoveSquaresController implements ActionListener, Observer {
+		
+		public RemoveSquaresController(Observable configurer) {
+			configurer.addObserver(this);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+		}
+
+		public void update(Observable src, Object arg) {
+			Object[] args = (Object[])arg;
+			String msg = (String)args[0];
+			switch(msg) {
+			}
+		}
+	}
+
+	private class HintsController implements ActionListener, Observer {
+		
+		public HintsController(Observable configurer) {
+			configurer.addObserver(this);
+		}
+
+		public void actionPerformed(ActionEvent e) {
+		}
+
+		public void update(Observable src, Object arg) {
+			Object[] args = (Object[])arg;
+			String msg = (String)args[0];
+			switch(msg) {
 			}
 		}
 	}
