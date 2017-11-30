@@ -79,7 +79,8 @@ public abstract class SumFunRuleSet extends Observable {
 		sendDataToObservers("QUEUE_CHANGED");
 	}
 	
-	public boolean[][] displayHints(int val) {
+	public boolean[][] displayHints() {
+		int val = queue.get(0);
 		boolean[][] gridHints = new boolean[9][9];
 		int boundarySum;
 		
@@ -210,8 +211,8 @@ public abstract class SumFunRuleSet extends Observable {
 				}
 			}
 		}
-
 		sendDataToObservers("ALL");
+		checkGameOver();
 	}
 
 	/** Checks if the game has ended and fires the gameLoss or gameWon function

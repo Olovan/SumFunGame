@@ -417,7 +417,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			hintTiles = rules.displayHints(6);
+			hintTiles = rules.displayHints();
 			highlightAllHintedTiles(hintTiles);
 		}
 
