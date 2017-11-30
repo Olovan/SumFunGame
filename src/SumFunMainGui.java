@@ -163,7 +163,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		grid = new SumFunGridButton[9][9];
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
-				grid[i][j] = new SumFunGridButton(i, j, SumFunModelConfigurer.getInstance());
+				grid[i][j] = new SumFunGridButton(this, i, j, SumFunModelConfigurer.getInstance());
 				gridPanel.add(grid[i][j]);
 			}
 		}

@@ -18,15 +18,24 @@ public class SumFunGridButton extends JPanel {
 	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 	private static final Color DISABLED_COLOR = new Color(0xD0D0D0);
 	private static final int FONT_SIZE = 34;
+	private static final String PLACEMENT_ACTION_TYPE = "ADD";
+	private static final String REMOVAL_ACTION_TYPE = "REMOVE";
 
 	private Color currentBackgroundColor;
+	private String actionType;
+	private boolean enabled = true;
+	private Integer value = null;
+	private int row;
+	private int col;
 
 	public JLabel text;
-	private boolean enabled = true;
 
 	/** Instantiates Grid button and all of its members/listeners */
-	public SumFunGridButton(int row, int col, Observable configurer) {
+	public SumFunGridButton(SumFunMainGui gui, int row, int col, Observable configurer) {
 		currentBackgroundColor = BACKGROUND_COLOR;
+		this.row = row;
+		this.col = col;
+		actionType = PLACEMENT_ACTION_TYPE;
 
 		setLayout(new BorderLayout());
 		setBackground(BACKGROUND_COLOR);
@@ -38,17 +47,23 @@ public class SumFunGridButton extends JPanel {
 		text.setHorizontalAlignment(JLabel.CENTER);
 		add(text, BorderLayout.CENTER);
 
-		addMouseListener(new TileController(row, col, configurer));	
+		addMouseListener(new TileController(gui, configurer));	
 	}
 
 	/**Sets the Grid Tile's string to match the input value
 	 * A null value results in an empty tile */
 	public void setValue(Integer val) {
+		value = val;
 		if(val != null) {
 			text.setText(val.toString());
 		}  else {
 			text.setText("");
 		}
+	}
+
+	/** gets grid tile value */
+	public int getValue() {
+		return value;
 	}
 
 	/** Enables the tile allowing it to respond to mouse input */
@@ -68,33 +83,48 @@ public class SumFunGridButton extends JPanel {
 		enabled = false;
 	}
 
+	public void setActionType(String actionType) {
+		this.actionType = actionType;
+	}
+
 
 	/** Controller for Board Tiles */
 	private class TileController implements MouseListener, Observer{
 		private SumFunRuleSet ruleSet;
-		private int row;
-		private int col;
+		private SumFunMainGui gui;
 
-		public TileController(int row, int col, Observable configurer) {
-			this.row = row;
-			this.col = col;
+		public TileController(SumFunMainGui gui, Observable configurer) {
+			this.gui = gui;
 			configurer.addObserver(this);
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			if(!enabled) {
+			if(!enabled || ruleSet == null) {
 				return;
 			}
-			// Report Mouse Click to Backend
-			if(ruleSet != null) {
-				ruleSet.gridAction(row, col);
+
+			switch(actionType) {
+				case PLACEMENT_ACTION_TYPE:
+					ruleSet.gridAction(row, col);
+					break;
+				case REMOVAL_ACTION_TYPE:
+					// Something to the effect of: ruleSet.removeAll( value );
+					break;
 			}
 		}
 		public void mouseEntered(MouseEvent e) {
 			if(!enabled) {
 				return;
 			}
-			setBackground(MOUSEOVER_COLOR);
+
+			switch(actionType) {
+				case PLACEMENT_ACTION_TYPE: //Normal mouseover
+					setBackground(MOUSEOVER_COLOR);
+					break;
+				case REMOVAL_ACTION_TYPE:  //MouseOver when we are looking to delete something
+					//TODO: gui.highLightAllTilesOfValue(value);
+					break;
+			}
 		}
 		public void mouseExited(MouseEvent e) {
 			if(!enabled) {
