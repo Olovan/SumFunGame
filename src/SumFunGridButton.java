@@ -17,7 +17,7 @@ public class SumFunGridButton extends JPanel {
 	private static final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
 	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 	private static final Color DISABLED_COLOR = new Color(0xD0D0D0);
-	private static final int FONT_SIZE = 34;
+	private static final int FONT_SIZE = 50;
 	private static final String PLACEMENT_ACTION_TYPE = "ADD";
 	private static final String REMOVAL_ACTION_TYPE = "REMOVE";
 
@@ -108,19 +108,6 @@ public class SumFunGridButton extends JPanel {
 		}
 
 		public void mouseClicked(MouseEvent e) {
-			if(!enabled || ruleSet == null) {
-				return;
-			}
-
-			switch(actionType) {
-				case PLACEMENT_ACTION_TYPE:
-					ruleSet.gridAction(row, col);
-					break;
-				case REMOVAL_ACTION_TYPE:
-					ruleSet.removeAllTilesOfValue(value);
-					gui.setActionType(PLACEMENT_ACTION_TYPE);
-					break;
-			}
 		}
 		public void mouseEntered(MouseEvent e) {
 			if(!enabled) {
@@ -143,6 +130,19 @@ public class SumFunGridButton extends JPanel {
 			setBackground(currentBackgroundColor);
 		}
 		public void mousePressed(MouseEvent e) {
+			if(!enabled || ruleSet == null) {
+				return;
+			}
+
+			switch(actionType) {
+				case PLACEMENT_ACTION_TYPE:
+					ruleSet.gridAction(row, col);
+					break;
+				case REMOVAL_ACTION_TYPE:
+					ruleSet.removeAllTilesOfValue(value);
+					gui.setActionType(PLACEMENT_ACTION_TYPE);
+					break;
+			}
 		}
 		public void mouseReleased(MouseEvent e) {
 		}
