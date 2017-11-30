@@ -82,17 +82,22 @@ public abstract class SumFunRuleSet extends Observable {
 	public boolean[][] displayHints() {
 		int val = queue.get(0);
 		boolean[][] gridHints = new boolean[9][9];
+		ArrayList<int[]> coords = new ArrayList<int[]>();
 		int boundarySum;
 		
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				boundarySum = sumNeighbors(i, j);
-				if(val == (boundarySum % 10)) {
-					gridHints[i][j] = true;
-				} else {
-					gridHints[i][j] = false;
-				}
+				if(val == (boundarySum % 10) && board[i][j] == null) {
+					coords.add(new int[]{i, j});
+					coords.sort((a, b)-> {
+						return countNeighbors(b[0], b[1]) - countNeighbors(a[0], a[1]);
+					});
+				} 
 			}
+		}
+		for(int i = 0; i < coords.size() && i < 5; i++) {
+			gridHints[coords.get(i)[0]][coords.get(i)[1]] = true;
 		}
 		
 		return gridHints;
