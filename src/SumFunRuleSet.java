@@ -179,6 +179,23 @@ public abstract class SumFunRuleSet extends Observable {
 		}
 	}
 
+	/** Deletes every tile that has the same value as the input value */
+	protected void removeAllTilesOfValue(Integer value) {
+		if(value == null) {
+			return;
+		}
+
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			for (int j = 0; j < BOARD_SIZE; j++) {
+				if(board[i][j] != null && board[i][j].equals(value)) {
+					board[i][j] = null;
+				}
+			}
+		}
+
+		sendDataToObservers("ALL");
+	}
+
 	/** Checks if the game has ended and fires the gameLoss or gameWon function
 	 * depending on the state of the board */
 	protected void checkGameOver() {

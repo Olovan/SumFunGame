@@ -130,6 +130,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRemoveSquares = new JButton("Remove Squares");
 		btnRemoveSquares.addActionListener(new RemoveSquaresController(SumFunModelConfigurer.getInstance()));
 		btnRemoveSquares.setAlignmentX(CENTER_ALIGNMENT);
+		btnRemoveSquares.setEnabled(false);
 		powerUpPanel.add(btnRemoveSquares);
 
 		btnHints = new JButton("Activate Hints");
@@ -189,6 +190,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				this.grid[i][j].setValue(grid[i][j]);
+				this.grid[i][j].resetBackgroundColor();
 			}
 		}
 	}
@@ -227,6 +229,14 @@ public class SumFunMainGui extends JFrame implements Observer{
 		this.grid[row][col].setValue(value);
 	}
 
+	public void setActionType(String actionType) {
+		for(SumFunGridButton[] row : grid) {
+			for(SumFunGridButton tile : row) {
+				tile.setActionType(actionType);
+			}
+		}
+	}
+
 	/**Allows the board to accept input again */
 	public void enableBoard() {
 		for(SumFunGridButton[] row : grid) {
@@ -239,6 +249,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 	/**Disables input from the board */
 	public void disableBoard() {
 		btnRefresh.setEnabled(false);
+		btnRemoveSquares.setEnabled(false);
+		btnHints.setEnabled(false);
 		for(SumFunGridButton[] row : grid) {
 			for(SumFunGridButton tile : row) {
 				tile.disable();
@@ -306,6 +318,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 				((Observable)args[1]).addObserver(this);
 				btnRefresh.setEnabled(true);
 				btnRemoveSquares.setEnabled(true);
+				btnHints.setEnabled(true);
 				enableBoard();
 				break;
 			default:
@@ -367,12 +380,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			for(SumFunGridButton[] row : grid) {
-				for(SumFunGridButton tile : row) {
-					btnRemoveSquares.setEnabled(false);
-					tile.setActionType("REMOVE");
-				}
-			}
+			btnRemoveSquares.setEnabled(false);
+			setActionType("REMOVE");
 		}
 
 		//Use updates from the configurer to keep track of current ruleset

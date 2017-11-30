@@ -66,11 +66,16 @@ public class SumFunGridButton extends JPanel {
 		return value;
 	}
 
+	/** resets the tile to the default background color */
+	public void resetBackgroundColor() {
+		currentBackgroundColor = BACKGROUND_COLOR;
+		setBackground(BACKGROUND_COLOR);
+	}
+
 	/** Enables the tile allowing it to respond to mouse input */
 	@SuppressWarnings("deprecation")
 	public void enable() {
-		currentBackgroundColor = BACKGROUND_COLOR;
-		setBackground(BACKGROUND_COLOR);
+		resetBackgroundColor();
 		enabled = true;
 	}
 
@@ -112,7 +117,8 @@ public class SumFunGridButton extends JPanel {
 					ruleSet.gridAction(row, col);
 					break;
 				case REMOVAL_ACTION_TYPE:
-					// Something to the effect of: ruleSet.removeAll( value );
+					ruleSet.removeAllTilesOfValue(value);
+					gui.setActionType(PLACEMENT_ACTION_TYPE);
 					break;
 			}
 		}
