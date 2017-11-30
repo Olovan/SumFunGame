@@ -419,7 +419,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 
 		public void resetUses() {
-			uses = 5;
+			uses = 3;
 			setText("Show Hints (" + uses + " uses left)");
 			refresh();
 		}
