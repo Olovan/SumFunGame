@@ -279,6 +279,18 @@ public class SumFunMainGui extends JFrame implements Observer{
 			}
 		}
 	}
+	
+	public void highlightAllHintedTiles(boolean[][] tiles) {
+		for(int i = 0; i < 9; i++) {
+			for(int j = 0; j < 9; j++) {
+				if(tiles[i][j] == true) {
+					grid[i][j].setBackground(new Color(0xFF8888));
+				} else {
+					grid[i][j].setBackground(grid[i][j].getCurrentBackgroundColor());
+				}
+			}
+		}
+	}
 
 	/** Implementation of update message from Observer interface
 	 *  Can be sent messages in the form of Strings instructing it what 
@@ -398,12 +410,15 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 	private class HintsController implements ActionListener, Observer {
 		private SumFunRuleSet rules;
+		private boolean[][] hintTiles;
 		
 		public HintsController(Observable configurer) {
 			configurer.addObserver(this);
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			hintTiles = rules.displayHints(6);
+			highlightAllHintedTiles(hintTiles);
 		}
 
 		//Use updates from the configurer to keep track of current ruleset

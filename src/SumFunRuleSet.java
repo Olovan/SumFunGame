@@ -78,6 +78,24 @@ public abstract class SumFunRuleSet extends Observable {
 		fillQueue();
 		sendDataToObservers("QUEUE_CHANGED");
 	}
+	
+	public boolean[][] displayHints(int val) {
+		boolean[][] gridHints = new boolean[9][9];
+		int boundarySum;
+		
+		for(int i = 0; i < 9; i++) {
+			for(int j = 0; j < 9; j++) {
+				boundarySum = sumNeighbors(i, j);
+				if(val == (boundarySum % 10)) {
+					gridHints[i][j] = true;
+				} else {
+					gridHints[i][j] = false;
+				}
+			}
+		}
+		
+		return gridHints;
+	}
 
 	/** Method which is called by the FrontEnd whenever a grid tile is clicked */
 	public void gridAction(int row, int col) {
