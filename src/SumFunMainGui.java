@@ -279,14 +279,20 @@ public class SumFunMainGui extends JFrame implements Observer{
 	}
 	
 	public void highlightAllHintedTiles(boolean[][] tiles) {
+		boolean empty = true;
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				if(tiles[i][j] == true) {
+					empty = false;
 					grid[i][j].highlight(new Color(0xBBFFBB));
 				} else {
 					grid[i][j].resetBackgroundColor();
 				}
 			}
+		}
+
+		if(empty) {
+			JOptionPane.showMessageDialog(this, "There are no scoring moves");
 		}
 	}
 
