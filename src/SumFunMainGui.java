@@ -32,7 +32,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private JButton btnNewUntimedGame;
 	private JButton btnNewTimedGame;
 	private JButton btnRemoveSquares;
-	private JButton btnHints;
+	private HintsButton btnHints;
 
 	/**
 	 * Create the frame.
@@ -133,9 +133,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRemoveSquares.setEnabled(false);
 		powerUpPanel.add(btnRemoveSquares);
 
-		btnHints = new JButton("Activate Hints");
-		btnHints.addActionListener(new HintsController(SumFunModelConfigurer.getInstance()));
-		btnHints.setAlignmentX(CENTER_ALIGNMENT);
+		btnHints = new HintsButton(SumFunModelConfigurer.getInstance());
 		powerUpPanel.add(btnHints);
 
 		rightPanel.add(Box.createVerticalGlue());
@@ -325,12 +323,13 @@ public class SumFunMainGui extends JFrame implements Observer{
 				setQueue((Integer[])args[2]);
 				setScore((int)args[3]);
 				setLastMoveScore((int)args[4]);
+				btnHints.refresh();
 				break;
 			case "RULESET_CHANGED":
 				((Observable)args[1]).addObserver(this);
 				btnRefresh.setEnabled(true);
 				btnRemoveSquares.setEnabled(true);
-				btnHints.setEnabled(true);
+				btnHints.resetUses();
 				enableBoard();
 				break;
 			default:
@@ -408,27 +407,54 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 	}
 
-	private class HintsController implements ActionListener, Observer {
-		private SumFunRuleSet rules;
-		private boolean[][] hintTiles;
-		
-		public HintsController(Observable configurer) {
-			configurer.addObserver(this);
+	private class HintsButton extends JButton {
+		public int uses = 0;
+
+		public void refresh() {
+			if(uses > 0) {
+				setEnabled(true);
+			} else {
+				setEnabled(false);
+			}
 		}
 
-		public void actionPerformed(ActionEvent e) {
-			hintTiles = rules.displayHints();
-			highlightAllHintedTiles(hintTiles);
+		public void resetUses() {
+			uses = 5;
+			setText("Show Hints (" + uses + " uses left)");
+			refresh();
 		}
 
-		//Use updates from the configurer to keep track of current ruleset
-		public void update(Observable src, Object arg) {
-			Object[] args = (Object[])arg;
-			String msg = (String)args[0];
-			switch(msg) {
-				case "RULESET_CHANGED":
-					rules = (SumFunRuleSet)args[1];
-					break;
+		public HintsButton(Observable configurer) {
+			setText("Show Hints (" + uses + " uses left)");
+			setAlignmentX(CENTER_ALIGNMENT);
+			addActionListener(new HintsController(configurer));
+		}
+
+		private class HintsController implements ActionListener, Observer {
+			private SumFunRuleSet rules;
+			private boolean[][] hintTiles;
+
+			public HintsController(Observable configurer) {
+				configurer.addObserver(this);
+			}
+
+			public void actionPerformed(ActionEvent e) {
+				uses--;
+				setText("Show Hints (" + uses + " uses left)");
+				setEnabled(false);
+				hintTiles = rules.displayHints();
+				highlightAllHintedTiles(hintTiles);
+			}
+
+			//Use updates from the configurer to keep track of current ruleset
+			public void update(Observable src, Object arg) {
+				Object[] args = (Object[])arg;
+				String msg = (String)args[0];
+				switch(msg) {
+					case "RULESET_CHANGED":
+						rules = (SumFunRuleSet)args[1];
+						break;
+				}
 			}
 		}
 	}
