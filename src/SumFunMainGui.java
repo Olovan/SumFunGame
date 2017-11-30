@@ -116,7 +116,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		queueTopPanel.setBackground(Color.WHITE);
 		queuePanel.add(queueTopPanel);
 
-		//Cheats
+		//PowerUps
 		JPanel powerUpPanel = new JPanel();
 		rightPanel.add(powerUpPanel);
 		powerUpPanel.setLayout(new BoxLayout(powerUpPanel, BoxLayout.Y_AXIS));
@@ -274,7 +274,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 				if(tile.getValue() != null && tile.getValue() == value) {
 					tile.setBackground(new Color(0xFF8888));
 				} else {
-					tile.setBackground(tile.getCurrentBackgroundColor());
+					tile.resetBackgroundColor();
 				}
 			}
 		}
@@ -284,9 +284,9 @@ public class SumFunMainGui extends JFrame implements Observer{
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
 				if(tiles[i][j] == true) {
-					grid[i][j].setBackground(new Color(0xFF8888));
+					grid[i][j].highlight(new Color(0xBBFFBB));
 				} else {
-					grid[i][j].setBackground(grid[i][j].getCurrentBackgroundColor());
+					grid[i][j].resetBackgroundColor();
 				}
 			}
 		}
