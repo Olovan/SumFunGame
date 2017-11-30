@@ -256,6 +256,18 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRefresh.setEnabled(false);
 	}
 
+	public void highlightAllTilesOfValue(Integer value) {
+		for(SumFunGridButton[] row : grid) {
+			for(SumFunGridButton tile : row) {
+				if(tile.getValue() != null && tile.getValue() == value) {
+					tile.setBackground(new Color(0xFF8888));
+				} else {
+					tile.setBackground(tile.getCurrentBackgroundColor());
+				}
+			}
+		}
+	}
+
 	/** Implementation of update message from Observer interface
 	 *  Can be sent messages in the form of Strings instructing it what 
 	 *  specifically to update or if no message is supplied then it will update
@@ -293,6 +305,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 			case "RULESET_CHANGED":
 				((Observable)args[1]).addObserver(this);
 				btnRefresh.setEnabled(true);
+				btnRemoveSquares.setEnabled(true);
 				enableBoard();
 				break;
 			default:
@@ -346,6 +359,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	}
 
 	private class RemoveSquaresController implements ActionListener, Observer {
+		private int uses;
 		private SumFunRuleSet rules;
 		
 		public RemoveSquaresController(Observable configurer) {
@@ -353,6 +367,12 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			for(SumFunGridButton[] row : grid) {
+				for(SumFunGridButton tile : row) {
+					btnRemoveSquares.setEnabled(false);
+					tile.setActionType("REMOVE");
+				}
+			}
 		}
 
 		//Use updates from the configurer to keep track of current ruleset

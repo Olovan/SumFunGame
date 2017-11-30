@@ -62,7 +62,7 @@ public class SumFunGridButton extends JPanel {
 	}
 
 	/** gets grid tile value */
-	public int getValue() {
+	public Integer getValue() {
 		return value;
 	}
 
@@ -85,6 +85,10 @@ public class SumFunGridButton extends JPanel {
 
 	public void setActionType(String actionType) {
 		this.actionType = actionType;
+	}
+
+	public Color getCurrentBackgroundColor() {
+		return currentBackgroundColor;
 	}
 
 
@@ -122,7 +126,7 @@ public class SumFunGridButton extends JPanel {
 					setBackground(MOUSEOVER_COLOR);
 					break;
 				case REMOVAL_ACTION_TYPE:  //MouseOver when we are looking to delete something
-					//TODO: gui.highLightAllTilesOfValue(value);
+					gui.highlightAllTilesOfValue(value);
 					break;
 			}
 		}
