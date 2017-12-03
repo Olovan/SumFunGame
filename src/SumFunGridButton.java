@@ -23,14 +23,14 @@ public class SumFunGridButton extends JPanel {
 	private static final Color[] numberColors = new Color[] {
 			new Color(0x009900), //0
 			new Color(0x330099), //1
-			new Color(0x660033), //2
+			new Color(0xcc33cc), //2
 			new Color(0x663333), //3
 			new Color(0x666699), //4
 			new Color(0x990099), //5
 			new Color(0x996600), //6
 			new Color(0xcc6600), //7
 			new Color(0x9900ff), //8
-			new Color(0x339900)  //9
+			new Color(0xcc3333)  //9
 	};
 
 
@@ -106,6 +106,7 @@ public class SumFunGridButton extends JPanel {
 	public void disable() {
 		currentBackgroundColor = DISABLED_COLOR;
 		setBackground(DISABLED_COLOR);
+		text.setForeground(Color.BLACK);
 		enabled = false;
 	}
 
