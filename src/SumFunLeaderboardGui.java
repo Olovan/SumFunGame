@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,15 +17,15 @@ import javax.swing.border.EmptyBorder;
 public class SumFunLeaderboardGui extends JFrame implements Observer {
 
 	private JPanel contentPane;
-	private JLabel scoreType;
-	private JLabel leaderboardList;
+	private LeaderboardList topScores;
+	private LeaderboardList bestTimes;
 
 	/** Each time the leaderboard is called, it will be updated 
 	 * based on the "leaderboardEntries" Object[] it receives
 	 * in the form of a preordered array. This would be in the 
 	 * form of {"Name - Score", "Name - Score", "Name - Score"} */
 	public SumFunLeaderboardGui() {
-		setPreferredSize(new Dimension(900, 450));
+		setPreferredSize(new Dimension(500, 450));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -32,17 +33,11 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 
 		/* Leaderboard is filled with entries concatenated
 		 * into a string and separated by "\n" */
-		leaderboardList = new JLabel();
-		leaderboardList.setHorizontalAlignment(JLabel.RIGHT);
-		contentPane.add(leaderboardList, BorderLayout.EAST);
+		topScores = new LeaderboardList("Top Scores");
+		contentPane.add(topScores, BorderLayout.EAST);
 
-		/* This will be changed based on which version of the 
-		 * game the user is currently playing. */
-		scoreType = new JLabel("Top 10 High Scores");
-		contentPane.add(scoreType, BorderLayout.NORTH);
-		scoreType.setAlignmentY(Component.TOP_ALIGNMENT);
-		scoreType.setHorizontalAlignment(JLabel.CENTER);
-		scoreType.setFont(new Font("Arial", Font.BOLD, 20));
+		bestTimes = new LeaderboardList("Best Times");
+		contentPane.add(bestTimes, BorderLayout.WEST);
 
 		SumFunModelConfigurer.getInstance().addObserver(this);
 		SumFunHighScoreLogic.getInstance().addObserver(this);
@@ -60,12 +55,12 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		setVisible(false);
 	}
 
-	public void setLeaderboardScores(String[][] scores) {
-		leaderboardList.setText("<html>");
+	public void setList(String[][] scores, JLabel list) {
+		list.setText("<html>");
 		for(String[] score : scores) {
-			leaderboardList.setText(leaderboardList.getText() + printHighScore(score) + "<br>");
+			list.setText(list.getText() + printHighScore(score) + "<br>");
 		}
-		leaderboardList.setText(leaderboardList.getText() + "</html>");
+		list.setText(list.getText() + "</html>");
 	}
 
 	private String printHighScore(String[] score) {
@@ -80,7 +75,13 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		switch(message) {
 			case "GAMEWON":
 				String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
-				SumFunHighScoreLogic.getInstance().add(name, (int)args[1], true);
+				SumFunHighScoreLogic.getInstance().addScore(name, (int)args[1]);
+				showLeaderboard();
+				break;
+			case "TIMED_GAMEWON":
+				String nameTimed = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
+				SumFunHighScoreLogic.getInstance().addScore(nameTimed, (int)args[1]);
+				SumFunHighScoreLogic.getInstance().addTime(nameTimed, (int)args[2]);
 				showLeaderboard();
 				break;
 			case "RULESET_CHANGED":
@@ -88,10 +89,35 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 				break;
 			case "HIGHSCORE_CHANGED":
 				String[][] scores = (String[][])args[1];
-				setLeaderboardScores(scores);
+				setList(scores, topScores.list);
+				break;
+			case "BEST_TIME_CHANGED":
+				String[][] times = (String[][])args[1];
+				setList(times, bestTimes.list);
 				break;
 			default:
 				break;
+		}
+	}
+
+	private class LeaderboardList extends JPanel {
+		public JLabel list;
+		public JLabel title;
+		public LeaderboardList(String titleString) {
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			setAlignmentX(CENTER_ALIGNMENT);
+
+			title = new JLabel(titleString);
+			list = new JLabel();
+
+			title.setHorizontalAlignment(JLabel.CENTER);
+			title.setAlignmentX(CENTER_ALIGNMENT);
+			title.setFont(new Font("Arial", Font.BOLD, 20));
+			list.setHorizontalAlignment(JLabel.CENTER);
+			list.setAlignmentX(CENTER_ALIGNMENT);
+
+			add(title);
+			add(list);
 		}
 	}
 }

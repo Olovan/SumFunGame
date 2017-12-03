@@ -313,6 +313,9 @@ public class SumFunMainGui extends JFrame implements Observer{
 			case "GAMEWON":
 				disableBoard();
 				break;
+			case "TIMED_GAMEWON":
+				disableBoard();
+				break;
 			case "MOVES_REMAINING":
 				setCountdownName("Moves Remaining: ");
 				setCountdown("" + (int)args[1]);

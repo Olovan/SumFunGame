@@ -32,6 +32,12 @@ class SumFunTimedGame extends SumFunRuleSet {
 	}
 
 	@Override
+	protected void gameWon() {
+		currentState = GameState.ENDED;
+		sendDataToObservers("TIMED_GAMEWON");
+	}
+
+	@Override
 	protected void sendDataToObservers(String msg) {
 		setChanged();
 		switch(msg) {
@@ -39,6 +45,9 @@ class SumFunTimedGame extends SumFunRuleSet {
 				minutes = timeRemaining / 60;
 				seconds = timeRemaining % 60;
 				notifyObservers(new Object[]{"TIME_REMAINING", String.format("%d:%02d", minutes, seconds)});
+				break;
+			case "TIMED_GAMEWON":
+				notifyObservers(new Object[]{"TIMED_GAMEWON", score, 180 - timeRemaining});
 				break;
 			//If the message is not specific to TimedGame then let the parent class handle it
 			default:

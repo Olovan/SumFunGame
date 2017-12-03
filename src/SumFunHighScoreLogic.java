@@ -21,34 +21,45 @@ public class SumFunHighScoreLogic extends Observable{
 	
 	public void loadFromFile() {
 		try {
+			// Load HighScore data
 			List<String> scoreLines = Files.readAllLines(new File(scoreFileName).toPath());
+			List<String> timeLines = Files.readAllLines(new File(timeFileName).toPath());
+
 			for(String line : scoreLines) {
-				instance.add(new SumFunHighScore(line), false);
+				instance.addScore(new SumFunHighScore(line));
+			}
+
+			for(String line : timeLines) {
+				instance.addTime(new SumFunHighScore(line));
 			}
 		} catch (Exception e) {
 			System.out.print("Missing Score File");
 		}
 		
 		try {
-			// Split lists for score and time values 
-			// Will be stored in separate files
-			List<String> timeLines = Files.readAllLines(new File(timeFileName).toPath());
-			for(String line : timeLines) {
-				instance.add(new SumFunHighScore(line), false);
-			}
 		} catch (Exception e) {
 			System.out.print("Missing Time File");
 		}
 	}
 	
 	private void writeToFile() {
-		PrintWriter writer;
+		PrintWriter scoreWriter;
+		PrintWriter timeWriter;
 		try {
-			writer = new PrintWriter(scoreFileName);
+			scoreWriter = new PrintWriter(scoreFileName);
+			//Record best scores in scores file
 			for(SumFunHighScore high: scores) {
-				writer.println(high.getName() + " " + high.getScore() + " " + high.getDate());
+				scoreWriter.println(high.getName() + " " + high.getScore() + " " + high.getDate());
 			}
-			writer.close();
+			scoreWriter.close();
+
+			timeWriter = new PrintWriter(timeFileName);
+
+			//Record best times in times file
+			for(SumFunHighScore time: times) {
+				timeWriter.println(time.getName() + " " + time.getScore() + " " + time.getDate());
+			}
+			timeWriter.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("The file was not found and could not be created.");
 		}
@@ -61,18 +72,22 @@ public class SumFunHighScoreLogic extends Observable{
 		return instance;
 	}
 
-	public void add(String name, int score, boolean isTimedGame) {
+	public void addScore(String name, int score) {
 		SumFunHighScore newScore = new SumFunHighScore(name, score);
-		add(newScore, isTimedGame);
+		addScore(newScore);
 	}
 
-	public void add(SumFunHighScore newScore, boolean isTimedGame) {
+	public void addTime(String name, int time) {
+		SumFunHighScore newTime = new SumFunHighScore(name, time);
+		addTime(newTime);
+	}
+
+	public void addScore(SumFunHighScore newScore) {
 		//Don't submit anything if the user didn't enter a name
 		if(newScore.getName() == null || newScore.getName().equals("")) {
 			return;
 		}
 
-		//Scores are always checked, but timed are only checked if that is the game mode
 		//Add the new highscore to the list then sort it so the lowest highscores are at the bottom
 		//If we have over 10 highscores then cut off the lowest one at the bottom
 		scores.add(newScore);
@@ -80,20 +95,33 @@ public class SumFunHighScoreLogic extends Observable{
 		if(scores.size() > 10) {
 			scores.remove(10);
 		}
-		if(isTimedGame == true) {
-			times.add(newScore);
-			Collections.sort(times, Collections.reverseOrder());
-			if(times.size() > 10) {
-				times.remove(10);
-			}
-		}
 		setChanged();
 		notifyObservers(new Object[]{"HIGHSCORE_CHANGED", encodeScoresToStringArrays()});
 
 		writeToFile();
 	}
 	
-	//Encodes scores to string arrays to reduce Coupling with HighScore class
+	/** Adds a new best time to the time list and sorts the best time list and removes any overflow */
+	public void addTime(SumFunHighScore newTime) {
+		//Don't submit anything if the user didn't enter a name
+		if(newTime.getName() == null || newTime.getName().equals("")) {
+			return;
+		}
+
+		//Add the new highscore to the list then sort it so the lowest highscores are at the bottom
+		//If we have over 10 highscores then cut off the lowest one at the bottom
+		times.add(newTime);
+		Collections.sort(times);
+		if(times.size() > 10) {
+			times.remove(10);
+		}
+		setChanged();
+		notifyObservers(new Object[]{"BEST_TIME_CHANGED", encodeTimesToStringArrays()});
+
+		writeToFile();
+	}
+
+	/** Encodes scores to string arrays to reduce Coupling with Highscore class */
 	private String[][] encodeScoresToStringArrays() {
 		String[][] scoreStrings = new String[scores.size()][3];
 		for(int i = 0; i < scores.size(); i++) {
@@ -102,5 +130,16 @@ public class SumFunHighScoreLogic extends Observable{
 			scoreStrings[i][2] = scores.get(i).getDate();
 		}
 		return scoreStrings;
+	}
+
+	/** Encodes time to string arrays to reduce Coupling with Highscore class */
+	private String[][] encodeTimesToStringArrays() {
+		String[][] timeStrings = new String[times.size()][3];
+		for(int i = 0; i < times.size(); i++) {
+			timeStrings[i][0] = times.get(i).getName();
+			timeStrings[i][1] = String.format("%02d:%02d", times.get(i).getScore() / 60, times.get(i).getScore() % 60);
+			timeStrings[i][2] = times.get(i).getDate();
+		}
+		return timeStrings;
 	}
 }
