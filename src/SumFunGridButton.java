@@ -20,6 +20,19 @@ public class SumFunGridButton extends JPanel {
 	private static final int FONT_SIZE = 50;
 	private static final String PLACEMENT_ACTION_TYPE = "ADD";
 	private static final String REMOVAL_ACTION_TYPE = "REMOVE";
+	private static final Color[] numberColors = new Color[] {
+			new Color(0x009900), //0
+			new Color(0x330099), //1
+			new Color(0x660033), //2
+			new Color(0x663333), //3
+			new Color(0x666699), //4
+			new Color(0x990099), //5
+			new Color(0x996600), //6
+			new Color(0xcc6600), //7
+			new Color(0x9900ff), //8
+			new Color(0x339900)  //9
+	};
+
 
 	private Color currentBackgroundColor;
 	private String actionType;
@@ -57,48 +70,13 @@ public class SumFunGridButton extends JPanel {
 		
 		if(val != null) {
 			text.setText(val.toString());
-			setTileTextColor(val);
+			text.setForeground(numberColors[val]);
 		}  else {
 			text.setText("");
 		}
 		
 	}
 	
-	/**Sets the color each number*/
-	public void setTileTextColor(int val) {
-		switch (val) {
-		case 1:
-			text.setForeground(Color.RED);
-			break;
-		case 2:
-			text.setForeground(Color.BLUE);
-			break;
-		case 3:
-			text.setForeground(Color.GREEN);
-			break;
-		case 4:
-			text.setForeground(Color.ORANGE);
-			break;
-		case 5:
-			text.setForeground(Color.MAGENTA);
-			break;
-		case 6:
-			text.setForeground(Color.CYAN);
-			break;
-		case 7:
-			text.setForeground(Color.DARK_GRAY);
-			break;
-		case 8:
-			text.setForeground(Color.GRAY);
-			break;
-		case 9:
-			text.setForeground(Color.BLACK);
-			break;
-		default:
-			break;
-		}
-	}
-
 	/** gets grid tile value */
 	public Integer getValue() {
 		return value;
