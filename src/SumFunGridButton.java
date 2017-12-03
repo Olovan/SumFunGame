@@ -54,10 +54,48 @@ public class SumFunGridButton extends JPanel {
 	 * A null value results in an empty tile */
 	public void setValue(Integer val) {
 		value = val;
+		
 		if(val != null) {
 			text.setText(val.toString());
+			setTileTextColor(val);
 		}  else {
 			text.setText("");
+		}
+		
+	}
+	
+	/**Sets the color each number*/
+	public void setTileTextColor(int val) {
+		switch (val) {
+		case 1:
+			text.setForeground(Color.RED);
+			break;
+		case 2:
+			text.setForeground(Color.BLUE);
+			break;
+		case 3:
+			text.setForeground(Color.GREEN);
+			break;
+		case 4:
+			text.setForeground(Color.ORANGE);
+			break;
+		case 5:
+			text.setForeground(Color.MAGENTA);
+			break;
+		case 6:
+			text.setForeground(Color.CYAN);
+			break;
+		case 7:
+			text.setForeground(Color.DARK_GRAY);
+			break;
+		case 8:
+			text.setForeground(Color.GRAY);
+			break;
+		case 9:
+			text.setForeground(Color.BLACK);
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -100,7 +138,6 @@ public class SumFunGridButton extends JPanel {
 	public Color getCurrentBackgroundColor() {
 		return currentBackgroundColor;
 	}
-
 
 	/** Controller for Board Tiles */
 	private class TileController implements MouseListener, Observer{

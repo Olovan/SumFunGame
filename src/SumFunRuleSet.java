@@ -32,7 +32,7 @@ public abstract class SumFunRuleSet extends Observable {
 		board = generateRandomBoard();
 		currentState = GameState.ACTIVE;
 
-		enableCheats();
+		// enableCheats();
 
 		sendDataToObservers("ALL");
 	}
