@@ -137,7 +137,7 @@ public class SumFunHighScoreLogic extends Observable{
 		String[][] timeStrings = new String[times.size()][3];
 		for(int i = 0; i < times.size(); i++) {
 			timeStrings[i][0] = times.get(i).getName();
-			timeStrings[i][1] = String.format("%02d:%02d", times.get(i).getScore() / 60, times.get(i).getScore() % 60);
+			timeStrings[i][1] = String.format("%01d:%02d", times.get(i).getScore() / 60, times.get(i).getScore() % 60);
 			timeStrings[i][2] = times.get(i).getDate();
 		}
 		return timeStrings;

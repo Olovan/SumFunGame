@@ -31,6 +31,9 @@ public abstract class SumFunRuleSet extends Observable {
 		score = 0;
 		board = generateRandomBoard();
 		currentState = GameState.ACTIVE;
+
+		enableCheats();
+
 		sendDataToObservers("ALL");
 	}
 
