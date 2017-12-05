@@ -191,10 +191,10 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 		//Set up sound clips
 		try {
-			tileRemoved = AudioSystem.getClip();
-			tileAdded = AudioSystem.getClip();
-			victory = AudioSystem.getClip();
-			defeat = AudioSystem.getClip();
+			tileRemoved = AudioSystem.getClip(null);
+			tileAdded = AudioSystem.getClip(null);
+			victory = AudioSystem.getClip(null);
+			defeat = AudioSystem.getClip(null);
 			tileRemoved.open(AudioSystem.getAudioInputStream(new File("assets/sounds/tile_removed.wav")));
 			tileAdded.open(AudioSystem.getAudioInputStream(new File("assets/sounds/tile_placed.wav")));
 			victory.open(AudioSystem.getAudioInputStream(new File("assets/sounds/victory.wav")));
