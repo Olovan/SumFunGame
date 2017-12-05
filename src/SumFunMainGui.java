@@ -6,8 +6,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -33,6 +40,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private JButton btnNewTimedGame;
 	private JButton btnRemoveSquares;
 	private HintsButton btnHints;
+	private File floop = new File("floop.wav");
+	private Clip clip;
 
 	/**
 	 * Create the frame.
@@ -177,6 +186,14 @@ public class SumFunMainGui extends JFrame implements Observer{
 			queuePanel.add(queue[i]);
 		}
 
+		try {
+			clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(floop));
+		}catch(Exception e) {
+			System.out.println("Exception");
+		}
+		
+		
 		pack();
 
 		disableBoard();
@@ -340,6 +357,10 @@ public class SumFunMainGui extends JFrame implements Observer{
 				btnRemoveSquares.setEnabled(true);
 				btnHints.resetUses();
 				enableBoard();
+				break;
+			case "TILE_REMOVED":
+				clip.setFramePosition(0);
+				clip.start();
 				break;
 			default:
 				break;
