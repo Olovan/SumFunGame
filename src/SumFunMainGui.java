@@ -200,7 +200,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 			victory.open(AudioSystem.getAudioInputStream(new File("assets/sounds/victory.wav")));
 			defeat.open(AudioSystem.getAudioInputStream(new File("assets/sounds/defeat.wav")));
 		}catch(Exception e) {
-			System.out.println("Exception");
+            e.printStackTrace();
 		}
 		
 		
