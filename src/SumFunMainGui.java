@@ -40,8 +40,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private JButton btnNewTimedGame;
 	private JButton btnRemoveSquares;
 	private HintsButton btnHints;
-	private File floop = new File("floop.wav");
-	private Clip clip;
+	private Clip tileRemoved;
+	private Clip tileAdded;
 
 	/**
 	 * Create the frame.
@@ -186,9 +186,12 @@ public class SumFunMainGui extends JFrame implements Observer{
 			queuePanel.add(queue[i]);
 		}
 
+		//Set up sound clips
 		try {
-			clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(floop));
+			tileRemoved = AudioSystem.getClip();
+			tileAdded = AudioSystem.getClip();
+			tileRemoved.open(AudioSystem.getAudioInputStream(new File("assets/sounds/tile_removed.wav")));
+			tileAdded.open(AudioSystem.getAudioInputStream(new File("assets/sounds/tile_placed.wav")));
 		}catch(Exception e) {
 			System.out.println("Exception");
 		}
@@ -359,8 +362,12 @@ public class SumFunMainGui extends JFrame implements Observer{
 				enableBoard();
 				break;
 			case "TILE_REMOVED":
-				clip.setFramePosition(0);
-				clip.start();
+				tileRemoved.setFramePosition(0);
+				tileRemoved.start();
+				break;
+			case "TILE_ADDED":
+				tileAdded.setFramePosition(0);
+				tileAdded.start();
 				break;
 			default:
 				break;

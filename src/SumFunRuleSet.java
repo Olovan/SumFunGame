@@ -136,6 +136,8 @@ public abstract class SumFunRuleSet extends Observable {
 			scoreFromLastAction = calculateScoreForTilePlacement(board[row][col], row, col);
 			score += scoreFromLastAction;
 			clearNeighbors(row, col);
+		} else {
+			sendDataToObservers("TILE_ADDED");
 		}
 	}
 
