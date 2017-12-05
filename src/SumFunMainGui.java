@@ -42,6 +42,9 @@ public class SumFunMainGui extends JFrame implements Observer{
 	private HintsButton btnHints;
 	private Clip tileRemoved;
 	private Clip tileAdded;
+	private Clip victory;
+	private Clip defeat;
+
 
 	/**
 	 * Create the frame.
@@ -190,8 +193,12 @@ public class SumFunMainGui extends JFrame implements Observer{
 		try {
 			tileRemoved = AudioSystem.getClip();
 			tileAdded = AudioSystem.getClip();
+			victory = AudioSystem.getClip();
+			defeat = AudioSystem.getClip();
 			tileRemoved.open(AudioSystem.getAudioInputStream(new File("assets/sounds/tile_removed.wav")));
 			tileAdded.open(AudioSystem.getAudioInputStream(new File("assets/sounds/tile_placed.wav")));
+			victory.open(AudioSystem.getAudioInputStream(new File("assets/sounds/victory.wav")));
+			defeat.open(AudioSystem.getAudioInputStream(new File("assets/sounds/defeat.wav")));
 		}catch(Exception e) {
 			System.out.println("Exception");
 		}
@@ -327,13 +334,19 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 		switch(message) {
 			case "GAMELOST":
+				defeat.setFramePosition(0);
+				defeat.start();
 				disableBoard();
 				JOptionPane.showMessageDialog(this, "Game Over. You Lose.");
 				break;
 			case "GAMEWON":
+				victory.setFramePosition(0);
+				victory.start();
 				disableBoard();
 				break;
 			case "TIMED_GAMEWON":
+				victory.setFramePosition(0);
+				victory.start();
 				disableBoard();
 				break;
 			case "MOVES_REMAINING":
