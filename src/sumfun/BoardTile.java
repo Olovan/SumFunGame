@@ -19,7 +19,6 @@ public class BoardTile extends JPanel {
 	private static final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
 	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 	private static final Color DISABLED_COLOR = new Color(0xD0D0D0);
-	private static final Color REMOVAL_RED = new Color(0xFF0000);
 	private static final int FONT_SIZE = 50;
 	private static final String PLACEMENT_ACTION_TYPE = "ADD";
 	private static final String REMOVAL_ACTION_TYPE = "REMOVE";
@@ -36,7 +35,7 @@ public class BoardTile extends JPanel {
 			new Color(0xcc3333)  //9
 	};
 
-	// Settings for flashTileRed
+
 	private Color currentBackgroundColor;
 	private String actionType;
 	private boolean enabled = true;
@@ -166,11 +165,7 @@ public class BoardTile extends JPanel {
 					//Can't remove an empty tile
 					if(value == null) {
 						return;
-					} 
-					
-					// If the tile will be removed, flash it red for half a second
-					gui.flashTileRed(REMOVAL_RED, row, col);
-					
+					}
 					ruleSet.removeAllTilesOfValue(value);
 					gui.setActionType(PLACEMENT_ACTION_TYPE);
 					break;

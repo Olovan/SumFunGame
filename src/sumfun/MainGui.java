@@ -47,6 +47,7 @@ public class MainGui extends JFrame implements Observer{
 	private Clip victory;
 	private Clip defeat;
 
+
 	/**
 	 * Create the frame.
 	 */
@@ -303,27 +304,6 @@ public class MainGui extends JFrame implements Observer{
 					tile.resetBackgroundColor();
 				}
 			}
-		}
-	}
-		
-	public void pause(int time) {
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException ie) {
-			
-		}
-	}
-	
-	// Tile will flash red for half a second before removal
-	public void flashTileRed(Color flashedColor, int row, int col) {
-		// Only if the tile contains a number
-		if(board[row][col].getValue() != null) {
-			// How would I address a tile in BoardTile?
-			/*
-			tile.setBackground(flashedColor);
-			pause(500);
-			tile.resetBackgroundColor();
-			*/
 		}
 	}
 	
