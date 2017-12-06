@@ -37,11 +37,6 @@ public class LeaderboardModel extends Observable{
 		} catch (Exception e) {
 			System.out.print("Missing Score File");
 		}
-		
-		try {
-		} catch (Exception e) {
-			System.out.print("Missing Time File");
-		}
 	}
 	
 	private void writeToFile() {

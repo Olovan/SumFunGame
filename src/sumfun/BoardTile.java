@@ -3,6 +3,8 @@ package sumfun;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -11,6 +13,7 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
@@ -19,6 +22,7 @@ public class BoardTile extends JPanel {
 	private static final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
 	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 	private static final Color DISABLED_COLOR = new Color(0xD0D0D0);
+	private static final Color REMOVAL_FLASH_COLOR = new Color(0xEE8888);
 	private static final int FONT_SIZE = 50;
 	private static final String PLACEMENT_ACTION_TYPE = "ADD";
 	private static final String REMOVAL_ACTION_TYPE = "REMOVE";
@@ -68,7 +72,9 @@ public class BoardTile extends JPanel {
 	/**Sets the Grid Tile's string to match the input value
 	 * A null value results in an empty tile */
 	public void setValue(Integer val) {
-		value = val;
+		if(value != val && val == null) {
+			new HighlightAction(REMOVAL_FLASH_COLOR, 0.5f);
+		}
 		
 		if(val != null) {
 			text.setText(val.toString());
@@ -76,7 +82,7 @@ public class BoardTile extends JPanel {
 		}  else {
 			text.setText("");
 		}
-		
+		value = val;
 	}
 	
 	/** gets grid tile value */
@@ -183,6 +189,48 @@ public class BoardTile extends JPanel {
 				default:
 					break;
 			}
+		}
+	}
+
+	private class HighlightAction implements ActionListener {
+		private static final int CALL_INTERVAL = 50; //Time between ticks in milliseconds
+
+		Color color;
+		float totalTime;
+		float currentTime;
+		Timer timer;
+
+
+		public HighlightAction(Color color, float time) {
+			this.color = color;
+			this.totalTime = time;
+			this.currentTime = 0;
+			setBackground(color);
+
+			timer = new Timer(CALL_INTERVAL, this);
+			timer.start();
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			currentTime += 0.05;
+			currentTime = (currentTime > totalTime) ? totalTime : currentTime;
+			float lerpFactor = (currentTime) / totalTime;
+			Color background = lerpColor(color, BACKGROUND_COLOR, lerpFactor);
+			setBackground(background);
+
+			if(currentTime == totalTime) {
+				timer.stop();
+			}
+		}
+
+		private Color lerpColor(Color start, Color end, float factor) {
+			factor = (factor >= 0) ? ((factor <= 1) ? factor : 1) : 0;
+			float inverseFactor = 1 - factor;
+			float red = start.getRed() * inverseFactor + end.getRed() * factor;
+			float green = start.getGreen() * inverseFactor + end.getGreen() * factor;
+			float blue = start.getBlue() * inverseFactor + end.getBlue() * factor;
+
+			return new Color(red / 255, green / 255, blue / 255);
 		}
 	}
 }
