@@ -1,13 +1,15 @@
+package sumfun;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
-class SumFunTimedGame extends SumFunRuleSet {
+public class TimedGame extends RuleSet {
 	private int timeRemaining;
 	private int seconds;
 	private int minutes;
 	private Timer timer;
 
-	public SumFunTimedGame() {
+	public TimedGame() {
 		super();
 		timer = new Timer();
 		timeRemaining = 180;

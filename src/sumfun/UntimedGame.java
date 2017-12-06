@@ -1,8 +1,10 @@
-class SumFunUntimedGame extends SumFunRuleSet{
+package sumfun;
+
+public class UntimedGame extends RuleSet{
 	private static final int INITIAL_MOVE_COUNT = 50;
 	private int movesRemaining;
 
-	public SumFunUntimedGame() {
+	public UntimedGame() {
 		super();
 	}
 

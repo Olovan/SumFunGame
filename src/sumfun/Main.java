@@ -1,3 +1,5 @@
+package sumfun;
+
 import javax.swing.UIManager;
 
 public class Main {
@@ -8,8 +10,8 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		SumFunMainGui view = new SumFunMainGui();
-		new SumFunLeaderboardGui();
+		MainGui view = new MainGui();
+		new LeaderboardGui();
 		view.setVisible(true);
 	}
 }

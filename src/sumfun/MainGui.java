@@ -1,3 +1,5 @@
+package sumfun;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,10 +28,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
-public class SumFunMainGui extends JFrame implements Observer{
+public class MainGui extends JFrame implements Observer{
 
 	private JPanel contentPane;
-	private SumFunGridButton[][] grid;
+	private BoardTile[][] board;
 	private JLabel[] queue;
 	private JLabel lblScore;
 	private JLabel lblLastMoveScore;
@@ -49,7 +51,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 	/**
 	 * Create the frame.
 	 */
-	public SumFunMainGui() {
+	public MainGui() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -136,16 +138,16 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRefresh = new JButton("Refresh");
 		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
 		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
-		btnRefresh.addActionListener(new RefreshQueueButtonController(SumFunModelConfigurer.getInstance()));
+		btnRefresh.addActionListener(new RefreshQueueButtonController(ModelConfigurer.getInstance()));
 		powerUpPanel.add(btnRefresh);
 
 		btnRemoveSquares = new JButton("Remove Squares");
-		btnRemoveSquares.addActionListener(new RemoveSquaresController(SumFunModelConfigurer.getInstance()));
+		btnRemoveSquares.addActionListener(new RemoveSquaresController(ModelConfigurer.getInstance()));
 		btnRemoveSquares.setAlignmentX(CENTER_ALIGNMENT);
 		btnRemoveSquares.setEnabled(false);
 		powerUpPanel.add(btnRemoveSquares);
 
-		btnHints = new HintsButton(SumFunModelConfigurer.getInstance());
+		btnHints = new HintsButton(ModelConfigurer.getInstance());
 		powerUpPanel.add(btnHints);
 
 		rightPanel.add(Box.createVerticalGlue());
@@ -171,11 +173,11 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnNewUntimedGame.addActionListener(new UntimedGameButtonController());
 
 		//Instantiate Grid
-		grid = new SumFunGridButton[9][9];
+		board = new BoardTile[9][9];
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
-				grid[i][j] = new SumFunGridButton(this, i, j, SumFunModelConfigurer.getInstance());
-				gridPanel.add(grid[i][j]);
+				board[i][j] = new BoardTile(this, i, j, ModelConfigurer.getInstance());
+				gridPanel.add(board[i][j]);
 			}
 		}
 
@@ -207,15 +209,15 @@ public class SumFunMainGui extends JFrame implements Observer{
 		pack();
 
 		disableBoard();
-		SumFunModelConfigurer.getInstance().addObserver(this);
+		ModelConfigurer.getInstance().addObserver(this);
 	}
 
 	/** Tells grid to display the input grid */
 	public void setGrid(Integer[][] grid) {
 		for(int i = 0; i < 9; i++) {
 			for(int j = 0; j < 9; j++) {
-				this.grid[i][j].setValue(grid[i][j]);
-				this.grid[i][j].resetBackgroundColor();
+				this.board[i][j].setValue(grid[i][j]);
+				this.board[i][j].resetBackgroundColor();
 			}
 		}
 	}
@@ -251,12 +253,12 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 	/**Tells a specific grid tile to display the input value */
 	public void setGridValue(Integer value, int row, int col) {
-		this.grid[row][col].setValue(value);
+		this.board[row][col].setValue(value);
 	}
 
 	public void setActionType(String actionType) {
-		for(SumFunGridButton[] row : grid) {
-			for(SumFunGridButton tile : row) {
+		for(BoardTile[] row : board) {
+			for(BoardTile tile : row) {
 				tile.setActionType(actionType);
 			}
 		}
@@ -264,8 +266,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 	/**Allows the board to accept input again */
 	public void enableBoard() {
-		for(SumFunGridButton[] row : grid) {
-			for(SumFunGridButton tile : row) {
+		for(BoardTile[] row : board) {
+			for(BoardTile tile : row) {
 				tile.enable();
 			}
 		}
@@ -276,8 +278,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 		btnRefresh.setEnabled(false);
 		btnRemoveSquares.setEnabled(false);
 		btnHints.setEnabled(false);
-		for(SumFunGridButton[] row : grid) {
-			for(SumFunGridButton tile : row) {
+		for(BoardTile[] row : board) {
+			for(BoardTile tile : row) {
 				tile.disable();
 			}
 		}
@@ -294,8 +296,8 @@ public class SumFunMainGui extends JFrame implements Observer{
 	}
 
 	public void highlightAllTilesOfValue(Integer value) {
-		for(SumFunGridButton[] row : grid) {
-			for(SumFunGridButton tile : row) {
+		for(BoardTile[] row : board) {
+			for(BoardTile tile : row) {
 				if(tile.getValue() != null && tile.getValue() == value) {
 					tile.setBackground(new Color(0xFF8888));
 				} else {
@@ -311,9 +313,9 @@ public class SumFunMainGui extends JFrame implements Observer{
 			for(int j = 0; j < 9; j++) {
 				if(tiles[i][j] == true) {
 					empty = false;
-					grid[i][j].highlight(new Color(0xBBFFBB));
+					board[i][j].highlight(new Color(0xBBFFBB));
 				} else {
-					grid[i][j].resetBackgroundColor();
+					board[i][j].resetBackgroundColor();
 				}
 			}
 		}
@@ -390,20 +392,20 @@ public class SumFunMainGui extends JFrame implements Observer{
 	/** Controller class for Time Game Button */
 	private class TimedGameButtonController implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.TIMED);
+			ModelConfigurer.getInstance().startGame(ModelConfigurer.TIMED);
 		}
 	}
 	
 	/** Controller class for Untimed Game Button */
 	private class UntimedGameButtonController implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			SumFunModelConfigurer.getInstance().startGame(SumFunModelConfigurer.UNTIMED);
+			ModelConfigurer.getInstance().startGame(ModelConfigurer.UNTIMED);
 		}
 	}
 	
 	/** Controller class for Refresh Queue Button */
 	private class RefreshQueueButtonController implements ActionListener, Observer {
-		private SumFunRuleSet rules;
+		private RuleSet rules;
 
 		public RefreshQueueButtonController(Observable configurer) {
 			configurer.addObserver(this);
@@ -424,7 +426,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 			switch(msg) {
 				case "RULESET_CHANGED":
-					rules = (SumFunRuleSet)args[1];
+					rules = (RuleSet)args[1];
 					break;
 				default:
 					break;
@@ -434,7 +436,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 
 	private class RemoveSquaresController implements ActionListener, Observer {
 		private int uses;
-		private SumFunRuleSet rules;
+		private RuleSet rules;
 		
 		public RemoveSquaresController(Observable configurer) {
 			configurer.addObserver(this);
@@ -451,7 +453,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 			String msg = (String)args[0];
 			switch(msg) {
 				case "RULESET_CHANGED":
-					rules = (SumFunRuleSet)args[1];
+					rules = (RuleSet)args[1];
 					break;
 			}
 		}
@@ -481,7 +483,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 		}
 
 		private class HintsController implements ActionListener, Observer {
-			private SumFunRuleSet rules;
+			private RuleSet rules;
 			private boolean[][] hintTiles;
 
 			public HintsController(Observable configurer) {
@@ -502,7 +504,7 @@ public class SumFunMainGui extends JFrame implements Observer{
 				String msg = (String)args[0];
 				switch(msg) {
 					case "RULESET_CHANGED":
-						rules = (SumFunRuleSet)args[1];
+						rules = (RuleSet)args[1];
 						break;
 				}
 			}

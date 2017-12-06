@@ -1,1 +1,1 @@
-java -cp "bin/" Main
+java -cp "bin/" sumfun.Main

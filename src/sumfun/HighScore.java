@@ -1,22 +1,25 @@
+package sumfun;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Observable;
-public class SumFunHighScore extends Observable implements Comparable<SumFunHighScore> {
+
+public class HighScore extends Observable implements Comparable<HighScore> {
      private String name;
      private String date;
      private int score;
      
-     public SumFunHighScore() {
+     public HighScore() {
        
      }
      
-     public SumFunHighScore(String name, int score) {
+     public HighScore(String name, int score) {
        this.name = name.replaceAll(" ", "");
        this.score = score;
        this.date  = new SimpleDateFormat("MM-dd-yyyy").format(new Date());
      }
 
-	 public SumFunHighScore(String inputString) {
+	 public HighScore(String inputString) {
 		 String[] fields = inputString.split(" ");
 		 name = fields[0];
 		 score = Integer.parseInt(fields[1]);
@@ -40,7 +43,7 @@ public class SumFunHighScore extends Observable implements Comparable<SumFunHigh
 	 }
      
      @Override
-     public int compareTo(SumFunHighScore highScore) {
+     public int compareTo(HighScore highScore) {
          int compareScore = highScore.getScore();
 
          return this.score - compareScore;

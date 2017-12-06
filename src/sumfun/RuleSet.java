@@ -1,10 +1,12 @@
+package sumfun;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
 
 // This class contains the base ruleset for the game which includes things like tile placement logic and 
 // basic gameover logic
-public abstract class SumFunRuleSet extends Observable {
+public abstract class RuleSet extends Observable {
 	protected enum GameState { ACTIVE, ENDED }
 
 	//SETTINGS for easy tweaking
@@ -19,7 +21,7 @@ public abstract class SumFunRuleSet extends Observable {
 	protected Integer[][] board;
 
 	/** Instatiates variables */
-	public SumFunRuleSet() {
+	public RuleSet() {
 		rand = new Random();
 		queue = new ArrayList<Integer>(QUEUE_SIZE);
 		board = new Integer[BOARD_SIZE][BOARD_SIZE];
@@ -310,14 +312,14 @@ public abstract class SumFunRuleSet extends Observable {
 		}
 	}
 
-	public static SumFunRuleSet createGame(int type) {
-		SumFunRuleSet newGame = null;
+	public static RuleSet createGame(int type) {
+		RuleSet newGame = null;
 		switch(type) {
-			case SumFunModelConfigurer.TIMED:
-				newGame = new SumFunTimedGame();
+			case ModelConfigurer.TIMED:
+				newGame = new TimedGame();
 				break;
-			case SumFunModelConfigurer.UNTIMED:
-				newGame = new SumFunUntimedGame();
+			case ModelConfigurer.UNTIMED:
+				newGame = new UntimedGame();
 				break;
 			default:
 				break;

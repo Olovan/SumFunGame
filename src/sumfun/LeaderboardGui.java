@@ -1,3 +1,5 @@
+package sumfun;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -14,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 @SuppressWarnings("serial")
-public class SumFunLeaderboardGui extends JFrame implements Observer {
+public class LeaderboardGui extends JFrame implements Observer {
 
 	private JPanel contentPane;
 	private LeaderboardList topScores;
@@ -24,7 +26,7 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 	 * based on the "leaderboardEntries" Object[] it receives
 	 * in the form of a preordered array. This would be in the 
 	 * form of {"Name - Score", "Name - Score", "Name - Score"} */
-	public SumFunLeaderboardGui() {
+	public LeaderboardGui() {
 		setPreferredSize(new Dimension(500, 450));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -39,9 +41,9 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		bestTimes = new LeaderboardList("Best Times");
 		contentPane.add(bestTimes, BorderLayout.WEST);
 
-		SumFunModelConfigurer.getInstance().addObserver(this);
-		SumFunHighScoreLogic.getInstance().addObserver(this);
-		SumFunHighScoreLogic.getInstance().loadFromFile();
+		ModelConfigurer.getInstance().addObserver(this);
+		LeaderboardModel.getInstance().addObserver(this);
+		LeaderboardModel.getInstance().loadFromFile();
 		pack();
 	}
 
@@ -75,13 +77,13 @@ public class SumFunLeaderboardGui extends JFrame implements Observer {
 		switch(message) {
 			case "GAMEWON":
 				String name = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
-				SumFunHighScoreLogic.getInstance().addScore(name, (int)args[1]);
+				LeaderboardModel.getInstance().addScore(name, (int)args[1]);
 				showLeaderboard();
 				break;
 			case "TIMED_GAMEWON":
 				String nameTimed = JOptionPane.showInputDialog(this, "You win! Enter your name if you want your score saved.");
-				SumFunHighScoreLogic.getInstance().addScore(nameTimed, (int)args[1]);
-				SumFunHighScoreLogic.getInstance().addTime(nameTimed, (int)args[2]);
+				LeaderboardModel.getInstance().addScore(nameTimed, (int)args[1]);
+				LeaderboardModel.getInstance().addTime(nameTimed, (int)args[2]);
 				showLeaderboard();
 				break;
 			case "RULESET_CHANGED":

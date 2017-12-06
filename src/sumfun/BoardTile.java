@@ -1,3 +1,5 @@
+package sumfun;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 @SuppressWarnings("serial")
-public class SumFunGridButton extends JPanel {
+public class BoardTile extends JPanel {
 	//Settings
 	private static final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
 	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
@@ -44,7 +46,7 @@ public class SumFunGridButton extends JPanel {
 	public JLabel text;
 
 	/** Instantiates Grid button and all of its members/listeners */
-	public SumFunGridButton(SumFunMainGui gui, int row, int col, Observable configurer) {
+	public BoardTile(MainGui gui, int row, int col, Observable configurer) {
 		currentBackgroundColor = BACKGROUND_COLOR;
 		this.row = row;
 		this.col = col;
@@ -120,10 +122,10 @@ public class SumFunGridButton extends JPanel {
 
 	/** Controller for Board Tiles */
 	private class TileController implements MouseListener, Observer{
-		private SumFunRuleSet ruleSet;
-		private SumFunMainGui gui;
+		private RuleSet ruleSet;
+		private MainGui gui;
 
-		public TileController(SumFunMainGui gui, Observable configurer) {
+		public TileController(MainGui gui, Observable configurer) {
 			this.gui = gui;
 			configurer.addObserver(this);
 		}
@@ -176,7 +178,7 @@ public class SumFunGridButton extends JPanel {
 			String msg = (String)args[0];
 			switch(msg) {
 				case "RULESET_CHANGED":
-					ruleSet = (SumFunRuleSet)args[1];
+					ruleSet = (RuleSet)args[1];
 					break;
 				default:
 					break;

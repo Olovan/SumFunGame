@@ -1,17 +1,20 @@
+package sumfun;
+
 import java.util.Observable;
 
-class SumFunModelConfigurer extends Observable {
+public class ModelConfigurer extends Observable {
 	public static final int UNTIMED = 0;
 	public static final int TIMED = 1;
-	public SumFunRuleSet rules;
-	private static SumFunModelConfigurer instance;
+	
+	public RuleSet rules;
+	private static ModelConfigurer instance;
 
-	private SumFunModelConfigurer() {
+	private ModelConfigurer() {
 	}
 
-	public static SumFunModelConfigurer getInstance() {
+	public static ModelConfigurer getInstance() {
 		if(instance == null) {
-			instance = new SumFunModelConfigurer();
+			instance = new ModelConfigurer();
 		}
 		return instance;
 	}
@@ -23,13 +26,13 @@ class SumFunModelConfigurer extends Observable {
 
 		switch(type) {
 			case TIMED:
-				rules = SumFunRuleSet.createGame(type);
+				rules = RuleSet.createGame(type);
 				break;
 			case UNTIMED:
-				rules = SumFunRuleSet.createGame(type);
+				rules = RuleSet.createGame(type);
 				break;
 			default:
-				rules = SumFunRuleSet.createGame(UNTIMED);
+				rules = RuleSet.createGame(UNTIMED);
 				break;
 		}
 		setChanged();

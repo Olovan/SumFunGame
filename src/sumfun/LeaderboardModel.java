@@ -1,3 +1,5 @@
+package sumfun;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -7,16 +9,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
-public class SumFunHighScoreLogic extends Observable{
+public class LeaderboardModel extends Observable{
 	private static final String scoreFileName = "scores.txt";
 	private static final String timeFileName = "times.txt";
-	private static SumFunHighScoreLogic instance;
-	private List<SumFunHighScore> scores = new ArrayList<SumFunHighScore>();
-	private List<SumFunHighScore> times = new ArrayList<SumFunHighScore>();
+	private static LeaderboardModel instance;
+	private List<HighScore> scores = new ArrayList<HighScore>();
+	private List<HighScore> times = new ArrayList<HighScore>();
 
-	private SumFunHighScoreLogic() {
-		scores = new ArrayList<SumFunHighScore>();
-		times = new ArrayList<SumFunHighScore>();
+	private LeaderboardModel() {
+		scores = new ArrayList<HighScore>();
+		times = new ArrayList<HighScore>();
 	}
 	
 	public void loadFromFile() {
@@ -26,11 +28,11 @@ public class SumFunHighScoreLogic extends Observable{
 			List<String> timeLines = Files.readAllLines(new File(timeFileName).toPath());
 
 			for(String line : scoreLines) {
-				instance.addScore(new SumFunHighScore(line));
+				instance.addScore(new HighScore(line));
 			}
 
 			for(String line : timeLines) {
-				instance.addTime(new SumFunHighScore(line));
+				instance.addTime(new HighScore(line));
 			}
 		} catch (Exception e) {
 			System.out.print("Missing Score File");
@@ -48,7 +50,7 @@ public class SumFunHighScoreLogic extends Observable{
 		try {
 			scoreWriter = new PrintWriter(scoreFileName);
 			//Record best scores in scores file
-			for(SumFunHighScore high: scores) {
+			for(HighScore high: scores) {
 				scoreWriter.println(high.getName() + " " + high.getScore() + " " + high.getDate());
 			}
 			scoreWriter.close();
@@ -56,7 +58,7 @@ public class SumFunHighScoreLogic extends Observable{
 			timeWriter = new PrintWriter(timeFileName);
 
 			//Record best times in times file
-			for(SumFunHighScore time: times) {
+			for(HighScore time: times) {
 				timeWriter.println(time.getName() + " " + time.getScore() + " " + time.getDate());
 			}
 			timeWriter.close();
@@ -65,24 +67,24 @@ public class SumFunHighScoreLogic extends Observable{
 		}
 	}
 
-	public static SumFunHighScoreLogic getInstance() {
+	public static LeaderboardModel getInstance() {
 		if(instance == null) {
-			instance = new SumFunHighScoreLogic();
+			instance = new LeaderboardModel();
 		}
 		return instance;
 	}
 
 	public void addScore(String name, int score) {
-		SumFunHighScore newScore = new SumFunHighScore(name, score);
+		HighScore newScore = new HighScore(name, score);
 		addScore(newScore);
 	}
 
 	public void addTime(String name, int time) {
-		SumFunHighScore newTime = new SumFunHighScore(name, time);
+		HighScore newTime = new HighScore(name, time);
 		addTime(newTime);
 	}
 
-	public void addScore(SumFunHighScore newScore) {
+	public void addScore(HighScore newScore) {
 		//Don't submit anything if the user didn't enter a name
 		if(newScore.getName() == null || newScore.getName().equals("")) {
 			return;
@@ -102,7 +104,7 @@ public class SumFunHighScoreLogic extends Observable{
 	}
 	
 	/** Adds a new best time to the time list and sorts the best time list and removes any overflow */
-	public void addTime(SumFunHighScore newTime) {
+	public void addTime(HighScore newTime) {
 		//Don't submit anything if the user didn't enter a name
 		if(newTime.getName() == null || newTime.getName().equals("")) {
 			return;
