@@ -130,20 +130,31 @@ public class MainGui extends JFrame implements Observer{
 		queueTopPanel.setBackground(Color.WHITE);
 		queuePanel.add(queueTopPanel);
 
+		rightPanel.add(Box.createVerticalStrut(20));
+
 		//PowerUps
 		JPanel powerUpPanel = new JPanel();
 		rightPanel.add(powerUpPanel);
 		powerUpPanel.setLayout(new BoxLayout(powerUpPanel, BoxLayout.Y_AXIS));
 
-		btnRefresh = new JButton("Refresh");
+		JLabel powerupText = new JLabel("Powerups");
+		powerupText.setAlignmentX(CENTER_ALIGNMENT);
+		powerUpPanel.add(powerupText);
+
+		btnRefresh = new JButton("Refresh Queue");
 		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
 		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
 		btnRefresh.addActionListener(new RefreshQueueButtonController(ModelConfigurer.getInstance()));
+		btnRefresh.setPreferredSize(new Dimension(180, 40));
+		btnRefresh.setMaximumSize(new Dimension(180, 40));
 		powerUpPanel.add(btnRefresh);
 
 		btnRemoveSquares = new JButton("Remove Squares");
 		btnRemoveSquares.addActionListener(new RemoveSquaresController(ModelConfigurer.getInstance()));
 		btnRemoveSquares.setAlignmentX(CENTER_ALIGNMENT);
+		btnRemoveSquares.setFont(new Font("Arial", Font.BOLD, 12));
+		btnRemoveSquares.setPreferredSize(new Dimension(180, 40));
+		btnRemoveSquares.setMaximumSize(new Dimension(180, 40));
 		btnRemoveSquares.setEnabled(false);
 		powerUpPanel.add(btnRemoveSquares);
 
@@ -384,6 +395,9 @@ public class MainGui extends JFrame implements Observer{
 				tileAdded.setFramePosition(0);
 				tileAdded.start();
 				break;
+			case "HINTS":
+				highlightAllHintedTiles((boolean[][])args[1]);
+				break;
 			default:
 				break;
 		}
@@ -478,7 +492,10 @@ public class MainGui extends JFrame implements Observer{
 
 		public HintsButton(Observable configurer) {
 			setText("Show Hints (" + uses + " uses left)");
+			setFont(new Font("Arial", Font.BOLD, 12));
 			setAlignmentX(CENTER_ALIGNMENT);
+			setPreferredSize(new Dimension(180, 40));
+			setMaximumSize(new Dimension(180, 40));
 			addActionListener(new HintsController(configurer));
 		}
 
@@ -494,8 +511,7 @@ public class MainGui extends JFrame implements Observer{
 				uses--;
 				setText("Show Hints (" + uses + " uses left)");
 				setEnabled(false);
-				hintTiles = rules.displayHints();
-				highlightAllHintedTiles(hintTiles);
+				rules.displayHints();
 			}
 
 			//Use updates from the configurer to keep track of current ruleset

@@ -19,6 +19,7 @@ public abstract class RuleSet extends Observable {
 	protected int score;
 	protected int scoreFromLastAction;
 	protected Integer[][] board;
+	protected boolean[][] hintBoard;
 
 	/** Instatiates variables */
 	public RuleSet() {
@@ -84,7 +85,7 @@ public abstract class RuleSet extends Observable {
 		sendDataToObservers("QUEUE_CHANGED");
 	}
 	
-	public boolean[][] displayHints() {
+	public void displayHints() {
 		int val = queue.get(0);
 		boolean[][] gridHints = new boolean[9][9];
 		ArrayList<int[]> coords = new ArrayList<int[]>();
@@ -105,7 +106,8 @@ public abstract class RuleSet extends Observable {
 			gridHints[coords.get(i)[0]][coords.get(i)[1]] = true;
 		}
 		
-		return gridHints;
+		hintBoard = gridHints;
+		sendDataToObservers("HINTS");
 	}
 
 	/** Method which is called by the FrontEnd whenever a grid tile is clicked */
@@ -305,6 +307,9 @@ public abstract class RuleSet extends Observable {
 				break;
 			case "GAMELOST":
 				notifyObservers(new Object[]{msg});
+				break;
+			case "HINTS":
+				notifyObservers(new Object[]{msg, hintBoard});
 				break;
 			default:
 				notifyObservers(new Object[]{msg});

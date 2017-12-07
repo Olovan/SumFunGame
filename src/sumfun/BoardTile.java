@@ -129,6 +129,15 @@ public class BoardTile extends JPanel {
 		return currentBackgroundColor;
 	}
 
+	@Override
+	public void setBackground(Color color) {
+		if(!enabled) {
+			super.setBackground(DISABLED_COLOR);
+		} else {
+			super.setBackground(color);
+		}
+	}
+
 	/** Controller for Board Tiles */
 	private class TileController implements MouseListener, Observer{
 		private RuleSet ruleSet;
