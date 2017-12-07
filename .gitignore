@@ -4,6 +4,7 @@ bin/*
 *.class
 /bin/
 *.jar
+!lib/*
 scores.txt
 times.txt
 *.ucls

@@ -133,7 +133,7 @@ public class TestSumFunRuleSet {
    *    int  -  the number of occupied tiles neighboring the selected tile
    *    
    *  Logical Paths
-   *    2
+   *    4
    */
   @Test
   public void testCountNeighbors() {

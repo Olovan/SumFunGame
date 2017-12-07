@@ -22,7 +22,8 @@ public class BoardTile extends JPanel {
 	private static final Color MOUSEOVER_COLOR = new Color(0xFFFFDD);
 	private static final Color BACKGROUND_COLOR = new Color(0xEEEEEE);
 	private static final Color DISABLED_COLOR = new Color(0xD0D0D0);
-	private static final Color REMOVAL_FLASH_COLOR = new Color(0xEE8888);
+	private static final Color REMOVAL_FLASH_COLOR = new Color(0x88EE88);
+	private static final Color ADDITION_FLASH_COLOR = new Color(0xEE8888);
 	private static final int FONT_SIZE = 50;
 	private static final String PLACEMENT_ACTION_TYPE = "ADD";
 	private static final String REMOVAL_ACTION_TYPE = "REMOVE";
@@ -74,6 +75,8 @@ public class BoardTile extends JPanel {
 	public void setValue(Integer val) {
 		if(value != val && val == null) {
 			new HighlightAction(REMOVAL_FLASH_COLOR, 0.5f);
+		} else if(value != val) {
+			new HighlightAction(ADDITION_FLASH_COLOR, 0.5f);
 		}
 		
 		if(val != null) {
