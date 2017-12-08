@@ -130,6 +130,12 @@ public class MainGui extends JFrame implements Observer{
 		queueTopPanel.setBackground(Color.WHITE);
 		queuePanel.add(queueTopPanel);
 
+		btnRefresh = new JButton("Refresh Queue");
+		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
+		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
+		btnRefresh.addActionListener(new RefreshQueueButtonController(ModelConfigurer.getInstance()));
+		rightPanel.add(btnRefresh);
+
 		rightPanel.add(Box.createVerticalStrut(20));
 
 		//PowerUps
@@ -141,13 +147,6 @@ public class MainGui extends JFrame implements Observer{
 		powerupText.setAlignmentX(CENTER_ALIGNMENT);
 		powerUpPanel.add(powerupText);
 
-		btnRefresh = new JButton("Refresh Queue");
-		btnRefresh.setAlignmentX(CENTER_ALIGNMENT);
-		btnRefresh.setFont(new Font("Arial", Font.BOLD, 12));
-		btnRefresh.addActionListener(new RefreshQueueButtonController(ModelConfigurer.getInstance()));
-		btnRefresh.setPreferredSize(new Dimension(180, 40));
-		btnRefresh.setMaximumSize(new Dimension(180, 40));
-		powerUpPanel.add(btnRefresh);
 
 		btnRemoveSquares = new JButton("Remove Squares");
 		btnRemoveSquares.addActionListener(new RemoveSquaresController(ModelConfigurer.getInstance()));
