@@ -8,11 +8,12 @@ public class TimedGame extends RuleSet {
 	private int seconds;
 	private int minutes;
 	private Timer timer;
+	private static final int INITIAL_TIME = 180;
 
 	public TimedGame() {
 		super();
 		timer = new Timer();
-		timeRemaining = 180;
+		timeRemaining = INITIAL_TIME;
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class TimedGame extends RuleSet {
 				notifyObservers(new Object[]{"TIME_REMAINING", String.format("%d:%02d", minutes, seconds)});
 				break;
 			case "TIMED_GAMEWON":
-				notifyObservers(new Object[]{"TIMED_GAMEWON", score, 180 - timeRemaining});
+				notifyObservers(new Object[]{"TIMED_GAMEWON", score, INITIAL_TIME - timeRemaining});
 				break;
 			//If the message is not specific to TimedGame then let the parent class handle it
 			default:

@@ -54,6 +54,9 @@ public abstract class RuleSet extends Observable {
 			{ null, null, null, null, null, null, null, null, null } 
 		};
 		queue.set(0, 1);
+		queue.set(1, 2);
+		queue.set(2, 4);
+		queue.set(3, 8);
 		sendDataToObservers("ALL");
 	}
 
@@ -283,8 +286,20 @@ public abstract class RuleSet extends Observable {
 			return false;
 		}
 	}
-
-	/** Returns true if the coordinate on the grid is occupied */
+	
+	
+	/** isOccupiedTile(int r, int c)
+	 * 
+	 *  INPUTS
+	 *  int r	- The row of the tile being tested
+	 *  int c	- The column of the tile being tested
+	 * 
+	 *  OUTPUTS
+	 *  boolean true	- the coordinate on the grid is a number
+	 *  				and the coordinate is within bounds on the 9x9 board 
+	 *  boolean false	- the coordinate on the grid is null
+	 *  				or the coordinate is out of bounds on the 9x9 board
+	 **/
 	protected boolean isOccupiedTile(int r, int c) {
 		if(isValidCoordinate(r, c) && board[r][c] != null) {
 			return true;
