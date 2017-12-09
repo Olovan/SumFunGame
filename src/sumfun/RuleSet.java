@@ -7,7 +7,7 @@ import java.util.Random;
 // This class contains the base ruleset for the game which includes things like tile placement logic and 
 // basic gameover logic
 public abstract class RuleSet extends Observable {
-	protected enum GameState { ACTIVE, ENDED }
+	public enum GameState { ACTIVE, ENDED }
 
 	//SETTINGS for easy tweaking
 	protected static final int BOARD_SIZE = 9;
