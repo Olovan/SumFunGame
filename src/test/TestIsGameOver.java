@@ -11,9 +11,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import sumfun.RuleSet;
 import sumfun.UntimedGame;
-import sumfun.UntimedGame;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /** Tests the checkGameOver method in the UntimedGame class.
@@ -21,7 +19,7 @@ import static org.junit.Assert.assertTrue;
  *    int movesRemaining       - The amount of moves remaining in an untimed game
  * 
  *  Outputs:
- *    enum sent to the observers of the RuleSet class that says that the current game is now over
+ *    Enum sent to the observers of the RuleSet class that says that the current game is now over
  **/
 @RunWith(Parameterized.class)
 public class TestIsGameOver {
