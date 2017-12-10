@@ -20,6 +20,14 @@ import static org.junit.Assert.assertTrue;
  * 
  *  Outputs:
  *    Enum sent to the observers of the RuleSet class that says that the current game is now over
+ *    
+ *  Test Cases:
+ *    Test case #1:
+ *      We wanted to test the condition in which 
+ *       the game would end and no longer be in play so we chose to assign movesLeft in the game to 0.
+ *    Test case #2:
+ *      We wanted to test the condition in which
+ *       the game would not end and still be in play so we chose to assign movesLeft in the game to 5.
  **/
 @RunWith(Parameterized.class)
 public class TestIsGameOver {

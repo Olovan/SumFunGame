@@ -21,6 +21,30 @@ import static org.junit.Assert.assertTrue;
  * 
  *  Outputs:
  *    The amount of Neighbors as an integer
+ *    
+ *  Test Cases:
+ *    Test case #1:
+ *      We wanted to test the logic branch in which everything that can be false is forced for to false.
+ *      We used a square filled with empty tiles.
+ *    Test case #2:
+ *      We wanted to test the logic branch in which the first for condition was true.
+ *      Because this condition is automatically satisfied we picked a random test.
+ *    Test case #3:
+ *      We wanted to test the logic branch in which the second for condition was true. 
+ *      Because this condition is automatically true we picked a random test.
+ *    Test case #4:
+ *      We wanted to test the logic branch in which the isOccupiedTile() condition was true so
+ *       we picked a case in which every single surrounding tile was occupied.
+ *    Test case #5:
+ *     We wanted to test the logic in which i != 0  is true.
+ *     This test case is automatically true regardless of input so we picked a random test
+ *      in which we made sure there were a few occupied tiles surrounding the middle
+ *      so that this condition would be evaluated and not short circuited and ignored.
+ *    Test case #6:
+ *     We wanted to test the logic in which j != 0 is true.
+ *     This test is automatically true regardless of input so we picked a random test
+ *      in which we made sure there were a few occupied tiles surrounding the middle 
+ *      so that this condition would be evaluated and not short circuited and ignored.
  **/
 
 @RunWith(Parameterized.class)
@@ -35,14 +59,14 @@ public class testCountNeighbors {
 	//Setup Board
 	static Integer[][] testBoard = new Integer[][]{
 				{ null, null, null, null,    9, null, null, null, null },
+				{ null,    7, null, null, null, null, null, null, null },
+				{ null,    8, null, null, null, null, null, null, null },
+				{ null,    4, null,    8,    1,    2, null,    5,   7 },
+				{ null, null, null,    7,    0,    3, null,    3,   1 },
+				{ null, null, null,    6,    5,    4, null, null, null },
 				{ null, null, null, null, null, null, null, null, null },
-				{    4, null, null, null, null, null, null, null, null },
-				{ null, null,    7,    1, null, null,    8,    5, null },
-				{ null, null, null,    2, null, null, null, null,    1 },
-				{ null, null, null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null,    0, null, null },
-				{ null, null, null, null, null,    3,    6,    9, null },
+				{ null, null, null, null, null, null,    3, null, null },
+				{ null, null, null, null, null, null,    6,    9, null },
 	};
 	
 	public testCountNeighbors(int row, int col, int neighbors) {
@@ -54,12 +78,12 @@ public class testCountNeighbors {
 	@Parameters(name = "{index} : countNeighbors")
 	  public static Object[][] inputParameters() {
 	    return new Object[][] {
+	      {6, 1, 0},
+	      {2, 1, 2},
 	      {0, 4, 0},
-	      {2, 0, 0},
-	      {3, 3, 2},
-	      {3, 7, 2},
-	      {4, 8, 1},
-	      {8, 6, 3}
+	      {4, 4, 8},
+	      {8, 6, 2},
+	      {4, 7, 3}
 	    };
 	  }
 	
