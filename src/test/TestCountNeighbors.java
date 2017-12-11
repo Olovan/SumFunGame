@@ -1,8 +1,9 @@
 package test;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Field;
+import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +12,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import sumfun.RuleSet;
 import sumfun.UntimedGame;
-
-import static org.junit.Assert.assertTrue;
 
 /** Tests the countNeighbors method in the RuleSet class.
  *  Inputs:
@@ -48,7 +47,7 @@ import static org.junit.Assert.assertTrue;
  **/
 
 @RunWith(Parameterized.class)
-public class testCountNeighbors {
+public class TestCountNeighbors {
 
 	private static UntimedGame game = new UntimedGame();
 	private static Method method = null;
@@ -69,7 +68,7 @@ public class testCountNeighbors {
 				{ null, null, null, null, null, null,    6,    9, null },
 	};
 	
-	public testCountNeighbors(int row, int col, int neighbors) {
+	public TestCountNeighbors(int row, int col, int neighbors) {
 		this.row = row;
 		this.col = col;
 		this.neighbors = neighbors;

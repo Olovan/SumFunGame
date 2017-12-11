@@ -1,7 +1,9 @@
 package test;
 
-import java.lang.reflect.Method;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,8 +13,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import sumfun.RuleSet;
 import sumfun.UntimedGame;
-
-import static org.junit.Assert.assertTrue;
 
 /** Tests the checkGameOver method in the UntimedGame class.
  *  Inputs:
@@ -74,23 +74,23 @@ public class TestIsGameOver {
 	
 	@BeforeClass
 	//Manually assign the testBoard to the game and assign private method
-		public static void setUp() {
-		  game = new UntimedGame();
-		  try {
-		    Field boardField = RuleSet.class.getDeclaredField("board");
-		    boardField.setAccessible(true);
-		    boardField.set(game, testBoard);
-		    movesRemainingField = UntimedGame.class.getDeclaredField("movesRemaining");
-		    movesRemainingField.setAccessible(true);
-		    movesRemainingField.set(game, moves);
-		    currentGameStateField = RuleSet.class.getDeclaredField("currentState");
-            currentGameStateField.setAccessible(true);
-		    method = UntimedGame.class.getDeclaredMethod("checkGameOver");
-	        method.setAccessible(true);
-		  } catch(Exception e) {
-		    e.printStackTrace();
-		  }
+	public static void setUp() {
+		game = new UntimedGame();
+		try {
+			Field boardField = RuleSet.class.getDeclaredField("board");
+			boardField.setAccessible(true);
+			boardField.set(game, testBoard);
+			movesRemainingField = UntimedGame.class.getDeclaredField("movesRemaining");
+			movesRemainingField.setAccessible(true);
+			movesRemainingField.set(game, moves);
+			currentGameStateField = RuleSet.class.getDeclaredField("currentState");
+			currentGameStateField.setAccessible(true);
+			method = UntimedGame.class.getDeclaredMethod("checkGameOver");
+			method.setAccessible(true);
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
+	}
 	
 	@Test
 	  public void testIsGameOver() {

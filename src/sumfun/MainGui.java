@@ -468,6 +468,8 @@ public class MainGui extends JFrame implements Observer{
 				case "RULESET_CHANGED":
 					rules = (RuleSet)args[1];
 					break;
+				default:
+					break;
 			}
 		}
 	}
@@ -520,6 +522,8 @@ public class MainGui extends JFrame implements Observer{
 				switch(msg) {
 					case "RULESET_CHANGED":
 						rules = (RuleSet)args[1];
+						break;
+					default:
 						break;
 				}
 			}

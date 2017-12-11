@@ -162,6 +162,8 @@ public class BoardTile extends JPanel {
 				case REMOVAL_ACTION_TYPE:  //MouseOver when we are looking to delete something
 					gui.highlightAllTilesOfValue(value);
 					break;
+				default:
+					break;
 			}
 		}
 		public void mouseExited(MouseEvent e) {
@@ -186,6 +188,8 @@ public class BoardTile extends JPanel {
 					}
 					ruleSet.removeAllTilesOfValue(value);
 					gui.setActionType(PLACEMENT_ACTION_TYPE);
+					break;
+				default:
 					break;
 			}
 		}

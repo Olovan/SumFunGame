@@ -1,8 +1,9 @@
 package test;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Field;
+import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +12,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import sumfun.RuleSet;
 import sumfun.UntimedGame;
-
-import static org.junit.Assert.assertTrue;
 
 /** Tests the isValidCoordinate function in the RuleSet class
  *  Inputs:
@@ -78,7 +77,7 @@ public class TestIsValidCoordinate {
 	}
 	
 	@BeforeClass
-//Manually assign the testBoard to the game and assign private method
+	//Manually assign the testBoard to the game and assign private method
 	public static void setUp() {
 	  game = new UntimedGame();
 	  try {

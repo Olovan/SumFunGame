@@ -1,7 +1,9 @@
 package test;
 
-import java.lang.reflect.Method;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,8 +13,6 @@ import org.junit.runners.Parameterized.Parameters;
 
 import sumfun.RuleSet;
 import sumfun.UntimedGame;
-
-import static org.junit.Assert.assertTrue;
 
 /** Tests the isOccupiedTile function in the RuleSet class
  *  Inputs:

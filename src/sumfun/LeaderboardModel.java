@@ -69,16 +69,6 @@ public class LeaderboardModel extends Observable{
 		return instance;
 	}
 
-	public void addScore(String name, int score) {
-		HighScore newScore = new HighScore(name, score);
-		addScore(newScore);
-	}
-
-	public void addTime(String name, int time) {
-		HighScore newTime = new HighScore(name, time);
-		addTime(newTime);
-	}
-
 	public void addScore(HighScore newScore) {
 		//Don't submit anything if the user didn't enter a name
 		if(newScore.getName() == null || newScore.getName().equals("")) {
@@ -96,6 +86,11 @@ public class LeaderboardModel extends Observable{
 		notifyObservers(new Object[]{"HIGHSCORE_CHANGED", encodeScoresToStringArrays()});
 
 		writeToFile();
+	}
+	
+	public void addScore(String name, int score) {
+		HighScore newScore = new HighScore(name, score);
+		addScore(newScore);
 	}
 	
 	/** Adds a new best time to the time list and sorts the best time list and removes any overflow */
@@ -116,6 +111,11 @@ public class LeaderboardModel extends Observable{
 		notifyObservers(new Object[]{"BEST_TIME_CHANGED", encodeTimesToStringArrays()});
 
 		writeToFile();
+	}
+	
+	public void addTime(String name, int time) {
+		HighScore newTime = new HighScore(name, time);
+		addTime(newTime);
 	}
 
 	/** Encodes scores to string arrays to reduce Coupling with Highscore class */
